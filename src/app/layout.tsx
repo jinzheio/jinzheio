@@ -27,7 +27,7 @@ const mono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: "jinzhe.io — Projects & Philosophy",
   description:
-    "个人项目与长期哲学讨论的集合页。Project landing pages + long-form philosophy.",
+    "Personal project landing pages + long-form philosophical discussions.",
 };
 
 export default function RootLayout({
@@ -35,13 +35,5 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="zh-Hans" className="scroll-smooth">
-      <body
-        className={`${sans.variable} ${display.variable} ${mono.variable} font-sans antialiased bg-background text-foreground overflow-x-hidden`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+  return children;
 }

@@ -1,14 +1,20 @@
-import Link from "next/link";
+'use client';
+
+import { useTranslations } from 'next-intl';
 
 import { Button } from "@/components/ui/button";
-
-const navItems = [
-  { label: "Projects", href: "/projects" },
-  { label: "Ludic Systems", href: "/ludic-systems" },
-  { label: "CommandDeck", href: "/projects/commanddeck" },
-];
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { Link } from "@/i18n/routing";
 
 export function SiteHeader() {
+  const t = useTranslations('nav');
+
+  const navItems = [
+    { label: t('projects'), href: "/projects" },
+    { label: t('ludicSystems'), href: "/ludic-systems" },
+    { label: t('commandDeck'), href: "/projects/commanddeck" },
+  ];
+
   return (
     <header className="sticky top-0 z-30 border-b border-border/60 bg-background/70 backdrop-blur">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
@@ -37,19 +43,20 @@ export function SiteHeader() {
           ))}
         </nav>
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           <Button
             asChild
             variant="outline"
             className="hidden border-border/70 bg-transparent text-xs uppercase tracking-[0.2em] text-graphite hover:bg-graphite hover:text-white md:inline-flex"
           >
-            <Link href="https://x.com/jinzheio" target="_blank" rel="noreferrer">
-              Start a Conversation
-            </Link>
+            <a href="https://x.com/jinzheio" target="_blank" rel="noreferrer">
+              {t('startConversation')}
+            </a>
           </Button>
           <Button asChild className="rounded-full bg-graphite px-4 text-xs uppercase tracking-[0.2em] text-white hover:bg-graphite/90">
-            <Link href="https://x.com/jinzheio" target="_blank" rel="noreferrer">
-              Follow on X
-            </Link>
+            <a href="https://x.com/jinzheio" target="_blank" rel="noreferrer">
+              {t('followOnX')}
+            </a>
           </Button>
         </div>
       </div>

@@ -1,0 +1,181 @@
+{
+  "metadata": {
+    "title": "jinzhe.io — 项目与哲学",
+    "description": "个人项目与长期哲学讨论的集合页。Project landing pages + long-form philosophy."
+  },
+  "nav": {
+    "projects": "项目",
+    "ludicSystems": "Ludic Systems",
+    "commandDeck": "CommandDeck",
+    "startConversation": "开始对话",
+    "followOnX": "关注 X"
+  },
+  "footer": {
+    "tagline": "Keep the long questions alive.",
+    "description": "把长期问题写成系统，把系统做成可持续的叙事。",
+    "projects": "项目",
+    "ludicSystems": "Ludic Systems",
+    "commandDeck": "CommandDeck"
+  },
+  "home": {
+    "badge": "Personal Research Studio",
+    "hero": {
+      "title1": "把个人项目做成一组 Landing Pages，",
+      "title2": "把长期哲学讨论写成持续的对话。",
+      "description": "这里是一个持续进化的个人基地：一边做产品与系统，一边追踪那些需要时间沉淀的问题。希望更多人能在这里理解我的项目与哲学，加入这条长期讨论的对话链。",
+      "exploreProjects": "Explore Projects",
+      "ludicSystems": "Ludic Systems"
+    },
+    "about": {
+      "title": "About",
+      "content": "我在产品、系统与长期问题之间穿梭，把每个项目当作一次方法论实验。"
+    },
+    "currentFocus": {
+      "title": "Current Focus",
+      "description": "以多 Agent 协作系统为核心，持续探索「人 + 系统」的协作边界。"
+    },
+    "projectsSection": {
+      "label": "Project Index",
+      "title": "每个项目都有独立的叙事入口",
+      "viewAll": "查看所有项目 →",
+      "openLanding": "打开项目页"
+    },
+    "ludicSection": {
+      "label": "Ludic Systems",
+      "title": "把人类动机当作系统的一等资源",
+      "description": "一种 AI 辅助系统范式：以【自愿目标 + 自我约束 + 意义反馈】来组织生产与创造。",
+      "viewPlanning": "查看规划页",
+      "principlesTitle": "Principles",
+      "principle1": "生产力被组织为自愿挑战，而非单纯效率。",
+      "principle2": "系统需要可被引用、可被独立理解。",
+      "principle3": "长期问题需要结构化节奏与可验证的原型。"
+    }
+  },
+  "projects": {
+    "title": "项目",
+    "subtitle": "每个项目都有独立的叙事入口",
+    "description": "每个项目都是一个独立的叙事入口，用来记录阶段性成果与长期问题。",
+    "backHome": "返回首页",
+    "status": {
+      "active": "进行中",
+      "draft": "草稿",
+      "exploring": "探索中",
+      "openLanding": "打开项目页"
+    },
+    "commanddeck": {
+      "tagline": "Multi-Agent Control Console",
+      "summary": "为多 Agent 协作系统打造的可视化控制台，强调【前店后厂】的协作模型。",
+      "focus": {
+        "realtime": "实时监控",
+        "timeline": "事件时间线",
+        "conversation": "交互对话",
+        "multiproject": "多项目支持"
+      },
+      "pillars": {
+        "hub": {
+          "title": "集团总部 (Hub)",
+          "description": "集中接收 Agent 汇报、存储历史档案，并提供分析能力。"
+        },
+        "desktop": {
+          "title": "前店 (Desktop UI)",
+          "description": "用户面对的可视化界面，用来观察、调度与下达指令。"
+        },
+        "main": {
+          "title": "后厂 (Main & Agents)",
+          "description": "启动 Agent 进程，执行 Git 操作与代码运行。"
+        },
+        "protocol": {
+          "title": "通用语 (Protocol)",
+          "description": "基于 TypeScript/Zod 的统一协议，保证沟通准确。"
+        }
+      },
+      "capabilities": {
+        "title": "能力",
+        "monitoring": "Agent 状态实时监控",
+        "timeline": "事件时间线追踪工具调用",
+        "conversation": "与指定 Agent 进行交互对话",
+        "management": "多项目与多 Agent 并行管理"
+      },
+      "stack": {
+        "title": "技术栈",
+        "items": [
+          "Electron + React",
+          "Fastify + WebSocket",
+          "SQLite (better-sqlite3)",
+          "pnpm + electron-builder"
+        ]
+      },
+      "notes": {
+        "title": "备注",
+        "items": [
+          "面向多项目协作环境的统一控制台。",
+          "支持本地与云端 Hub 部署模式。"
+        ]
+      }
+    }
+  },
+  "ludic": {
+    "title": "Ludic Systems",
+    "subtitle": "把人类动机当作系统的一等资源",
+    "status": "规划中",
+    "description": "一种 AI 辅助系统范式：以【自愿目标 + 自我约束 + 意义反馈】来组织生产与创造。",
+    "positioning": "这不是个人博客，而是一个可以被引用、被复刻的系统对象。",
+    "backHome": "返回首页",
+    "dualNode": {
+      "title": "双节点模型",
+      "jinzheio": {
+        "title": "jinzhe.io — 个人根节点",
+        "points": [
+          "定义你是谁、你提出了什么对象。",
+          "作为概念与系统的索引入口。",
+          "提供权属关系与引用路径。"
+        ]
+      },
+      "ludicSystems": {
+        "title": "ludic.systems — 系统根节点",
+        "points": [
+          "只讲 Ludic Systems 本身。",
+          "呈现机制、协议、交互方式。",
+          "你是提出者，不是主角。"
+        ]
+      }
+    },
+    "modules": {
+      "title": "规划模块",
+      "whitepaper": {
+        "title": "Whitepaper",
+        "description": "定义与动机，解释为什么它存在。"
+      },
+      "protocol": {
+        "title": "Protocol",
+        "description": "JSON schema / rules / constraints / lifecycle。"
+      },
+      "engine": {
+        "title": "Ludic Engine",
+        "description": "组件、动力学、状态机与失败模式。"
+      },
+      "lab": {
+        "title": "Ludic Lab",
+        "description": "可运行的原型实验场。"
+      },
+      "community": {
+        "title": "Community",
+        "description": "谁在用、谁在复刻、谁在扩展。"
+      }
+    },
+    "principles": {
+      "title": "核心原则",
+      "items": [
+        "生产力被组织为自愿挑战，而非单纯效率。",
+        "系统需要可被引用、可被独立理解。",
+        "长期问题需要结构化节奏与可验证的原型。"
+      ]
+    }
+  },
+  "philosophy": {
+    "title": "哲学",
+    "subtitle": "长期问题的持续对话",
+    "backHome": "返回首页",
+    "comingSoon": "内容正在准备中..."
+  }
+}

@@ -1,0 +1,176 @@
+{
+  "metadata": {
+    "title": "jinzhe.io — Projects & Philosophy",
+    "description": "Personal project landing pages + long-form philosophical discussions."
+  },
+  "nav": {
+    "projects": "Projects",
+    "ludicSystems": "Ludic Systems",
+    "commandDeck": "CommandDeck",
+    "startConversation": "Start a Conversation",
+    "followOnX": "Follow on X"
+  },
+  "footer": {
+    "tagline": "Keep the long questions alive.",
+    "description": "Turn long-term questions into systems, and systems into sustainable narratives.",
+    "projects": "Projects",
+    "ludicSystems": "Ludic Systems",
+    "commandDeck": "CommandDeck"
+  },
+  "home": {
+    "badge": "Personal Research Studio",
+    "hero": {
+      "title1": "Transform personal projects into landing pages,",
+      "title2": "turn philosophical discussions into continuous conversations.",
+      "description": "A continuously evolving personal base: building products and systems while tracking questions that require time to settle. I hope more people can understand my projects and philosophy here, and join this long-term conversation chain.",
+      "exploreProjects": "Explore Projects",
+      "ludicSystems": "Ludic Systems"
+    },
+    "about": {
+      "title": "About",
+      "content": "I navigate between products, systems, and long-term questions, treating each project as a methodological experiment."
+    },
+    "currentFocus": {
+      "title": "Current Focus",
+      "description": "Centered on multi-agent collaboration systems, continuously exploring the collaboration boundaries of 'humans + systems'."
+    },
+    "projectsSection": {
+      "label": "Project Index",
+      "title": "Each project has its own narrative entry point",
+      "viewAll": "View all projects →",
+      "openLanding": "Open Landing Page"
+    },
+    "ludicSection": {
+      "label": "Ludic Systems",
+      "title": "Treat human motivation as a first-class system resource",
+      "description": "An AI-assisted system paradigm: organizing production and creation through 'voluntary goals + self-constraints + meaningful feedback'.",
+      "viewPlanning": "View Planning Page",
+      "principlesTitle": "Principles",
+      "principle1": "Productivity is organized as voluntary challenges, not mere efficiency.",
+      "principle2": "Systems must be citable and independently understandable.",
+      "principle3": "Long-term questions require structured rhythm and verifiable prototypes."
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "subtitle": "Each project has its own narrative entry point",
+    "description": "Each project is an independent narrative entry point, recording phased achievements and long-term questions.",
+    "backHome": "Back to Home",
+    "status": {
+      "active": "Active",
+      "draft": "Draft",
+      "exploring": "Exploring",
+      "openLanding": "Open Landing Page"
+    },
+    "commanddeck": {
+      "tagline": "Multi-Agent Control Console",
+      "summary": "A visual control console for multi-agent collaboration systems, emphasizing a 'front-store back-factory' collaboration model.",
+      "focus": {
+        "realtime": "Real-time Monitoring",
+        "timeline": "Event Timeline",
+        "conversation": "Interactive Conversation",
+        "multiproject": "Multi-project Support"
+      },
+      "pillars": {
+        "hub": {
+          "title": "HQ (Hub)",
+          "description": "Centrally receives agent reports, stores historical archives, and provides analysis capabilities."
+        },
+        "desktop": {
+          "title": "Front Store (Desktop UI)",
+          "description": "The visual interface for users to observe, schedule, and issue commands."
+        },
+        "main": {
+          "title": "Back Factory (Main & Agents)",
+          "description": "Launches agent processes, executes Git operations and code running."
+        },
+        "protocol": {
+          "title": "Common Language (Protocol)",
+          "description": "Unified protocol based on TypeScript/Zod to ensure communication accuracy."
+        }
+      },
+      "capabilities": {
+        "title": "Capabilities",
+        "monitoring": "Real-time agent status monitoring",
+        "timeline": "Event timeline tracking tool calls",
+        "conversation": "Interactive conversation with specific agents",
+        "management": "Multi-project and multi-agent parallel management"
+      },
+      "stack": {
+        "title": "Tech Stack",
+        "items": ["Electron + React", "Fastify + WebSocket", "SQLite (better-sqlite3)", "pnpm + electron-builder"]
+      },
+      "notes": {
+        "title": "Notes",
+        "items": [
+          "A unified console for multi-project collaboration environments.",
+          "Supports local and cloud Hub deployment modes."
+        ]
+      }
+    }
+  },
+  "ludic": {
+    "title": "Ludic Systems",
+    "subtitle": "Treat human motivation as a first-class system resource",
+    "status": "Planning",
+    "description": "An AI-assisted system paradigm: organizing production and creation through 'voluntary goals + self-constraints + meaningful feedback'.",
+    "positioning": "This is not a personal blog, but a system object that can be cited and replicated.",
+    "backHome": "Back to Home",
+    "dualNode": {
+      "title": "Dual Node Model",
+      "jinzheio": {
+        "title": "jinzhe.io — Personal Root Node",
+        "points": [
+          "Define who you are and what objects you've proposed.",
+          "Serve as the index entry for concepts and systems.",
+          "Provide attribution and reference paths."
+        ]
+      },
+      "ludicSystems": {
+        "title": "ludic.systems — System Root Node",
+        "points": [
+          "Focus only on Ludic Systems itself.",
+          "Present mechanisms, protocols, and interaction methods.",
+          "You are the proposer, not the protagonist."
+        ]
+      }
+    },
+    "modules": {
+      "title": "Planned Modules",
+      "whitepaper": {
+        "title": "Whitepaper",
+        "description": "Definition and motivation, explaining why it exists."
+      },
+      "protocol": {
+        "title": "Protocol",
+        "description": "JSON schema / rules / constraints / lifecycle."
+      },
+      "engine": {
+        "title": "Ludic Engine",
+        "description": "Components, dynamics, state machines, and failure modes."
+      },
+      "lab": {
+        "title": "Ludic Lab",
+        "description": "Runnable prototype testing ground."
+      },
+      "community": {
+        "title": "Community",
+        "description": "Who's using, replicating, and extending it."
+      }
+    },
+    "principles": {
+      "title": "Core Principles",
+      "items": [
+        "Productivity is organized as voluntary challenges, not mere efficiency.",
+        "Systems must be citable and independently understandable.",
+        "Long-term questions require structured rhythm and verifiable prototypes."
+      ]
+    }
+  },
+  "philosophy": {
+    "title": "Philosophy",
+    "subtitle": "Continuous conversations on long-term questions",
+    "backHome": "Back to Home",
+    "comingSoon": "Content coming soon..."
+  }
+}
