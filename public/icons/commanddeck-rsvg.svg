@@ -1,0 +1,52 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Outer Base (Rounded Square) -->
+    <rect x="24" y="24" width="464" height="464" rx="90" fill="#1a1a1a" stroke="#3a3a3a" stroke-width="16"/>
+    
+    <!-- Inner Bezel/Frame -->
+    <rect x="64" y="64" width="384" height="384" rx="60" fill="#242424" stroke="#000000" stroke-opacity="0.3" stroke-width="4"/>
+    
+    <!-- Grid Pattern (Subtle Floor) -->
+    <defs>
+      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#303030" stroke-width="2"/>
+      </pattern>
+      <!-- Glow Filter -->
+      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+        <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <rect x="64" y="64" width="384" height="384" rx="60" fill="url(#grid)" opacity="0.5"/>
+
+    <!-- Central Command Console Interface -->
+    <!-- Screen Background -->
+    <rect x="120" y="120" width="272" height="200" rx="10" fill="#0f1115" stroke="#3a3a3a" stroke-width="4"/>
+    
+    <!-- Screen Content (Terminal Lines) -->
+    <rect x="140" y="150" width="120" height="12" rx="2" fill="#4a9eff" opacity="0.8" filter="url(#glow)"/>
+    <rect x="140" y="180" width="180" height="8" rx="2" fill="#3a3a3a"/>
+    <rect x="140" y="200" width="160" height="8" rx="2" fill="#3a3a3a"/>
+    <rect x="140" y="220" width="100" height="8" rx="2" fill="#3a3a3a"/>
+    
+    <!-- Blinking Cursor -->
+    <rect x="140" y="250" width="12" height="16" fill="#4a9eff" filter="url(#glow)">
+        <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite" />
+    </rect>
+
+    <!-- Lower Control Panel (Buttons) -->
+    <rect x="120" y="340" width="272" height="80" rx="10" fill="#2a2a2a"/>
+    
+    <!-- Power Button (Cyan Accent) -->
+    <circle cx="256" cy="380" r="24" fill="#1a1a1a" stroke="#4a9eff" stroke-width="4" filter="url(#glow)"/>
+    <path d="M256 368 L256 380" stroke="#4a9eff" stroke-width="4" stroke-linecap="round" filter="url(#glow)"/>
+    
+    <!-- Decorative Rim Bolts -->
+    <circle cx="80" cy="80" r="6" fill="#404040"/>
+    <circle cx="432" cy="80" r="6" fill="#404040"/>
+    <circle cx="80" cy="432" r="6" fill="#404040"/>
+    <circle cx="432" cy="432" r="6" fill="#404040"/>
+    
+  </svg>
