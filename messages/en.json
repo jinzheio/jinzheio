@@ -17,6 +17,18 @@
     "ludicSystems": "Ludic Systems",
     "commandDeck": "CommandDeck"
   },
+  "common": {
+    "backToProjects": "Back to Projects",
+    "backToHome": "Back to Home",
+    "viewProjects": "View all projects",
+    "capabilities": "Core Capabilities",
+    "stack": "Tech Stack",
+    "notes": "Notes",
+    "principles": "Core Principles",
+    "modules": "Planned Modules",
+    "rituals": "Rituals",
+    "signals": "Signals"
+  },
   "home": {
     "badge": "Personal Research Studio",
     "hero": {
@@ -61,61 +73,77 @@
       "draft": "Draft",
       "exploring": "Exploring",
       "openLanding": "Open Landing Page"
-    },
-    "commanddeck": {
-      "tagline": "Multi-Agent Control Console",
-      "summary": "A visual control console for multi-agent collaboration systems, emphasizing a 'front-store back-factory' collaboration model.",
-      "focus": {
-        "realtime": "Real-time Monitoring",
-        "timeline": "Event Timeline",
-        "conversation": "Interactive Conversation",
-        "multiproject": "Multi-project Support"
+    }
+  },
+  "project": {
+    "backToProjects": "Back to Projects",
+    "ludicSystems": "Ludic Systems",
+    "capabilities": "Capabilities",
+    "stack": "Stack",
+    "notes": "Notes"
+  },
+  "commanddeck": {
+    "badge": "Active Project",
+    "title": "CommandDeck",
+    "description": "A visual control console for multi-agent collaboration systems, emphasizing a 'front-store back-factory' collaboration model.",
+    "backToProjects": "Back to Projects",
+    "ludicSystems": "Ludic Systems",
+    "visualIdentity": "Visual Identity",
+    "visualIdentityDesc": "Console-inspired rsvg icon system.",
+    "pillars": {
+      "hub": {
+        "title": "HQ (Hub)",
+        "description": "Centrally receives agent reports, stores historical archives, and provides analysis capabilities."
       },
-      "pillars": {
-        "hub": {
-          "title": "HQ (Hub)",
-          "description": "Centrally receives agent reports, stores historical archives, and provides analysis capabilities."
-        },
-        "desktop": {
-          "title": "Front Store (Desktop UI)",
-          "description": "The visual interface for users to observe, schedule, and issue commands."
-        },
-        "main": {
-          "title": "Back Factory (Main & Agents)",
-          "description": "Launches agent processes, executes Git operations and code running."
-        },
-        "protocol": {
-          "title": "Common Language (Protocol)",
-          "description": "Unified protocol based on TypeScript/Zod to ensure communication accuracy."
-        }
+      "desktop": {
+        "title": "Front Store (Desktop UI)",
+        "description": "The visual interface for users to observe, schedule, and issue commands."
       },
-      "capabilities": {
-        "title": "Capabilities",
-        "monitoring": "Real-time agent status monitoring",
-        "timeline": "Event timeline tracking tool calls",
-        "conversation": "Interactive conversation with specific agents",
-        "management": "Multi-project and multi-agent parallel management"
+      "main": {
+        "title": "Back Factory (Main & Agents)",
+        "description": "Launches agent processes, executes Git operations and code running."
       },
-      "stack": {
-        "title": "Tech Stack",
-        "items": ["Electron + React", "Fastify + WebSocket", "SQLite (better-sqlite3)", "pnpm + electron-builder"]
-      },
-      "notes": {
-        "title": "Notes",
-        "items": [
-          "A unified console for multi-project collaboration environments.",
-          "Supports local and cloud Hub deployment modes."
-        ]
+      "protocol": {
+        "title": "Common Language (Protocol)",
+        "description": "Unified protocol based on TypeScript/Zod to ensure communication accuracy."
       }
+    },
+    "capabilities": {
+      "monitoring": {
+        "title": "Real-time Monitoring",
+        "description": "View runtime status and resource usage of all agents."
+      },
+      "timeline": {
+        "title": "Event Timeline",
+        "description": "Track every tool call and state change."
+      },
+      "conversation": {
+        "title": "Interactive Conversation",
+        "description": "Have conversations and assign tasks with specific agents."
+      },
+      "multiproject": {
+        "title": "Multi-project Support",
+        "description": "Manage multiple projects and agents in parallel."
+      }
+    },
+    "stack": {
+      "title": "Tech Stack",
+      "items": [
+        "Electron + React",
+        "Fastify + WebSocket",
+        "SQLite (better-sqlite3)",
+        "pnpm + electron-builder"
+      ]
     }
   },
   "ludic": {
+    "badge": "Planning",
     "title": "Ludic Systems",
     "subtitle": "Treat human motivation as a first-class system resource",
-    "status": "Planning",
     "description": "An AI-assisted system paradigm: organizing production and creation through 'voluntary goals + self-constraints + meaningful feedback'.",
     "positioning": "This is not a personal blog, but a system object that can be cited and replicated.",
-    "backHome": "Back to Home",
+    "backToProjects": "Back to Projects",
+    "commanddeck": "CommandDeck",
     "dualNode": {
       "title": "Dual Node Model",
       "jinzheio": {
@@ -168,9 +196,62 @@
     }
   },
   "philosophy": {
-    "title": "Philosophy",
-    "subtitle": "Continuous conversations on long-term questions",
-    "backHome": "Back to Home",
-    "comingSoon": "Content coming soon..."
+    "badge": "Long-term Philosophy",
+    "title": "Long-term philosophical discussions are not one-time conclusions,",
+    "titleContinued": "but a continuously updated conversation chain.",
+    "description": "Here I record core questions from long-term research, and how each project iteration validates these questions in return.",
+    "projectsIndex": "Projects Index",
+    "commanddeck": "CommandDeck",
+    "coreThreads": "Core Threads",
+    "subtitle": "Structured maintenance of long-term questions",
+    "summary": "Break questions into trackable themes, making thinking a reusable method.",
+    "themes": {
+      "agency": {
+        "title": "Agency / 主体性",
+        "summary": "How to maintain autonomy in complex systems and avoid being domesticated by tools.",
+        "questions": [
+          "In multi-agent collaboration, which layer should responsibility fall on?",
+          "How does human judgment negotiate boundaries with automation systems?",
+          "When processes become smooth, does intention get diluted?"
+        ]
+      },
+      "time": {
+        "title": "Time / 长期主义",
+        "summary": "Build project rhythms and cognitive iterations that span years.",
+        "questions": [
+          "How is the 'growth' of long-term projects measured?",
+          "What kind of rhythm doesn't consume creativity?",
+          "How to make compound interest come from structure, not luck?"
+        ]
+      },
+      "sensemaking": {
+        "title": "Sensemaking / 认知地图",
+        "summary": "Transform chaotic experience into actionable maps and language.",
+        "questions": [
+          "Under information overload, what are useful abstractions?",
+          "How to avoid being controlled by narratives?",
+          "How can personal methodology be shared without losing its soul?"
+        ]
+      }
+    },
+    "practices": [
+      {
+        "title": "Monthly Review",
+        "description": "Categorize new knowledge into 'immediate gains / long-term gains / remaining questions'."
+      },
+      {
+        "title": "Projects as Questions",
+        "description": "Each project is a methodological experimentation ground."
+      },
+      {
+        "title": "Dialogical Thinking",
+        "description": "Break long-term questions into continuous conversations, not one-time conclusions."
+      }
+    ],
+    "signals": [
+      "Long-term questions need visualized rhythms and milestones.",
+      "The most important questions often require new language.",
+      "Thinking itself also needs design and ritual."
+    ]
   }
 }

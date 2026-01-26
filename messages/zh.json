@@ -17,6 +17,18 @@
     "ludicSystems": "Ludic Systems",
     "commandDeck": "CommandDeck"
   },
+  "common": {
+    "backToProjects": "返回项目列表",
+    "backToHome": "返回首页",
+    "viewProjects": "查看所有项目",
+    "capabilities": "核心能力",
+    "stack": "技术栈",
+    "notes": "备注",
+    "principles": "核心原则",
+    "modules": "规划模块",
+    "rituals": "仪式",
+    "signals": "信号"
+  },
   "home": {
     "badge": "Personal Research Studio",
     "hero": {
@@ -61,66 +73,77 @@
       "draft": "草稿",
       "exploring": "探索中",
       "openLanding": "打开项目页"
-    },
-    "commanddeck": {
-      "tagline": "Multi-Agent Control Console",
-      "summary": "为多 Agent 协作系统打造的可视化控制台，强调【前店后厂】的协作模型。",
-      "focus": {
-        "realtime": "实时监控",
-        "timeline": "事件时间线",
-        "conversation": "交互对话",
-        "multiproject": "多项目支持"
+    }
+  },
+  "project": {
+    "backToProjects": "返回项目列表",
+    "ludicSystems": "Ludic Systems",
+    "capabilities": "能力",
+    "stack": "技术栈",
+    "notes": "备注"
+  },
+  "commanddeck": {
+    "badge": "Active Project",
+    "title": "CommandDeck",
+    "description": "为多 Agent 协作系统打造的可视化控制台，强调【前店后厂】的协作模型。",
+    "backToProjects": "返回项目列表",
+    "ludicSystems": "Ludic Systems",
+    "visualIdentity": "Visual Identity",
+    "visualIdentityDesc": "Console-inspired rsvg icon system.",
+    "pillars": {
+      "hub": {
+        "title": "集团总部 (Hub)",
+        "description": "集中接收 Agent 汇报、存储历史档案并做分析。"
       },
-      "pillars": {
-        "hub": {
-          "title": "集团总部 (Hub)",
-          "description": "集中接收 Agent 汇报、存储历史档案，并提供分析能力。"
-        },
-        "desktop": {
-          "title": "前店 (Desktop UI)",
-          "description": "用户面对的可视化界面，用来观察、调度与下达指令。"
-        },
-        "main": {
-          "title": "后厂 (Main & Agents)",
-          "description": "启动 Agent 进程，执行 Git 操作与代码运行。"
-        },
-        "protocol": {
-          "title": "通用语 (Protocol)",
-          "description": "基于 TypeScript/Zod 的统一协议，保证沟通准确。"
-        }
+      "desktop": {
+        "title": "前店 (Desktop UI)",
+        "description": "面向用户的可视化界面，用来观察与下达指令。"
       },
-      "capabilities": {
-        "title": "能力",
-        "monitoring": "Agent 状态实时监控",
-        "timeline": "事件时间线追踪工具调用",
-        "conversation": "与指定 Agent 进行交互对话",
-        "management": "多项目与多 Agent 并行管理"
+      "main": {
+        "title": "后厂 (Main + Agents)",
+        "description": "执行 Git 操作、运行代码、调度 Agent 进程。"
       },
-      "stack": {
-        "title": "技术栈",
-        "items": [
-          "Electron + React",
-          "Fastify + WebSocket",
-          "SQLite (better-sqlite3)",
-          "pnpm + electron-builder"
-        ]
-      },
-      "notes": {
-        "title": "备注",
-        "items": [
-          "面向多项目协作环境的统一控制台。",
-          "支持本地与云端 Hub 部署模式。"
-        ]
+      "protocol": {
+        "title": "通用语 (Protocol)",
+        "description": "TypeScript/Zod 协议，保证沟通一致性。"
       }
+    },
+    "capabilities": {
+      "monitoring": {
+        "title": "实时监控",
+        "description": "查看所有 Agent 的运行状态与资源占用。"
+      },
+      "timeline": {
+        "title": "事件时间线",
+        "description": "追踪每次工具调用与状态变化。"
+      },
+      "conversation": {
+        "title": "交互对话",
+        "description": "与指定 Agent 进行对话与任务下发。"
+      },
+      "multiproject": {
+        "title": "多项目支持",
+        "description": "并行管理多个项目与多个 Agent。"
+      }
+    },
+    "stack": {
+      "title": "技术栈",
+      "items": [
+        "Electron + React",
+        "Fastify + WebSocket",
+        "SQLite (better-sqlite3)",
+        "pnpm + electron-builder"
+      ]
     }
   },
   "ludic": {
+    "badge": "规划中",
     "title": "Ludic Systems",
     "subtitle": "把人类动机当作系统的一等资源",
-    "status": "规划中",
     "description": "一种 AI 辅助系统范式：以【自愿目标 + 自我约束 + 意义反馈】来组织生产与创造。",
     "positioning": "这不是个人博客，而是一个可以被引用、被复刻的系统对象。",
-    "backHome": "返回首页",
+    "backToProjects": "返回项目列表",
+    "commanddeck": "CommandDeck",
     "dualNode": {
       "title": "双节点模型",
       "jinzheio": {
@@ -173,9 +196,62 @@
     }
   },
   "philosophy": {
-    "title": "哲学",
-    "subtitle": "长期问题的持续对话",
-    "backHome": "返回首页",
-    "comingSoon": "内容正在准备中..."
+    "badge": "Long-term Philosophy",
+    "title": "长期哲学讨论不是一次性的结论，",
+    "titleContinued": "而是一条持续更新的对话链。",
+    "description": "这里记录长期研究的核心问题，以及每一次项目迭代如何反过来验证这些问题。",
+    "projectsIndex": "项目列表",
+    "commanddeck": "CommandDeck",
+    "coreThreads": "Core Threads",
+    "subtitle": "长期问题的结构化维护",
+    "summary": "把问题拆成可追踪的主题，让思考成为一套可复用的方法。",
+    "themes": {
+      "agency": {
+        "title": "Agency / 主体性",
+        "summary": "如何在复杂系统中保持自主，如何避免被工具驯化。",
+        "questions": [
+          "在多 Agent 协作里，责任到底应该落在哪一层？",
+          "人类的判断力如何与自动化系统协商边界？",
+          "当流程变得顺滑，意图是否会被稀释？"
+        ]
+      },
+      "time": {
+        "title": "Time / 长期主义",
+        "summary": "构建能跨越数年的项目节奏与认知迭代。",
+        "questions": [
+          "长期项目的【增长】如何被度量？",
+          "什么样的节奏不会消耗创造力？",
+          "如何让复利来自结构而非运气？"
+        ]
+      },
+      "sensemaking": {
+        "title": "Sensemaking / 认知地图",
+        "summary": "把混乱的经验转化为可行动的地图与语言。",
+        "questions": [
+          "信息过载下，什么是有用的抽象？",
+          "如何避免被叙事反过来控制？",
+          "个人方法论如何可共享而不失灵魂？"
+        ]
+      }
+    },
+    "practices": [
+      {
+        "title": "每月复盘",
+        "description": "把新知识分为【即时收益 / 长期收益 / 残留问题】。"
+      },
+      {
+        "title": "项目即问题",
+        "description": "每个项目都是一个方法论实验场。"
+      },
+      {
+        "title": "对话式思考",
+        "description": "把长期问题拆成连续对话，而非一次性结论。"
+      }
+    ],
+    "signals": [
+      "长期问题需要可视化的节奏与里程碑。",
+      "最重要的问题往往需要新的语言。",
+      "思考本身也需要设计与仪式感。"
+    ]
   }
 }

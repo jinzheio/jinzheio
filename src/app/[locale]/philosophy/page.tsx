@@ -1,4 +1,6 @@
-import Link from "next/link";
+'use client';
+
+import { useTranslations } from 'next-intl';
 
 import { Ambient } from "@/components/ambient";
 import { PhilosophyAccordion } from "@/components/philosophy-accordion";
@@ -8,9 +10,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { philosophyPractices, philosophySignals } from "@/content/philosophy";
+import { Link } from "@/i18n/routing";
 
 export default function PhilosophyPage() {
+  const t = useTranslations('philosophy');
+  const common = useTranslations('common');
+
   return (
     <div className="min-h-screen">
       <Ambient />
@@ -18,26 +23,26 @@ export default function PhilosophyPage() {
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
         <section className="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
           <Badge className="rounded-full bg-mist text-xs uppercase tracking-[0.3em] text-graphite">
-            Long-term Philosophy
+            {t('badge')}
           </Badge>
           <h1 className="font-display text-4xl text-graphite md:text-5xl">
-            长期哲学讨论不是一次性的结论，
+            {t('title')}
             <br />
-            而是一条持续更新的对话链。
+            {t('titleContinued')}
           </h1>
           <p className="max-w-2xl text-base text-muted-foreground">
-            这里记录长期研究的核心问题，以及每一次项目迭代如何反过来验证这些问题。
+            {t('description')}
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
-              <Link href="/projects">Projects Index</Link>
+              <Link href="/projects">{t('projectsIndex')}</Link>
             </Button>
             <Button
               asChild
               variant="outline"
               className="rounded-full border-border/60 bg-transparent text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white"
             >
-              <Link href="/projects/commanddeck">CommandDeck</Link>
+              <Link href="/projects/commanddeck">{t('commanddeck')}</Link>
             </Button>
           </div>
         </section>
@@ -47,13 +52,13 @@ export default function PhilosophyPage() {
         <section className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] animate-in fade-in slide-in-from-bottom-6 duration-700">
           <div className="space-y-6">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">
-              Core Threads
+              {t('coreThreads')}
             </p>
             <h2 className="font-display text-3xl text-graphite md:text-4xl">
-              长期问题的结构化维护
+              {t('subtitle')}
             </h2>
             <p className="text-base text-muted-foreground">
-              把问题拆成可追踪的主题，让思考成为一套可复用的方法。
+              {t('summary')}
             </p>
             <PhilosophyAccordion />
           </div>
@@ -61,11 +66,11 @@ export default function PhilosophyPage() {
             <Card className="surface-glass border-border/60">
               <CardHeader>
                 <CardTitle className="font-display text-2xl text-graphite">
-                  Rituals
+                  {common('rituals')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-muted-foreground">
-                {philosophyPractices.map((practice) => (
+                {(t.raw('practices') as Array<{title: string, description: string}>).map((practice) => (
                   <div key={practice.title} className="space-y-1">
                     <p className="text-graphite">{practice.title}</p>
                     <p>{practice.description}</p>
@@ -76,11 +81,11 @@ export default function PhilosophyPage() {
             <Card className="border-border/60 bg-card/80">
               <CardHeader>
                 <CardTitle className="font-display text-2xl text-graphite">
-                  Signals
+                  {common('signals')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2 text-sm text-muted-foreground">
-                {philosophySignals.map((signal) => (
+                {(t.raw('signals') as string[]).map((signal) => (
                   <p key={signal} className="flex items-center gap-2">
                     <span className="size-1.5 rounded-full bg-ember" />
                     <span>{signal}</span>

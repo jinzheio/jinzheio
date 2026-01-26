@@ -1,13 +1,16 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { philosophyThemes } from "@/content/philosophy";
 
 export function PhilosophyAccordion() {
+  const t = useTranslations('philosophy');
+  const themes = t.raw('themes') as Record<string, {title: string, summary: string, questions: string[]}>;
+
   return (
     <Accordion type="single" collapsible className="w-full">
-      {philosophyThemes.map((theme) => (
-        <AccordionItem key={theme.id} value={theme.id}>
+      {Object.entries(themes).map(([key, theme]) => (
+        <AccordionItem key={key} value={key}>
           <AccordionTrigger className="text-left font-display text-lg text-graphite">
             {theme.title}
           </AccordionTrigger>
