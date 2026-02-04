@@ -71,7 +71,7 @@ export default async function ProjectPage({ params }: PageProps) {
                 className="rounded-full bg-brand-strong text-xs uppercase tracking-[0.3em] text-white"
               >
                 <a href={project.link} target="_blank" rel="noopener noreferrer">
-                  Visit Site
+                  {t('visitSite')}
                 </a>
               </Button>
             )}

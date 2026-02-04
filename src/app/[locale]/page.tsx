@@ -67,8 +67,8 @@ export default function Home() {
                   {t('currentFocus.description')}
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  {["Systems", "Agent Ops", "Design Rituals", "Long-form"].map(
-                    (tag) => (
+                  {t.raw('currentFocus.tags').map(
+                    (tag: string) => (
                       <Badge key={tag} variant="secondary" className="rounded-full">
                         {tag}
                       </Badge>
@@ -130,7 +130,7 @@ export default function Home() {
                         </Button>
                         <Button asChild className="flex-1 rounded-full bg-brand-strong text-white">
                           <a href={project.link} target="_blank" rel="noopener noreferrer">
-                            Visit
+                            {t('projectsSection.visit')}
                           </a>
                         </Button>
                       </>

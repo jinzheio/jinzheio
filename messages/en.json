@@ -44,13 +44,15 @@
     },
     "currentFocus": {
       "title": "Current Focus",
-      "description": "Centered on multi-agent collaboration systems, continuously exploring the collaboration boundaries of 'humans + systems'."
+      "description": "Centered on multi-agent collaboration systems, continuously exploring the collaboration boundaries of 'humans + systems'.",
+      "tags": ["Systems", "Agent Ops", "Design Rituals", "Long-form"]
     },
     "projectsSection": {
       "label": "Project Index",
       "title": "Each project has its own narrative entry point",
       "viewAll": "View all projects →",
-      "openLanding": "Open Landing Page"
+      "openLanding": "Open Landing Page",
+      "visit": "Visit"
     },
     "ludicSection": {
       "label": "Ludic Systems",
@@ -80,7 +82,8 @@
     "ludicSystems": "Ludic Systems",
     "capabilities": "Capabilities",
     "stack": "Stack",
-    "notes": "Notes"
+    "notes": "Notes",
+    "visitSite": "Visit Site"
   },
   "commanddeck": {
     "badge": "Active Project",

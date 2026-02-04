@@ -30,34 +30,36 @@
     "signals": "信号"
   },
   "home": {
-    "badge": "Personal Research Studio",
+    "badge": "个人研究工作室",
     "hero": {
       "title1": "把个人项目做成一组 Landing Pages，",
       "title2": "把长期哲学讨论写成持续的对话。",
       "description": "这里是一个持续进化的个人基地：一边做产品与系统，一边追踪那些需要时间沉淀的问题。希望更多人能在这里理解我的项目与哲学，加入这条长期讨论的对话链。",
-      "exploreProjects": "Explore Projects",
+      "exploreProjects": "探索项目",
       "ludicSystems": "Ludic Systems"
     },
     "about": {
-      "title": "About",
+      "title": "关于",
       "content": "我在产品、系统与长期问题之间穿梭，把每个项目当作一次方法论实验。"
     },
     "currentFocus": {
-      "title": "Current Focus",
-      "description": "以多 Agent 协作系统为核心，持续探索「人 + 系统」的协作边界。"
+      "title": "当前关注",
+      "description": "以多 Agent 协作系统为核心，持续探索「人 + 系统」的协作边界。",
+      "tags": ["系统", "Agent 运维", "设计仪式", "长内容"]
     },
     "projectsSection": {
-      "label": "Project Index",
+      "label": "项目索引",
       "title": "每个项目都有独立的叙事入口",
       "viewAll": "查看所有项目 →",
-      "openLanding": "打开项目页"
+      "openLanding": "打开项目页",
+      "visit": "访问"
     },
     "ludicSection": {
       "label": "Ludic Systems",
       "title": "把人类动机当作系统的一等资源",
       "description": "一种 AI 辅助系统范式：以【自愿目标 + 自我约束 + 意义反馈】来组织生产与创造。",
       "viewPlanning": "查看规划页",
-      "principlesTitle": "Principles",
+      "principlesTitle": "原则",
       "principle1": "生产力被组织为自愿挑战，而非单纯效率。",
       "principle2": "系统需要可被引用、可被独立理解。",
       "principle3": "长期问题需要结构化节奏与可验证的原型。"
@@ -80,7 +82,8 @@
     "ludicSystems": "Ludic Systems",
     "capabilities": "能力",
     "stack": "技术栈",
-    "notes": "备注"
+    "notes": "备注",
+    "visitSite": "访问网站"
   },
   "commanddeck": {
     "badge": "Active Project",
