@@ -122,9 +122,24 @@ export default function Home() {
                       </li>
                     ))}
                   </ul>
-                  <Button asChild variant="outline" className="w-full rounded-full border-border/60">
-                    <Link href={`/projects/${project.slug}`}>{t('projectsSection.openLanding')}</Link>
-                  </Button>
+                  <div className={project.link ? "flex gap-2" : ""}>
+                    {project.link ? (
+                      <>
+                        <Button asChild variant="outline" className="flex-1 rounded-full border-border/60">
+                          <Link href={`/projects/${project.slug}`}>{t('projectsSection.openLanding')}</Link>
+                        </Button>
+                        <Button asChild className="flex-1 rounded-full bg-brand-strong text-white">
+                          <a href={project.link} target="_blank" rel="noopener noreferrer">
+                            Visit
+                          </a>
+                        </Button>
+                      </>
+                    ) : (
+                      <Button asChild variant="outline" className="w-full rounded-full border-border/60">
+                        <Link href={`/projects/${project.slug}`}>{t('projectsSection.openLanding')}</Link>
+                      </Button>
+                    )}
+                  </div>
                 </CardContent>
               </Card>
             ))}

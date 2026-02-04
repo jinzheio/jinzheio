@@ -65,6 +65,16 @@ export default async function ProjectPage({ params }: PageProps) {
             <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
               <I18nLink href="/projects">{t('backToProjects')}</I18nLink>
             </Button>
+            {project.link && (
+              <Button
+                asChild
+                className="rounded-full bg-brand-strong text-xs uppercase tracking-[0.3em] text-white"
+              >
+                <a href={project.link} target="_blank" rel="noopener noreferrer">
+                  Visit Site
+                </a>
+              </Button>
+            )}
             <Button
               asChild
               variant="outline"

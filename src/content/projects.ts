@@ -11,6 +11,7 @@ export type Project = {
   capabilities: string[];
   stack: string[];
   notes: string[];
+  link?: string;
 };
 
 export const projects: Project[] = [
@@ -60,45 +61,41 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "project-01",
-    name: "Project 01",
-    tagline: "Draft Landing Page",
-    summary: "占位项目页：用于放置下一个个人项目的定位与故事。",
-    status: "Draft",
-    focus: ["故事定位", "用户旅程", "实验性设计"],
+    slug: "clawsimple",
+    name: "ClawSimple",
+    tagline: "Zero-Touch AI Deployment",
+    summary: "SaaS platform providing managed hosting and automated deployment for OpenClaw personal AI assistants.",
+    status: "Active",
+    focus: ["Automated Provisioning", "Zero-Access Security", "Subscription Billing"],
     pillars: [
       {
-        title: "核心命题",
-        description: "这页会回答：为什么要做、给谁做、如何做。",
+        title: "Zero-Access Architecture",
+        description: "Server passwords displayed once, never stored—no platform backdoors.",
       },
       {
-        title: "体验策略",
-        description: "把功能写成叙事，把细节做成仪式。",
+        title: "Cloud Automation",
+        description: "Auto-provisioning on Hetzner/DigitalOcean via cloud-init.",
+      },
+      {
+        title: "Stripe Billing",
+        description: "Seat-based pricing with automatic resource cleanup for lapsed subscriptions.",
       },
     ],
-    capabilities: ["目标用户画像", "关键场景", "MVP 范围", "下一步计划"],
-    stack: ["待补充"],
-    notes: ["把这里替换成真实项目介绍即可。"],
-  },
-  {
-    slug: "project-02",
-    name: "Project 02",
-    tagline: "Draft Landing Page",
-    summary: "占位项目页：用于放置长期构思中的下一项实验。",
-    status: "Exploring",
-    focus: ["长期主义", "系统性试验", "开放式问题"],
-    pillars: [
-      {
-        title: "研究方向",
-        description: "明确正在探索的问题与假设。",
-      },
-      {
-        title: "实验节奏",
-        description: "以月度/季度节奏迭代，累积长期曲线。",
-      },
+    capabilities: [
+      "One-click Telegram/WhatsApp AI bot deployment",
+      "Multi-language support (EN/ZH/JA)",
+      "Real-time deployment status tracking",
+      "Community-driven feature roadmap",
     ],
-    capabilities: ["问题定义", "原型节奏", "评估指标"],
-    stack: ["待补充"],
-    notes: ["可将此页替换成真实项目。"],
+    stack: [
+      "Next.js 16 + React 19",
+      "Neon PostgreSQL + Drizzle ORM",
+      "Better Auth + Stripe",
+      "Hetzner Cloud API",
+    ],
+    notes: [
+      "Rescue Password system ensures true zero-access security.",
+    ],
+    link: "https://clawsimple.com",
   },
 ];
