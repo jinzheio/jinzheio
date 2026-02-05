@@ -1,6 +1,6 @@
-import Link from "next/link";
+import { getTranslations } from 'next-intl/server';
+
 import { notFound } from "next/navigation";
-import { useTranslations } from 'next-intl';
 
 import { Ambient } from "@/components/ambient";
 import { SiteFooter } from "@/components/site-footer";
@@ -35,8 +35,8 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ProjectPage({ params }: PageProps) {
   const { slug } = await params;
-  const t = useTranslations('project');
-  const common = useTranslations('common');
+  const t = await getTranslations('project');
+  const common = await getTranslations('common');
   
   const project = projects.find((item) => item.slug === slug);
   if (!project) {
