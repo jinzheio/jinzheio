@@ -14,9 +14,22 @@ import { Link } from "@/i18n/routing";
 export default function LudicSystemsPage() {
   const t = useTranslations('ludic');
   const common = useTranslations('common');
+  const subtitle = t('subtitle');
+  const positioning = t('positioning');
 
-  const nodeKeys = ['jinzheio', 'ludicSystems'] as const;
   const moduleKeys = ['whitepaper', 'protocol', 'engine', 'lab', 'community'] as const;
+  const nodes = [
+    {
+      key: 'jinzheio',
+      title: t('dualNode.jinzheio.title'),
+      points: t.raw('dualNode.jinzheio.points') as string[],
+    },
+    {
+      key: 'ludicSystems',
+      title: t('dualNode.ludicSystems.title'),
+      points: t.raw('dualNode.ludicSystems.points') as string[],
+    },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -31,11 +44,13 @@ export default function LudicSystemsPage() {
             {t('title')}
           </h1>
           <p className="max-w-2xl text-base text-muted-foreground">
-            {t('subtitle')}。{t('description')}
+            {[subtitle, t('description')].filter(Boolean).join('。')}
           </p>
-          <p className="max-w-2xl text-sm text-muted-foreground">
-            {t('positioning')}
-          </p>
+          {positioning ? (
+            <p className="max-w-2xl text-sm text-muted-foreground">
+              {positioning}
+            </p>
+          ) : null}
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
               <Link href="/projects/commanddeck">{t('commanddeck')}</Link>
@@ -53,15 +68,15 @@ export default function LudicSystemsPage() {
         <Separator />
 
         <section className="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-6 duration-700">
-          {nodeKeys.map((key) => (
-            <Card key={key} className="border-border/60 bg-card/80">
+          {nodes.map((node) => (
+            <Card key={node.key} className="border-border/60 bg-card/80">
               <CardHeader>
                 <CardTitle className="font-display text-2xl text-graphite">
-                  {t(`dualNode.${key}.title` as any)}
+                  {node.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3 text-sm text-muted-foreground">
-                {(t.raw(`dualNode.${key}.points` as any) as string[]).map((point) => (
+                {node.points.map((point) => (
                   <div key={point} className="flex items-start gap-2">
                     <span className="mt-1 size-1.5 rounded-full bg-brand" />
                     <span>{point}</span>
@@ -81,11 +96,11 @@ export default function LudicSystemsPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               {moduleKeys.map((key) => {
-                const module = t(`modules.${key}`) as unknown as {title: string, description: string};
+                const item = t(`modules.${key}`) as unknown as {title: string, description: string};
                 return (
                   <div key={key} className="space-y-1">
-                    <p className="text-graphite">{module.title}</p>
-                    <p>{module.description}</p>
+                    <p className="text-graphite">{item.title}</p>
+                    <p>{item.description}</p>
                   </div>
                 );
               })}

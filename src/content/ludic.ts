@@ -1,36 +1,26 @@
 export const ludicSummary = {
   title: "Ludic Systems",
-  subtitle: "把人类动机当作系统的一等资源",
+  subtitle: "",
   status: "规划中",
-  description:
-    "一种 AI 辅助系统范式：以“自愿目标 + 自我约束 + 意义反馈”来组织生产与创造。",
-  positioning:
-    "这不是个人博客，而是一个可以被引用、被复刻的系统对象。",
+  description: "AI 辅助系统范式：自愿目标、自我约束、意义反馈。",
+  positioning: "",
 };
 
 export const dualNodeModel = [
   {
-    title: "jinzhe.io — 个人根节点",
-    points: [
-      "定义你是谁、你提出了什么对象。",
-      "作为概念与系统的索引入口。",
-      "提供权属关系与引用路径。",
-    ],
+    title: "jinzhe.io",
+    points: ["项目索引", "概念索引", "引用路径"],
   },
   {
-    title: "ludic.systems — 系统根节点",
-    points: [
-      "只讲 Ludic Systems 本身。",
-      "呈现机制、协议、交互方式。",
-      "你是提出者，不是主角。",
-    ],
+    title: "ludic.systems",
+    points: ["机制", "协议", "交互方式"],
   },
 ];
 
 export const plannedModules = [
   {
     title: "Whitepaper",
-    description: "定义与动机，解释为什么它存在。",
+    description: "定义、动机与应用边界。",
   },
   {
     title: "Protocol",
@@ -46,7 +36,7 @@ export const plannedModules = [
   },
   {
     title: "Community",
-    description: "谁在用、谁在复刻、谁在扩展。",
+    description: "使用记录、复刻记录与扩展记录。",
   },
 ];
 
