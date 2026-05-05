@@ -8,10 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
-import { projects } from "@/content/projects";
+import { projects, type ProjectStatus } from "@/content/projects";
 
 export default function ProjectsPage() {
   const t = useTranslations('projects');
+  const statusLabels: Record<ProjectStatus, string> = {
+    Active: t('status.active'),
+    Draft: t('status.draft'),
+    Exploring: t('status.exploring'),
+  };
 
   return (
     <div className="min-h-screen">
@@ -38,7 +43,7 @@ export default function ProjectsPage() {
               <CardHeader className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Badge variant="secondary" className="rounded-full">
-                    {t(`status.${project.status.toLowerCase()}` as any)}
+                    {statusLabels[project.status]}
                   </Badge>
                   <span className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
                     {project.tagline}

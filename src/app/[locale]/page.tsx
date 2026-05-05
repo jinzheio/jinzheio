@@ -12,6 +12,7 @@ import { projects } from "@/content/projects";
 
 export default function Home() {
   const t = useTranslations('home');
+  const principleKeys = ['principle1', 'principle2', 'principle3'] as const;
 
   return (
     <div className="min-h-screen">
@@ -173,10 +174,10 @@ export default function Home() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="flex items-start gap-2">
+              {principleKeys.map((key) => (
+                <div key={key} className="flex items-start gap-2">
                   <span className="mt-1 size-1.5 rounded-full bg-ember" />
-                  <span>{t(`ludicSection.principle${i}` as any)}</span>
+                  <span>{t(`ludicSection.${key}`)}</span>
                 </div>
               ))}
             </CardContent>

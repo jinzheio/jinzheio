@@ -13,6 +13,7 @@ import {
   MessageCircle,
   Terminal,
 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
 import { Ambient } from "@/components/ambient";
 import { SiteFooter } from "@/components/site-footer";
@@ -23,7 +24,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Link } from "@/i18n/routing";
 
-const iconMap: Record<string, any> = {
+const iconMap: Record<string, LucideIcon> = {
   monitoring: Activity,
   timeline: Terminal,
   conversation: MessageCircle,
