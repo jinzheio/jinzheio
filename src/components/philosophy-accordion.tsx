@@ -1,11 +1,10 @@
 "use client";
 
-import { useTranslations } from 'next-intl';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { siteCopy } from "@/content/site-copy";
 
 export function PhilosophyAccordion() {
-  const t = useTranslations('philosophy');
-  const themes = t.raw('themes') as Record<string, {title: string, summary: string, questions: string[]}>;
+  const themes = siteCopy.philosophy.themes;
 
   return (
     <Accordion type="single" collapsible className="w-full">

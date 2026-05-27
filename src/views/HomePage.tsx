@@ -1,5 +1,3 @@
-import { useTranslations } from 'next-intl';
-
 import { Ambient } from "@/components/ambient";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -7,12 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "@/i18n/routing";
 import { projects } from "@/content/projects";
+import { siteCopy } from "@/content/site-copy";
 
-export default function Home() {
-  const t = useTranslations('home');
-  const principleKeys = ['principle1', 'principle2', 'principle3'] as const;
+export function HomePage() {
+  const t = siteCopy.home;
+  const principleKeys = ["principle1", "principle2", "principle3"] as const;
 
   return (
     <div className="min-h-screen">
@@ -22,27 +20,29 @@ export default function Home() {
         <section className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center animate-in fade-in slide-in-from-bottom-6 duration-700">
           <div className="space-y-6">
             <Badge className="rounded-full bg-mist text-xs uppercase tracking-[0.3em] text-graphite">
-              {t('badge')}
+              {t.badge}
             </Badge>
             <h1 className="font-display text-4xl leading-tight text-graphite md:text-6xl">
-              {t('hero.title1')}
-              <span className="text-shadow-soft text-brand-strong">
-                {t('hero.title2')}
-              </span>
+              {t.hero.title1}
+              {t.hero.title2 ? (
+                <span className="text-shadow-soft text-brand-strong">
+                  {t.hero.title2}
+                </span>
+              ) : null}
             </h1>
             <p className="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              {t('hero.description')}
+              {t.hero.description}
             </p>
             <div className="flex flex-wrap gap-4">
               <Button asChild className="rounded-full bg-graphite px-6 text-xs uppercase tracking-[0.3em]">
-                <Link href="/projects">{t('hero.exploreProjects')}</Link>
+                <a href="/projects">{t.hero.exploreProjects}</a>
               </Button>
               <Button
                 asChild
                 variant="outline"
                 className="rounded-full border-border/70 bg-transparent px-6 text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white"
               >
-                <Link href="/ludic-systems">{t('hero.ludicSystems')}</Link>
+                <a href="/ludic-systems">{t.hero.ludicSystems}</a>
               </Button>
             </div>
           </div>
@@ -50,31 +50,27 @@ export default function Home() {
             <Card className="border-border/60 bg-card/80">
               <CardHeader>
                 <CardTitle className="font-display text-xl text-graphite">
-                  {t('about.title')}
+                  {t.about.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">
-                {t('about.content')}
+                {t.about.content}
               </CardContent>
             </Card>
             <Card className="surface-glass border-border/60">
               <CardHeader>
                 <CardTitle className="font-display text-xl text-graphite">
-                  {t('currentFocus.title')}
+                  {t.currentFocus.title}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4 text-sm text-muted-foreground">
-                <p>
-                  {t('currentFocus.description')}
-                </p>
+                <p>{t.currentFocus.description}</p>
                 <div className="flex flex-wrap gap-2">
-                  {t.raw('currentFocus.tags').map(
-                    (tag: string) => (
-                      <Badge key={tag} variant="secondary" className="rounded-full">
-                        {tag}
-                      </Badge>
-                    )
-                  )}
+                  {t.currentFocus.tags.map((tag) => (
+                    <Badge key={tag} variant="secondary" className="rounded-full">
+                      {tag}
+                    </Badge>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -87,14 +83,14 @@ export default function Home() {
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">
-                {t('projectsSection.label')}
+                {t.projectsSection.label}
               </p>
               <h2 className="font-display text-3xl text-graphite md:text-4xl">
-                {t('projectsSection.title')}
+                {t.projectsSection.title}
               </h2>
             </div>
             <Button asChild variant="ghost" className="text-xs uppercase tracking-[0.3em]">
-              <Link href="/projects">{t('projectsSection.viewAll')}</Link>
+              <a href="/projects">{t.projectsSection.viewAll}</a>
             </Button>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -127,17 +123,17 @@ export default function Home() {
                     {project.link ? (
                       <>
                         <Button asChild variant="outline" className="flex-1 rounded-full border-border/60">
-                          <Link href={`/projects/${project.slug}`}>{t('projectsSection.openLanding')}</Link>
+                          <a href={`/projects/${project.slug}`}>{t.projectsSection.openLanding}</a>
                         </Button>
                         <Button asChild className="flex-1 rounded-full bg-brand-strong text-white">
                           <a href={project.link} target="_blank" rel="noopener noreferrer">
-                            {t('projectsSection.visit')}
+                            {t.projectsSection.visit}
                           </a>
                         </Button>
                       </>
                     ) : (
                       <Button asChild variant="outline" className="w-full rounded-full border-border/60">
-                        <Link href={`/projects/${project.slug}`}>{t('projectsSection.openLanding')}</Link>
+                        <a href={`/projects/${project.slug}`}>{t.projectsSection.openLanding}</a>
                       </Button>
                     )}
                   </div>
@@ -155,29 +151,29 @@ export default function Home() {
         >
           <div className="space-y-4">
             <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">
-              {t('ludicSection.label')}
+              {t.ludicSection.label}
             </p>
             <h2 className="font-display text-3xl text-graphite md:text-4xl">
-              {t('ludicSection.title')}
+              {t.ludicSection.title}
             </h2>
             <p className="text-base text-muted-foreground">
-              {t('ludicSection.description')}
+              {t.ludicSection.description}
             </p>
             <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
-              <Link href="/ludic-systems">{t('ludicSection.viewPlanning')}</Link>
+              <a href="/ludic-systems">{t.ludicSection.viewPlanning}</a>
             </Button>
           </div>
           <Card className="surface-glass border-border/60">
             <CardHeader>
               <CardTitle className="font-display text-xl text-graphite">
-                {t('ludicSection.principlesTitle')}
+                {t.ludicSection.principlesTitle}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
               {principleKeys.map((key) => (
                 <div key={key} className="flex items-start gap-2">
                   <span className="mt-1 size-1.5 rounded-full bg-ember" />
-                  <span>{t(`ludicSection.${key}`)}</span>
+                  <span>{t.ludicSection[key]}</span>
                 </div>
               ))}
             </CardContent>

@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteCopy } from "@/content/site-copy";
+import { HomePage } from "@/views/HomePage";
+---
+
+<BaseLayout title={siteCopy.metadata.title} description={siteCopy.metadata.description}>
+  <HomePage />
+</BaseLayout>

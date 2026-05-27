@@ -1,0 +1,27 @@
+---
+import "@/styles/globals.css";
+
+type Props = {
+  title?: string;
+  description?: string;
+};
+
+const {
+  title = "jinzhe.io - Projects & Philosophy",
+  description = "Personal project landing pages and long-form philosophical discussions.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>{title}</title>
+  </head>
+  <body class="font-sans antialiased bg-background text-foreground overflow-x-hidden">
+    <slot />
+  </body>
+</html>

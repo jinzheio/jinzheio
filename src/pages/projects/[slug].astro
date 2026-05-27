@@ -1,0 +1,20 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { projects } from "@/content/projects";
+import { ProjectPage } from "@/views/ProjectPage";
+
+export function getStaticPaths() {
+  return projects
+    .filter((project) => project.slug !== "commanddeck")
+    .map((project) => ({
+      params: { slug: project.slug },
+      props: { project },
+    }));
+}
+
+const { project } = Astro.props;
+---
+
+<BaseLayout title={`${project.name} - ${project.tagline}`} description={project.summary}>
+  <ProjectPage project={project} />
+</BaseLayout>

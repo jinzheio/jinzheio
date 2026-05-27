@@ -1,7 +1,3 @@
-'use client';
-
-import { useTranslations } from 'next-intl';
-
 import { Ambient } from "@/components/ambient";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -9,25 +5,22 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "@/i18n/routing";
+import { siteCopy } from "@/content/site-copy";
 
-export default function LudicSystemsPage() {
-  const t = useTranslations('ludic');
-  const common = useTranslations('common');
-  const subtitle = t('subtitle');
-  const positioning = t('positioning');
-
-  const moduleKeys = ['whitepaper', 'protocol', 'engine', 'lab', 'community'] as const;
+export function LudicSystemsPage() {
+  const t = siteCopy.ludic;
+  const common = siteCopy.common;
+  const moduleKeys = ["whitepaper", "protocol", "engine", "lab", "community"] as const;
   const nodes = [
     {
-      key: 'jinzheio',
-      title: t('dualNode.jinzheio.title'),
-      points: t.raw('dualNode.jinzheio.points') as string[],
+      key: "jinzheio",
+      title: t.dualNode.jinzheio.title,
+      points: t.dualNode.jinzheio.points,
     },
     {
-      key: 'ludicSystems',
-      title: t('dualNode.ludicSystems.title'),
-      points: t.raw('dualNode.ludicSystems.points') as string[],
+      key: "ludicSystems",
+      title: t.dualNode.ludicSystems.title,
+      points: t.dualNode.ludicSystems.points,
     },
   ];
 
@@ -38,29 +31,29 @@ export default function LudicSystemsPage() {
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
         <section className="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
           <Badge className="rounded-full bg-mist text-xs uppercase tracking-[0.3em] text-graphite">
-            {t('badge')}
+            {t.badge}
           </Badge>
           <h1 className="font-display text-4xl text-graphite md:text-5xl">
-            {t('title')}
+            {t.title}
           </h1>
           <p className="max-w-2xl text-base text-muted-foreground">
-            {[subtitle, t('description')].filter(Boolean).join('。')}
+            {[t.subtitle, t.description].filter(Boolean).join(". ")}
           </p>
-          {positioning ? (
+          {t.positioning ? (
             <p className="max-w-2xl text-sm text-muted-foreground">
-              {positioning}
+              {t.positioning}
             </p>
           ) : null}
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
-              <Link href="/projects/commanddeck">{t('commanddeck')}</Link>
+              <a href="/projects/commanddeck">{t.commanddeck}</a>
             </Button>
             <Button
               asChild
               variant="outline"
               className="rounded-full border-border/60 bg-transparent text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white"
             >
-              <Link href="/projects">{t('backToProjects')}</Link>
+              <a href="/projects">{t.backToProjects}</a>
             </Button>
           </div>
         </section>
@@ -91,12 +84,12 @@ export default function LudicSystemsPage() {
           <Card className="surface-glass border-border/60">
             <CardHeader>
               <CardTitle className="font-display text-2xl text-graphite">
-                {common('modules')}
+                {common.modules}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-sm text-muted-foreground">
               {moduleKeys.map((key) => {
-                const item = t(`modules.${key}`) as unknown as {title: string, description: string};
+                const item = t.modules[key];
                 return (
                   <div key={key} className="space-y-1">
                     <p className="text-graphite">{item.title}</p>
@@ -109,11 +102,11 @@ export default function LudicSystemsPage() {
           <Card className="border-border/60 bg-card/80">
             <CardHeader>
               <CardTitle className="font-display text-2xl text-graphite">
-                {common('principles')}
+                {common.principles}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
-              {(t.raw('principles.items') as string[]).map((item) => (
+              {t.principles.items.map((item) => (
                 <div key={item} className="flex items-start gap-2">
                   <span className="mt-1 size-1.5 rounded-full bg-ember" />
                   <span>{item}</span>

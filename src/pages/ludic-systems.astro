@@ -1,0 +1,9 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteCopy } from "@/content/site-copy";
+import { LudicSystemsPage } from "@/views/LudicSystemsPage";
+---
+
+<BaseLayout title={`Ludic Systems - ${siteCopy.metadata.title}`} description={siteCopy.ludic.description}>
+  <LudicSystemsPage />
+</BaseLayout>

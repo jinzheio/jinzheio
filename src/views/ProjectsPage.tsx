@@ -1,5 +1,3 @@
-import { useTranslations } from 'next-intl';
-
 import { Ambient } from "@/components/ambient";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -7,15 +5,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Link } from "@/i18n/routing";
 import { projects, type ProjectStatus } from "@/content/projects";
+import { siteCopy } from "@/content/site-copy";
 
-export default function ProjectsPage() {
-  const t = useTranslations('projects');
+export function ProjectsPage() {
+  const t = siteCopy.projects;
   const statusLabels: Record<ProjectStatus, string> = {
-    Active: t('status.active'),
-    Draft: t('status.draft'),
-    Exploring: t('status.exploring'),
+    Active: t.status.active,
+    Draft: t.status.draft,
+    Exploring: t.status.exploring,
   };
 
   return (
@@ -25,13 +23,13 @@ export default function ProjectsPage() {
       <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
         <section className="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
           <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">
-            {t('title')}
+            {t.title}
           </p>
           <h1 className="font-display text-4xl text-graphite md:text-5xl">
-            {t('subtitle')}
+            {t.subtitle}
           </h1>
           <p className="max-w-2xl text-base text-muted-foreground">
-            {t.raw('description')}
+            {t.description}
           </p>
         </section>
 
@@ -63,7 +61,7 @@ export default function ProjectsPage() {
                   ))}
                 </div>
                 <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
-                  <Link href={`/projects/${project.slug}`}>{t('status.openLanding')}</Link>
+                  <a href={`/projects/${project.slug}`}>{t.status.openLanding}</a>
                 </Button>
               </CardContent>
             </Card>

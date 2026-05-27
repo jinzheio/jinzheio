@@ -1,7 +1,3 @@
-import { getTranslations } from 'next-intl/server';
-
-import { notFound } from "next/navigation";
-
 import { Ambient } from "@/components/ambient";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -9,39 +5,16 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Link as I18nLink } from "@/i18n/routing";
-import { projects } from "@/content/projects";
+import type { Project } from "@/content/projects";
+import { siteCopy } from "@/content/site-copy";
 
-type PageProps = {
-  params: Promise<{ slug: string; locale: string }>;
+type ProjectPageProps = {
+  project: Project;
 };
 
-export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
-}
-
-export async function generateMetadata({ params }: PageProps) {
-  const { slug } = await params;
-  const project = projects.find((item) => item.slug === slug);
-  if (!project) {
-    return { title: "Project Not Found" };
-  }
-
-  return {
-    title: `${project.name} — ${project.tagline}`,
-    description: project.summary,
-  };
-}
-
-export default async function ProjectPage({ params }: PageProps) {
-  const { slug } = await params;
-  const t = await getTranslations('project');
-  const common = await getTranslations('common');
-  
-  const project = projects.find((item) => item.slug === slug);
-  if (!project) {
-    notFound();
-  }
+export function ProjectPage({ project }: ProjectPageProps) {
+  const t = siteCopy.project;
+  const common = siteCopy.common;
 
   return (
     <div className="min-h-screen">
@@ -63,7 +36,7 @@ export default async function ProjectPage({ params }: PageProps) {
           </p>
           <div className="flex flex-wrap gap-3">
             <Button asChild className="rounded-full bg-graphite text-xs uppercase tracking-[0.3em] text-white">
-              <I18nLink href="/projects">{t('backToProjects')}</I18nLink>
+              <a href="/projects">{t.backToProjects}</a>
             </Button>
             {project.link && (
               <Button
@@ -71,7 +44,7 @@ export default async function ProjectPage({ params }: PageProps) {
                 className="rounded-full bg-brand-strong text-xs uppercase tracking-[0.3em] text-white"
               >
                 <a href={project.link} target="_blank" rel="noopener noreferrer">
-                  {t('visitSite')}
+                  {t.visitSite}
                 </a>
               </Button>
             )}
@@ -80,7 +53,7 @@ export default async function ProjectPage({ params }: PageProps) {
               variant="outline"
               className="rounded-full border-border/60 bg-transparent text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white"
             >
-              <I18nLink href="/ludic-systems">{t('ludicSystems')}</I18nLink>
+              <a href="/ludic-systems">{t.ludicSystems}</a>
             </Button>
           </div>
         </section>
@@ -106,7 +79,7 @@ export default async function ProjectPage({ params }: PageProps) {
           <Card className="surface-glass border-border/60">
             <CardHeader>
               <CardTitle className="font-display text-2xl text-graphite">
-                {common('capabilities')}
+                {common.capabilities}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm text-muted-foreground">
@@ -121,7 +94,7 @@ export default async function ProjectPage({ params }: PageProps) {
           <Card className="border-border/60 bg-card/80">
             <CardHeader>
               <CardTitle className="font-display text-2xl text-graphite">
-                {common('stack')}
+                {common.stack}
               </CardTitle>
             </CardHeader>
             <CardContent className="flex flex-wrap gap-2 text-sm text-muted-foreground">
@@ -137,7 +110,7 @@ export default async function ProjectPage({ params }: PageProps) {
         <Card className="border-border/60 bg-card/80">
           <CardHeader>
             <CardTitle className="font-display text-2xl text-graphite">
-              {common('notes')}
+              {common.notes}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2 text-sm text-muted-foreground">
