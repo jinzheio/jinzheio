@@ -15,17 +15,20 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex flex-wrap gap-6">
+          <a href="/about" className="hover:text-graphite">
+            About
+          </a>
           <a href="/blog" className="hover:text-graphite">
             Blog
+          </a>
+          <a href="/writings" className="hover:text-graphite">
+            Writings
           </a>
           <a href="/projects" className="hover:text-graphite">
             {t.projects}
           </a>
-          <a href="/ludic-systems" className="hover:text-graphite">
-            {t.ludicSystems}
-          </a>
-          <a href="/projects/commanddeck" className="hover:text-graphite">
-            {t.commandDeck}
+          <a href="/concepts" className="hover:text-graphite">
+            Concepts
           </a>
         </div>
       </div>

@@ -1,0 +1,66 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteCopy } from "@/content/site-copy";
+import { Ambient } from "@/components/ambient";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+---
+
+<BaseLayout title={`Concepts - ${siteCopy.metadata.title}`} description="Concepts proposed by Jin Zhe. Objects other people can reference.">
+  <div class="min-h-screen">
+    <Ambient />
+    <SiteHeader />
+    <main class="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 pb-20 pt-16">
+      <section class="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <span class="inline-flex items-center rounded-full bg-mist px-3 py-1 text-xs uppercase tracking-[0.3em] text-graphite">
+          Concepts
+        </span>
+        <h1 class="font-display text-4xl text-graphite md:text-5xl">
+          Concepts
+        </h1>
+        <p class="max-w-2xl text-base text-muted-foreground">
+          Concepts are not opinions. They are <strong class="text-graphite">objects</strong> other people can reference.
+        </p>
+      </section>
+
+      <!-- Concept: Ludic Systems -->
+      <section class="animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <a
+          href="https://ludic.systems"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="block rounded-xl border border-border/60 bg-card/70 p-6 space-y-4 no-underline transition-colors hover:border-border"
+        >
+          <div class="flex items-center justify-between">
+            <h2 class="font-display text-2xl text-graphite">
+              Ludic Systems
+            </h2>
+            <span class="rounded-full border border-border/60 px-3 py-0.5 text-xs text-muted-foreground">
+              Active
+            </span>
+          </div>
+          <p class="text-sm text-muted-foreground leading-relaxed">
+            A class of AI-assisted systems that treat human motivation as a
+            first-class component, structuring productivity around voluntary
+            goals, self-imposed constraints, and meaning-generating feedback
+            loops.
+          </p>
+          <div class="flex flex-wrap gap-4 text-xs text-muted-foreground">
+            <span>Canonical home: <span class="text-graphite">ludic.systems</span></span>
+            <span>Status: <span class="text-graphite">Active development</span></span>
+          </div>
+        </a>
+      </section>
+
+      <!-- Placeholder for future concepts -->
+      <section class="animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <div class="rounded-xl border border-dashed border-border/40 bg-card/30 p-8 text-center">
+          <p class="text-sm text-muted-foreground">
+            Additional concepts will appear here as they are formalized.
+          </p>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

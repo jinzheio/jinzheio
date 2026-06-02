@@ -1,0 +1,100 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { siteCopy } from "@/content/site-copy";
+import { Ambient } from "@/components/ambient";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+
+const whitepapers = [
+  {
+    title: "Ludic Systems: A Definition & Motivation",
+    status: "Forthcoming",
+    link: null,
+  },
+  {
+    title: "The Ludic Engine: Architecture & Protocol",
+    status: "Forthcoming",
+    link: null,
+  },
+  {
+    title: "Ludic Lab: A Living Prototype",
+    status: "Forthcoming",
+    link: null,
+  },
+];
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title={`Writings - ${siteCopy.metadata.title}`} description="Whitepapers, notes, and essays by Jin Zhe.">
+  <div class="min-h-screen">
+    <Ambient />
+    <SiteHeader />
+    <main class="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 pb-20 pt-16">
+      <section class="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <span class="inline-flex items-center rounded-full bg-mist px-3 py-1 text-xs uppercase tracking-[0.3em] text-graphite">
+          Writing
+        </span>
+        <h1 class="font-display text-4xl text-graphite md:text-5xl">
+          Writings
+        </h1>
+        <p class="max-w-2xl text-base text-muted-foreground">
+          Citable materials — not a daily column. Whitepapers, definitions,
+          design principles, and occasional long-form essays.
+        </p>
+      </section>
+
+      <!-- Whitepapers -->
+      <section class="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <h2 class="font-display text-2xl text-graphite">Whitepapers</h2>
+        <div class="space-y-3">
+          {
+            whitepapers.map((wp) => (
+              <div class="flex items-center justify-between rounded-lg border border-border/60 bg-card/70 px-5 py-4">
+                <span class="text-sm text-graphite">{wp.title}</span>
+                <span class="rounded-full border border-border/60 px-2.5 py-0.5 text-xs text-muted-foreground">
+                  {wp.status}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+      </section>
+
+      <!-- Notes & Essays (blog posts) -->
+      <section class="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <h2 class="font-display text-2xl text-graphite">Notes &amp; Essays</h2>
+        <div class="space-y-3">
+          {
+            posts.map((post) => (
+              <a
+                href={`/blog/${post.id}`}
+                class="block rounded-lg border border-border/60 bg-card/70 px-5 py-4 no-underline transition-colors hover:border-border"
+              >
+                <div class="flex items-start justify-between gap-4">
+                  <div class="space-y-1">
+                    <p class="text-sm text-graphite">{post.data.title}</p>
+                    <p class="text-xs text-muted-foreground">{post.data.description}</p>
+                  </div>
+                  <time
+                    datetime={post.data.pubDate.toISOString()}
+                    class="shrink-0 text-xs uppercase tracking-[0.2em] text-muted-foreground"
+                  >
+                    {post.data.pubDate.toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </time>
+                </div>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

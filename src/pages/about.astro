@@ -1,0 +1,95 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { siteCopy } from "@/content/site-copy";
+import { Ambient } from "@/components/ambient";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+---
+
+<BaseLayout title={`About - ${siteCopy.metadata.title}`} description="Jin Zhe — independent creator and system designer.">
+  <div class="min-h-screen">
+    <Ambient />
+    <SiteHeader />
+    <main class="mx-auto flex w-full max-w-3xl flex-col gap-12 px-6 pb-20 pt-16">
+      <section class="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <span class="inline-flex items-center rounded-full bg-mist px-3 py-1 text-xs uppercase tracking-[0.3em] text-graphite">
+          Identity
+        </span>
+        <h1 class="font-display text-4xl text-graphite md:text-5xl">
+          About
+        </h1>
+      </section>
+
+      <!-- Identity -->
+      <section class="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <h2 class="font-display text-2xl text-graphite">Identity</h2>
+        <dl class="grid gap-3 text-sm">
+          <div class="flex gap-2">
+            <dt class="w-40 shrink-0 text-muted-foreground">Canonical name</dt>
+            <dd class="text-graphite">Jin Zhe（金哲）</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="w-40 shrink-0 text-muted-foreground">Academic name</dt>
+            <dd class="text-graphite">Wang Hao</dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="w-40 shrink-0 text-muted-foreground">ORCID</dt>
+            <dd>
+              <a
+                href="https://orcid.org/0000-0003-3323-1115"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-graphite underline underline-offset-2 hover:text-brand-strong"
+              >
+                0000-0003-3323-1115
+              </a>
+            </dd>
+          </div>
+          <div class="flex gap-2">
+            <dt class="w-40 shrink-0 text-muted-foreground">Homepage</dt>
+            <dd class="text-graphite">jinzhe.io</dd>
+          </div>
+        </dl>
+      </section>
+
+      <!-- What I do -->
+      <section class="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <h2 class="font-display text-2xl text-graphite">What I do</h2>
+        <ul class="space-y-3 text-sm text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />
+            <span>Propose new conceptual categories (e.g., Ludic Systems)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />
+            <span>Design system architectures (e.g., Ludic Engine)</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 size-1.5 shrink-0 rounded-full bg-brand" />
+            <span>Build prototypes as living experiments (e.g., Ludic Lab)</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- Trajectory -->
+      <section class="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <h2 class="font-display text-2xl text-graphite">Trajectory</h2>
+        <ul class="space-y-3 text-sm text-muted-foreground">
+          <li class="flex items-start gap-2">
+            <span class="mt-1 size-1.5 shrink-0 rounded-full bg-ember" />
+            <span>Academic research background in astrophysics</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 size-1.5 shrink-0 rounded-full bg-ember" />
+            <span>Transition into software engineering</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="mt-1 size-1.5 shrink-0 rounded-full bg-ember" />
+            <span>Independent work on AI-assisted creative &amp; productivity systems</span>
+          </li>
+        </ul>
+      </section>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>
