@@ -5,9 +5,9 @@ export function SiteHeader() {
   const t = siteCopy.nav;
 
   const navItems = [
+    { label: t.blog, href: "/blog" },
     { label: t.projects, href: "/projects" },
     { label: t.ludicSystems, href: "/ludic-systems" },
-    { label: t.commandDeck, href: "/projects/commanddeck" },
   ];
 
   return (

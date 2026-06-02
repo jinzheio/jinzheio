@@ -1,0 +1,79 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { siteCopy } from "@/content/site-copy";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { Ambient } from "@/components/ambient";
+
+const posts = await getCollection("blog", ({ data }) =>
+  import.meta.env.PROD ? !data.draft : true,
+);
+posts.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<BaseLayout title={`Blog - ${siteCopy.metadata.title}`} description="Articles, retrospectives, and engineering notes.">
+  <div class="min-h-screen">
+    <Ambient />
+    <SiteHeader />
+    <main class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
+      <section class="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        <span class="inline-flex items-center rounded-full bg-mist px-3 py-1 text-xs uppercase tracking-[0.3em] text-graphite">
+          Writing
+        </span>
+        <h1 class="font-display text-4xl text-graphite md:text-5xl">
+          Blog
+        </h1>
+        <p class="max-w-2xl text-base text-muted-foreground">
+          Articles, retrospectives, and engineering notes.
+        </p>
+        <a
+          href="/rss.xml"
+          class="inline-block text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-graphite"
+        >
+          RSS Feed
+        </a>
+      </section>
+
+      <div class="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-6 duration-700">
+        {
+          posts.map((post) => (
+            <a
+              href={`/blog/${post.id}`}
+              class="block rounded-xl border border-border/60 bg-card/70 p-6 space-y-3 no-underline transition-colors hover:border-border"
+            >
+              <time
+                datetime={post.data.pubDate.toISOString()}
+                class="text-xs uppercase tracking-[0.25em] text-muted-foreground"
+              >
+                {post.data.pubDate.toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              <h2 class="font-display text-xl text-graphite">
+                {post.data.title}
+              </h2>
+              <p class="text-sm text-muted-foreground">
+                {post.data.description}
+              </p>
+              {
+                post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-2 pt-1">
+                    {post.data.tags.map((tag: string) => (
+                      <span class="rounded-full border border-border/60 px-2.5 py-0.5 text-xs text-muted-foreground">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )
+              }
+            </a>
+          ))
+        }
+      </div>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>

@@ -15,6 +15,9 @@ export function SiteFooter() {
           </p>
         </div>
         <div className="flex flex-wrap gap-6">
+          <a href="/blog" className="hover:text-graphite">
+            Blog
+          </a>
           <a href="/projects" className="hover:text-graphite">
             {t.projects}
           </a>

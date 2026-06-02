@@ -4,6 +4,7 @@
     "description": "Projects, systems, and long-term questions."
   },
   "nav": {
+    "blog": "Blog",
     "projects": "Projects",
     "ludicSystems": "Ludic Systems",
     "commandDeck": "CommandDeck",
