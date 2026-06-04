@@ -1,0 +1,180 @@
+---
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) =>
+    import.meta.env.PROD ? !data.draft : true,
+  );
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <base href="https://jinzhe.io" />
+    <title>{post.data.title} — 微信复制版</title>
+  </head>
+  <!--
+    微信编辑器 copy-paste 专用页面。
+    Tailwind Typography 的 prose 样式带背景色，粘贴到微信会出问题。
+    这个页面用纯 inline style，零背景色，放心复制。
+  -->
+  <body style="max-width:680px;margin:0 auto;padding:20px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;font-size:16px;line-height:1.8;color:#333;background:#fff">
+
+    <!-- 提示条 — 不复制 -->
+    <div id="wechat-notice" style="background:#fef3c7;border-left:4px solid #f59e0b;padding:12px 16px;margin-bottom:32px;font-size:14px;color:#92400e;border-radius:0 4px 4px 0">
+      <strong>微信编辑器用</strong>：全选 (Cmd+A) → 复制 (Cmd+C) → 粘贴到微信公众号编辑器。不要从普通页面复制。<br/>
+      也可以从博客页面点"复制到微信"按钮。
+    </div>
+
+    <!-- 从这里开始复制到微信 -->
+    <div id="wechat-content">
+
+    <h1 style="font-size:24px;font-weight:700;line-height:1.4;margin:0 0 12px;color:#111">
+      {post.data.title}
+    </h1>
+
+    <div style="font-size:14px;color:#999;margin-bottom:32px">
+      <time datetime={post.data.pubDate.toISOString()}>
+        {post.data.pubDate.toLocaleDateString("zh-CN", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </time>
+      {
+        post.data.tags.length > 0 && (
+          <span>
+            {" · "}
+            {post.data.tags.map((tag: string) => tag).join(" · ")}
+          </span>
+        )
+      }
+    </div>
+
+    <!-- 文章内容。inline style 覆盖：无背景、无圆角、图片自适应 -->
+    <div style={`
+      word-break:break-word;
+      --inline-bg: transparent;
+    `.replace(/\n/g,'')}>
+      <style>
+        /* 重置 prose 带来的背景色 */
+        div[style] pre,
+        div[style] code,
+        div[style] blockquote,
+        div[style] table,
+        div[style] th,
+        div[style] td,
+        div[style] img,
+        div[style] figure {
+          background-color: transparent !important;
+          background: transparent !important;
+        }
+        div[style] pre {
+          background: #f8f8f8 !important;
+          padding: 16px !important;
+          border-radius: 0 !important;
+          overflow-x: auto;
+        }
+        div[style] code {
+          background: transparent !important;
+          padding: 0 !important;
+          font-family: 'SF Mono','Menlo','Monaco','Courier New',monospace;
+          font-size: 14px;
+        }
+        div[style] blockquote {
+          border-left: 3px solid #ddd;
+          margin: 16px 0;
+          padding: 4px 0 4px 16px;
+          color: #666;
+        }
+        div[style] table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 16px 0;
+        }
+        div[style] th,
+        div[style] td {
+          border: 1px solid #e0e0e0;
+          padding: 8px 12px;
+          text-align: left;
+        }
+        div[style] th {
+          background: #fafafa !important;
+          font-weight: 600;
+        }
+        div[style] img {
+          max-width: 100%;
+          height: auto;
+          display: block;
+          margin: 16px auto;
+        }
+        div[style] figure {
+          margin: 16px 0;
+        }
+        div[style] figcaption {
+          text-align: center;
+          font-size: 13px;
+          color: #999;
+          margin-top: 8px;
+        }
+        div[style] h2 {
+          font-size: 20px;
+          font-weight: 700;
+          margin: 32px 0 12px;
+          color: #111;
+        }
+        div[style] h3 {
+          font-size: 18px;
+          font-weight: 600;
+          margin: 24px 0 8px;
+          color: #222;
+        }
+        div[style] p {
+          margin: 0 0 16px;
+        }
+        div[style] ul, div[style] ol {
+          padding-left: 24px;
+          margin: 0 0 16px;
+        }
+        div[style] li {
+          margin-bottom: 4px;
+        }
+        div[style] strong {
+          font-weight: 600;
+        }
+        div[style] a {
+          color: #2563eb;
+          text-decoration: none;
+        }
+        div[style] hr {
+          border: none;
+          border-top: 1px solid #eee;
+          margin: 32px 0;
+        }
+        /* 覆盖 SVG 里的背景 */
+        div[style] svg {
+          max-width: 100%;
+          height: auto;
+        }
+      </style>
+      <Content />
+    </div>
+
+    <hr style="border:none;border-top:1px solid #eee;margin:40px 0 20px" />
+    <p style="text-align:center;font-size:14px;color:#999">
+      @金哲 Dev · jinzhe.io
+    </p>
+    </div>
+    <!-- /#wechat-content -->
+  </body>
+</html>

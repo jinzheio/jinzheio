@@ -55,5 +55,60 @@ const { Content } = await render(post);
     <div class="prose prose-graphite max-w-none">
       <Content />
     </div>
+
+    <div class="mt-16 border-t border-border pt-8">
+      <button
+        id="wechat-copy-btn"
+        class="inline-flex items-center gap-2 rounded-lg border border-border bg-white px-5 py-2.5 text-sm font-medium text-graphite shadow-sm transition-colors hover:bg-muted"
+        title="复制为微信编辑器兼容格式"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+        复制到微信公众号
+      </button>
+    </div>
+
+    <script>
+      const btn = document.getElementById('wechat-copy-btn') as HTMLButtonElement | null;
+      btn?.addEventListener('click', async () => {
+        const wechatUrl = new URL(
+          '/blog/wechat/{post.id}/',
+          location.origin,
+        );
+        const originalText = btn.textContent;
+        btn.textContent = '获取中…';
+        btn.disabled = true;
+
+        try {
+          const res = await fetch(wechatUrl.href);
+          const html = await res.text();
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const content = doc.getElementById('wechat-content');
+
+          if (!content) {
+            alert('未找到可复制的内容');
+            return;
+          }
+
+          const blob = new Blob([content.innerHTML], { type: 'text/html' });
+          const clipboardItem = new ClipboardItem({
+            'text/html': blob,
+            'text/plain': new Blob([content.textContent || ''], { type: 'text/plain' }),
+          });
+
+          await navigator.clipboard.write([clipboardItem]);
+          btn.textContent = '已复制！粘贴到微信编辑器 (Cmd+V)';
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 3000);
+        } catch (err) {
+          console.error('复制失败', err);
+          btn.textContent = originalText;
+          btn.disabled = false;
+          alert('复制失败，请打开 ' + wechatUrl.href + ' 手动复制');
+        }
+      });
+    </script>
   </article>
 </BaseLayout>
