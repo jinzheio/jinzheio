@@ -46,6 +46,9 @@ const GLOBAL_PATTERNS = [
   /^src\/pages\/projects\/\[slug\]\.astro$/,
 ];
 
+const BLOG_CONTENT_RE = /^src\/content\/blog\/(.+)\.(md|mdx)$/;
+const CONTENT_CONFIG_RE = /^src\/content\.config\.ts$/;
+
 function parseArgs(argv: string[]): Args {
   let baseUrl = DEFAULT_BASE_URL;
   let from = '';
@@ -119,6 +122,18 @@ function collectUrls(baseUrl: string, changedFiles: string[]): string[] {
     const directRoutes = DIRECT_ROUTE_MAP.get(filePath);
     if (directRoutes) {
       for (const route of directRoutes) addUrl(urls, baseUrl, route);
+      continue;
+    }
+
+    const blogMatch = filePath.match(BLOG_CONTENT_RE);
+    if (blogMatch) {
+      addUrl(urls, baseUrl, `/blog/${blogMatch[1]}/`);
+      addUrl(urls, baseUrl, '/blog/');
+      continue;
+    }
+
+    if (CONTENT_CONFIG_RE.test(filePath)) {
+      addUrl(urls, baseUrl, '/blog/');
       continue;
     }
 
