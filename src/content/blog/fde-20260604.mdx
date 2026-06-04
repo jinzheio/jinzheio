@@ -10,6 +10,13 @@ tags:
 draft: false
 ---
 
+import { Image } from "astro:assets";
+import beijingFdeImg from "../../assets/images/fde/beijing-fde.png";
+import shanghaiFdeImg from "../../assets/images/fde/shanghai-fde.png";
+import capabilityTriangleImg from "../../assets/images/fde/fde-capability-triangle.svg";
+import timeAllocationImg from "../../assets/images/fde/fde-time-allocation.svg";
+import fourLayersImg from "../../assets/images/fde/fde-four-layers.svg";
+
 # 百万美元年薪，超越同级别 AI 科学家，FDE 究竟是什么？
 
 2026 年，一个叫 FDE 的岗位，Principal 级别总包突破了 100 万美元。
@@ -38,6 +45,21 @@ Perspective AI 调查了 1,200 名 FDE，78% 的受访者说团队规模将在 2
 
 国内的岗位也正在起步。Boss 直聘上 FDE 薪资参差不齐，既有 200 块钱一天的，也有 150k 一个月的。
 
+<div style="display:flex;gap:16px;margin:24px 0">
+  <figure style="flex:1;margin:0">
+    <Image src={beijingFdeImg} alt="北京地区 FDE 薪资" />
+    <figcaption style="text-align:center;font-size:12px;color:#94a3b8;margin-top:8px">
+      北京
+    </figcaption>
+  </figure>
+  <figure style="flex:1;margin:0">
+    <Image src={shanghaiFdeImg} alt="上海地区 FDE 薪资" />
+    <figcaption style="text-align:center;font-size:12px;color:#94a3b8;margin-top:8px">
+      上海
+    </figcaption>
+  </figure>
+</div>
+
 ---
 
 ## FDE 到底是做什么的
@@ -62,6 +84,11 @@ Perspective AI 对 1,500 名 FDE 的调查显示，时间分配中位值是：
 
 写代码只占不到三分之一。如果 FDE 整天在写代码，通常意味着某个环节出了问题。
 
+<Image
+  src={timeAllocationImg}
+  alt="FDE 时间分配：47% 客户面对，31% 写代码，22% 内部协调"
+/>
+
 技能要求可以概括为三件事：
 
 **Full-stack 工程。** Python/TypeScript、React、API 设计、数据库、Docker/K8s。--和 SDE 重叠。
@@ -71,6 +98,11 @@ Perspective AI 对 1,500 名 FDE 的调查显示，时间分配中位值是：
 **客户沟通和业务理解。** 业务理解、架构评审、高管汇报、在需求还模糊的时候就已经在行动了。
 
 这三件事单独都不新鲜，但捏在一个人身上就马上稀缺了。（能者多劳。技术越厉害人越忙啊。）
+
+<Image
+  src={capabilityTriangleImg}
+  alt="FDE 核心能力三角：Full-stack 工程、AI/Agent 实操、客户沟通"
+/>
 
 ---
 
@@ -168,7 +200,12 @@ Perspective AI 对 1,500 名 FDE 的调查显示，时间分配中位值是：
 
 从第三层到第四层，关键跃迁是抽象能力——从"解决一个问题"到"让下一个问题更好解决"。
 
-如果一直卡在第三层，很可能是干活太多了。一个项目接一个项目，做完就赶下一个。每次都从零开始，每次都重新踩同样的坑。
+<Image
+  src={fourLayersImg}
+  alt="FDE 能力成长四层框架：能部署→能诊断→能设计→能沉淀"
+/>
+
+如果一直卡在第三层，很可能是--干活太多了！一个项目接一个项目，做完就赶下一个。每次都从零开始，每次都重新踩同样的坑。
 
 一流 FDE 在项目里会刻意留 10% 到 15% 的时间做记录——踩了一个坑当场记三句话，发现一个不规范的 API 当场记下来，搞定了一个难沟通的业务员当场记下他说了什么让你终于理解了他的顾虑。不是项目做完了再写，那时候什么都想不起来了。
 
@@ -176,7 +213,9 @@ Perspective AI 对 1,500 名 FDE 的调查显示，时间分配中位值是：
 
 ---
 
-## 很担心因为犯错误被开除：FDE 不做什么指北
+## 我现在担心犯啥错误被开除
+
+FDE 不做什么指北：
 
 **不要在所有地方用 Agent。** 能用规则用规则，能用 SQL 用 SQL，能用普通 workflow engine 就不要让 agent 自由发挥。Agent 的灵活性有代价——不可预测、难调试、出问题难定位。核心判断力不是"怎么把 AI 用上去"，是"什么时候不该用 AI"。
 
@@ -190,11 +229,11 @@ Perspective AI 对 1,500 名 FDE 的调查显示，时间分配中位值是：
 
 ---
 
-## 番外：我的“FDE“经验
+## 你是谁，怎么还了解 FDE？
 
-2022 到 2024 年，我不时会去客户现场待上两三周到两三个月不等，前前后后加起来应该有多半年吧。做的事和 FDE 不能说很相似，只能说是一模一样——
+2022 到 2024 年，我作为一个 AI 实验室的负责人，不时要到客户现场待上两三周到两三个月不等，前前后后加起来应该有多半年吧。做的事和 FDE 不能说很相似，只能说是一模一样——
 
-同样是主动去现场发现需求。客户不清楚 AI 能做什么，只知道要用起来。至少先把日报、周报、月报这些要收集数据、分析、生成 word/excel 先解决了。但难点当然还是在装置上。操作间、观察流程、提出问题、把可能性翻译成可交付任务。
+同样是到现场挖掘需求。客户不清楚 AI 能做什么，只知道要用起来。至少先把日报、周报、月报这些要收集数据、分析、生成 word/excel 先解决了。但难点当然还是在装置上。操作间、观察流程、提出问题、把可能性翻译成可交付任务。
 
 同样要补领域知识。乙烯装置怎么运行、芳烃装置的关键参数、操作员的日常动作——要买化工教材、找工程师要装置手册来学哦。每个行业都有自己的领域知识，FDE 不管进入什么行业都必须要补，否则跟客户对不上话。
 
@@ -212,7 +251,7 @@ Perspective AI 对 1,500 名 FDE 的调查显示，时间分配中位值是：
 
 两年之后，大模型也能阅读非结构化文本、理解意图、生成回复、调用多种工具。想要引入 AI 的，也就扩大到了客服、销售、运营、人力这些职能部门。
 
-但 FDE 本身没有变。一直是：**主动走进现场，理解业务，把模糊需求翻译成可交付系统。**
+以前的 ML Ops，AI 赋能工程师，现在的 FDE，或许还有新的名字出来，但把 AI 接到业务里要干的事和原则变化都不大。都得理解业务，都得 HITL，都得交付能真正干活的东西。
 
 ---
 

@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420">
+  <defs>
+    <linearGradient id="gradFE" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563eb"/>
+      <stop offset="100%" stop-color="#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="gradAI" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+    <linearGradient id="gradBiz" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0891b2"/>
+      <stop offset="100%" stop-color="#0e7490"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Triangle -->
+  <polygon points="320,65 50,350 590,350" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- Full-stack Engineering (top left area) -->
+  <circle cx="220" cy="240" r="80" fill="url(#gradFE)" opacity="0.12"/>
+  <text x="220" y="225" font-family="system-ui, sans-serif" font-size="15" fill="#1e40af" font-weight="700" text-anchor="middle">Full-stack 工程</text>
+  <text x="220" y="245" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Python/TS · React</text>
+  <text x="220" y="261" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">API 设计 · Docker/K8s</text>
+
+  <!-- AI/Agent (top right area) -->
+  <circle cx="420" cy="240" r="80" fill="url(#gradAI)" opacity="0.12"/>
+  <text x="420" y="225" font-family="system-ui, sans-serif" font-size="15" fill="#5b21b6" font-weight="700" text-anchor="middle">AI/Agent 实操</text>
+  <text x="420" y="245" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">LLM API · RAG</text>
+  <text x="420" y="261" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Agent 框架 · AI 开发工具</text>
+
+  <!-- Business (bottom center) -->
+  <circle cx="320" cy="300" r="52" fill="url(#gradBiz)" opacity="0.15"/>
+  <text x="320" y="293" font-family="system-ui, sans-serif" font-size="14" fill="#155e75" font-weight="700" text-anchor="middle">客户沟通</text>
+  <text x="320" y="310" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">业务理解</text>
+
+  <!-- Center: FDE -->
+  <circle cx="320" cy="235" r="36" fill="#0f172a"/>
+  <text x="320" y="230" font-family="system-ui, sans-serif" font-size="14" fill="#f8fafc" font-weight="700" text-anchor="middle">FDE</text>
+  <text x="320" y="248" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">捏合</text>
+
+  <!-- Labels -->
+  <text x="320" y="395" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">FDE 核心能力三角</text>
+  <text x="320" y="412" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1" text-anchor="middle">三件事单独不新鲜，捏在一个人身上就稀缺了</text>
+</svg>

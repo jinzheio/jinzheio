@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" width="720" height="520">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#bae6fd"/>
+      <stop offset="100%" stop-color="#7dd3fc"/>
+    </linearGradient>
+    <linearGradient id="g3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#93c5fd"/>
+      <stop offset="100%" stop-color="#60a5fa"/>
+    </linearGradient>
+    <linearGradient id="g4" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a5b4fc"/>
+      <stop offset="100%" stop-color="#818cf8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Layer 1 -->
+  <rect x="40" y="20" width="640" height="90" rx="8" fill="url(#g1)"/>
+  <text x="70" y="52" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" font-weight="600" letter-spacing="1">LAYER 1</text>
+  <text x="70" y="76" font-family="system-ui, sans-serif" font-size="18" fill="#334155" font-weight="700">能部署</text>
+  <text x="160" y="76" font-family="system-ui, sans-serif" font-size="13" fill="#64748b">把 AI 系统在客户环境里跑通 — 环境适配、接口调试、权限配置</text>
+  <text x="560" y="76" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">"会装工具的人"</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="400" y1="115" x2="400" y2="135" stroke="#cbd5e1" stroke-width="2"/>
+  <polygon points="395,133 400,142 405,133" fill="#cbd5e1"/>
+  <text x="420" y="131" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8">多问一个"为什么"</text>
+
+  <!-- Layer 2 -->
+  <rect x="40" y="145" width="640" height="90" rx="8" fill="url(#g2)"/>
+  <text x="70" y="177" font-family="system-ui, sans-serif" font-size="12" fill="#0ea5e9" font-weight="600" letter-spacing="1">LAYER 2</text>
+  <text x="70" y="201" font-family="system-ui, sans-serif" font-size="18" fill="#0c4a6e" font-weight="700">能诊断</text>
+  <text x="160" y="201" font-family="system-ui, sans-serif" font-size="13" fill="#64748b">部署后业务不用，能判断根因 — 界面问题、输出格式、还是信任问题</text>
+  <text x="580" y="201" font-family="system-ui, sans-serif" font-size="11" fill="#0ea5e9">"消防员"</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="400" y1="240" x2="400" y2="260" stroke="#93c5fd" stroke-width="2"/>
+  <polygon points="395,258 400,267 405,258" fill="#93c5fd"/>
+  <text x="420" y="256" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">建立判断框架（可逆性·代价分布·信任度）</text>
+
+  <!-- Layer 3 -->
+  <rect x="40" y="270" width="640" height="90" rx="8" fill="url(#g3)"/>
+  <text x="70" y="302" font-family="system-ui, sans-serif" font-size="12" fill="#2563eb" font-weight="600" letter-spacing="1">LAYER 3</text>
+  <text x="70" y="326" font-family="system-ui, sans-serif" font-size="18" fill="#1e3a5f" font-weight="700">能设计</text>
+  <text x="160" y="326" font-family="system-ui, sans-serif" font-size="13" fill="#64748b">一开始就设计人机协作流程，在项目启动前画出协作图，标注 AI 角色</text>
+  <text x="580" y="326" font-family="system-ui, sans-serif" font-size="11" fill="#2563eb">"架构师"</text>
+
+  <!-- Arrow 3→4 -->
+  <line x1="400" y1="365" x2="400" y2="385" stroke="#818cf8" stroke-width="2"/>
+  <polygon points="395,383 400,392 405,383" fill="#818cf8"/>
+  <text x="420" y="381" font-family="system-ui, sans-serif" font-size="11" fill="#64748b">抽象能力 — 从解决问题到让下一个问题更好解决</text>
+
+  <!-- Layer 4 -->
+  <rect x="40" y="395" width="640" height="90" rx="8" fill="url(#g4)"/>
+  <text x="70" y="427" font-family="system-ui, sans-serif" font-size="12" fill="#4f46e5" font-weight="600" letter-spacing="1">LAYER 4</text>
+  <text x="70" y="451" font-family="system-ui, sans-serif" font-size="18" fill="#1e1b4b" font-weight="700">能沉淀</text>
+  <text x="160" y="451" font-family="system-ui, sans-serif" font-size="13" fill="#e0e7ff">产出 checklist · playbook · 踩坑记录，让下一个 FDE 少走一半弯路</text>
+  <text x="580" y="451" font-family="system-ui, sans-serif" font-size="11" fill="#a5b4fc">"定义团队怎么做 FDE 的人"</text>
+
+  <!-- Bottom label -->
+  <text x="360" y="510" font-family="system-ui, sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">FDE 能力成长四层框架</text>
+</svg>

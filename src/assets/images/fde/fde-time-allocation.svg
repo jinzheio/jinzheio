@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 220" width="400" height="220">
+  <!-- 47% -->
+  <rect x="20" y="20" width="188" height="180" rx="8" fill="#eff6ff"/>
+  <text x="114" y="60" font-family="system-ui, sans-serif" font-size="36" fill="#1e40af" font-weight="800" text-anchor="middle">47%</text>
+  <text x="114" y="85" font-family="system-ui, sans-serif" font-size="13" fill="#64748b" text-anchor="middle">客户面对</text>
+  <text x="114" y="105" font-family="system-ui, sans-serif" font-size="10" fill="#94a3b8" text-anchor="middle">访谈 · 现场部署 · 设计评审</text>
+
+  <!-- Divider -->
+  <line x1="208" y1="20" x2="208" y2="200" stroke="#e2e8f0" stroke-width="2"/>
+
+  <!-- 31% + 22% stacked right -->
+  <rect x="218" y="20" width="162" height="108" rx="8" fill="#f5f3ff"/>
+  <text x="299" y="55" font-family="system-ui, sans-serif" font-size="28" fill="#5b21b6" font-weight="800" text-anchor="middle">31%</text>
+  <text x="299" y="75" font-family="system-ui, sans-serif" font-size="12" fill="#64748b" text-anchor="middle">写代码 / 交付</text>
+
+  <rect x="218" y="136" width="162" height="64" rx="8" fill="#f0fdf4"/>
+  <text x="299" y="163" font-family="system-ui, sans-serif" font-size="20" fill="#166534" font-weight="700" text-anchor="middle">22%</text>
+  <text x="299" y="183" font-family="system-ui, sans-serif" font-size="11" fill="#64748b" text-anchor="middle">内部协调 / 研究</text>
+</svg>
