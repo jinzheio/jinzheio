@@ -1,0 +1,278 @@
+---
+title: "增长产品观察：客服 AI Agent"
+description: "8 个上线不足三年、明显在赚钱的客服 AI 产品。覆盖聊天机器人、工单系统、社媒客服和语音 Agent，适合一人公司借鉴。"
+pubDate: 2026-06-03
+tags:
+  - 增长产品
+  - 一人公司
+  - 产品观察
+  - AI工具
+  - 客服AI
+draft: false
+---
+
+import { Image } from 'astro:assets'
+import openassistantgptImg from '../../assets/images/weekly/1/openassistantgpt-io.png'
+import eutratoImg from '../../assets/images/weekly/1/eutrato-com.png'
+import linkfliqImg from '../../assets/images/weekly/1/linkfliq-com.png'
+import ticketdeskImg from '../../assets/images/weekly/1/ticketdesk-ai.png'
+import quickresponderImg from '../../assets/images/weekly/1/quickresponderai.png'
+import chatdashImg from '../../assets/images/weekly/1/chat-dash.png'
+import sprintaImg from '../../assets/images/weekly/1/sprinta-ai.png'
+import wazzapImg from '../../assets/images/weekly/1/wazzap-ai.png'
+
+**客服 AI Agent**
+
+8 个正在赚钱的客服 AI 产品
+
+AI 客服不是一个新概念，但这一批产品有一个共同点：它们卖的是具体场景里的完整工作流。从网站聊天窗口到 WhatsApp 私信，从工单分配到语音接听，每个产品都在一个明确的客服环节里跑出了付费用户。
+
+---
+
+2026 年 6 月  @金哲 Dev
+
+---
+
+## 1. OpenAssistantGPT
+
+<Image src={openassistantgptImg} alt="OpenAssistantGPT 截图" />
+
+**openassistantgpt.io** · 上线 2023 年 12 月 · 推荐指数 78
+
+开源的无代码 AI 客服代理搭建平台，让企业用自己的网站内容训练一个 RAG 聊天机器人，嵌入到网站里自动回答用户问题。
+
+### 用户是谁
+
+中小企业、独立开发者、代理机构。他们需要一个能直接部署的客服 AI，但不想从零搭 RAG pipeline、做 embedding、处理 token 管理。OpenAssistantGPT 开放源码在 GitHub 上，自己部署或直接用托管版都行。
+
+### 付费场景
+
+月付 SaaS，Free / $18 / $54 三档。免费版给 1 个机器人、每月 10 条消息。$18 档解锁 9 个机器人和无限消息。$54 档支持自定义域名和白标。用户从免费开始，消息量上来后自然升级。
+
+### 技术原理
+
+基于 OpenAI Assistant API，用户提供网站 URL 后自动爬取内容、做 embedding、构建知识库。机器人回答时走 RAG 检索 + GPT 生成。前端 Next.js，部署在 Vercel。开源仓库 422 star，还有一个 chatbot-sdk 让开发者自己定制。
+
+### 流量方法
+
+GitHub 开源仓库是主要获客渠道，同时有 Product Hunt 页面和博客内容。目标关键词为 "build AI chatbot"、"open source customer support AI"、"OpenAI chatbot builder" 等，直接截获正在评估客服 AI 方案的搜索流量。
+
+---
+
+> 付款行为 8 万+
+
+---
+
+## 2. EuTrato
+
+<Image src={eutratoImg} alt="EuTrato 截图" />
+
+**eutrato.com** · 上线 2024 年 12 月 · 推荐指数 72
+
+面向葡萄牙语市场的工单管理系统，带 AI 自动回复和团队协作功能。1000 多家公司在用，过去一个月付款行为增长了 16 倍。
+
+### 用户是谁
+
+葡萄牙语国家的企业客服团队。他们需要把邮件、聊天等多渠道消息集中到一个工单系统里，用 AI 辅助写回复，同时监控团队绩效。EuTrato 把 Zendesk 的能力压缩到了一个更简单、更便宜的版本里。
+
+### 付费场景
+
+预约 demo 后定制报价，没有公开定价页。这种模式适合 B2B——先让客户试用，再按团队规模和用量报价。葡萄牙语市场的 SaaS 竞品少，价格敏感度比英语市场低。
+
+### 技术原理
+
+核心是工单管理 + AI 辅助写作。邮件自动转工单，AI 根据知识库生成回复草稿。支持优先级标签、截止日期提醒、自定义标签。
+
+### 流量方法
+
+目标关键词是葡萄牙语的 "gestão de tickets"、"sistema de tickets"、"helpdesk" 等。葡萄牙语 SaaS 搜索竞争远低于英语，用本地语言做 SEO 的自然获客效率更高。客户评价 4.9 分，口碑推荐是增长主力。
+
+---
+
+> 付款行为 1 万+ · 付款行为增长 1602%
+
+---
+
+## 3. Ticketdesk AI
+
+<Image src={ticketdeskImg} alt="Ticketdesk AI 截图" />
+
+**ticketdesk.ai** · 上线 2024 年 3 月 · 推荐指数 74
+
+AI 驱动的工单系统，自动回复客户支持请求、根据知识库学习、把复杂问题路由给正确的人工坐席。支持邮件和在线聊天两个渠道。
+
+### 用户是谁
+
+需要把客服工单自动化的中小团队。他们收到的重复性问题占了大半——密码重置、退款进度、功能怎么用——AI 直接处理掉这些，人工只介入复杂问题。
+
+### 付费场景
+
+月付 SaaS，有免费试用。定价未在首页公开，需要注册后查看。页面主打 "90% 更快响应时间" 和 "95% 客户满意度"，定位是"AI 先处理，人工兜底"。
+
+### 技术原理
+
+AI 从 FAQ、用户指南、API 文档等知识库中持续学习。收到工单后自动分析内容、搜索知识库、生成回复。支持智能路由——账单问题转财务、技术 bug 转工程。还提供了 MCP Server 用于集成。
+
+### 流量方法
+
+开源版本在 GitHub 上，同时提供免费工具集（AI Chatbot Builder、HTML to Markdown Converter 等）吸引开发者。目标关键词是 "AI helpdesk"、"AI customer support agent"、"AI ticketing system" 等。
+
+---
+
+> 收入 $1 千+
+
+---
+
+## 4. QuickResponder
+
+<Image src={quickresponderImg} alt="QuickResponder 截图" />
+
+**quickresponderai.com** · 上线 2024 年 2 月 · 推荐指数 80
+
+帮代理机构向本地商家销售 AI 聊天机器人的平台。粘贴商家网站 URL，30 秒生成一个训练好的聊天机器人 demo，发给商家看效果。
+
+### 用户是谁
+
+想通过销售 AI 聊天机器人赚钱的代理机构和个人。目标客户是本地商家——牙医、健身房、餐厅、律师、美容院。这些人晚上 9 点没法接电话回消息，聊天机器人 24 小时在线回答问题、捕捉线索、预约服务。
+
+### 付费场景
+
+三档定价：Free / $29/月 / $49/月，另外有 $279 终身版。$29 档给 10 个客户、每月 100 个 demo。$49 档无限制。大多数用户选终身版——一个客户付 $500-$2,000/月，一个客户就回本。
+
+### 技术原理
+
+用户粘贴商家网站 URL，平台爬取网站内容，用 AI 理解商家的服务、价格、营业时间，生成一个定制化的聊天机器人。商家看到效果后，代理把机器人部署到商家网站上（一段 JS 代码），按月收费。平台提供白标、客户管理和线索捕获功能。
+
+### 流量方法
+
+产品文案本身就是最好的获客说明——"不用推销，demo 替你说话"。目标用户通过 "AI chatbot agency"、"sell chatbots to local businesses"、"chatbot white label" 等关键词找到产品。定价页的策略也很直接：终身版 $279，暗示一个客户就回本，降低了代理的决策门槛。
+
+---
+
+> 月收入 $8 千+
+
+---
+
+## 5. ChatDash
+
+<Image src={chatdashImg} alt="ChatDash 截图" />
+
+**chat-dash.com** · 上线 2023 年 10 月 · 推荐指数 76
+
+语音 AI Agent 的白标交付平台。代理机构把 Retell、Vapi、ElevenLabs 的语音 Agent 接入 ChatDash，用自己的品牌交付给客户，平台负责计费、分析和客户管理。
+
+### 用户是谁
+
+做语音 AI Agent 的代理机构和服务商。他们能用 Vapi 搭一个能打电话的 AI，但不知道怎么做客户门户、怎么按用量计费、怎么给客户一个像样的 dashboard。ChatDash 解决的是"交付"这一层。
+
+### 付费场景
+
+SaaS 月付，7 天免费试用。平台连接客户自己的 Stripe 账户，按通话次数、分钟数或月费自动计费。支持阶梯定价、超额收费、按效果付费（如按预约次数收费）。
+
+### 技术原理
+
+集成 Retell、Vapi、ElevenLabs 等语音 Agent 平台。提供可视化工作流编辑器，把通话事件（如"通话结束"）触发自动化流程。白标客户门户让每个客户看到自己的数据分析、通话记录和服务管理面板。
+
+### 流量方法
+
+对比页（vs Assistable、vs Thinkrr、vs Nedzo）是主要的 SEO 策略——直接截获正在评估竞品的搜索流量。目标用户通过 "voice AI agency platform"、"white label AI agent dashboard"、"Vapi client portal" 等关键词找到产品。
+
+---
+
+> 月收入 $2 万+
+
+---
+
+## 6. Sprinta
+
+<Image src={sprintaImg} alt="Sprinta 截图" />
+
+**sprinta.ai** · 上线 2025 年 3 月 · 推荐指数 72
+
+面向西班牙语市场的 WhatsApp AI 销售 Agent。自动在 WhatsApp 上回复客户消息、解答问题、跟进线索、促成成交。
+
+### 用户是谁
+
+拉美和西班牙的电商卖家、服务商、中小企业。WhatsApp 是拉美做生意的默认渠道——客户不发邮件，发 WhatsApp。但一个人同时处理上百个对话根本不可能。Sprinta 用 AI 自动处理这些对话。
+
+### 付费场景
+
+三档月付：Profesional $59.90/月（600 条对话）、Empresa $200/月（2000 条对话）、Personalizado 定制报价。超出部分按条收费。支持无限用户和无限 AI 销售 Agent。
+
+### 技术原理
+
+AI 理解图片、音频、PDF，能发送图片、音频、PDF 和视频。自动跟进（最多 6 条消息序列）、72 小时延长跟进窗口、自动评估线索质量、自动数据采集和 CRM 同步。已通过 Meta 认证。
+
+### 流量方法
+
+西班牙语关键词 "vendedores IA WhatsApp"、"automatizar ventas WhatsApp"、"agente IA WhatsApp" 搜索量在增长。拉美市场的 AI 工具覆盖率远低于英语市场，先在语言上占住位置是核心优势。同时提供按行业分类的 demo（电商、健康、服务、房地产、教育、汽车），每个行业页面都能捕获对应的搜索需求。
+
+---
+
+> 月收入 $7 千+
+
+---
+
+## 7. Wazzap AI
+
+<Image src={wazzapImg} alt="Wazzap AI 截图" />
+
+**wazzap.ai** · 上线 2025 年 · 推荐指数 70
+
+法语市场的 WhatsApp AI 客服和销售 Agent。自动回复客户消息、筛选线索、预约会议，面向 40,000 多个用户。
+
+### 用户是谁
+
+法语区的个体经营者、小商家和服务商。和拉美一样，法语市场（法国、非洲法语区）的 WhatsApp 使用率很高，商家需要一个法语原生、不用配 API Key 就能用的 AI 客服。
+
+### 付费场景
+
+三档月付：Starter €29/月（1 个 Agent、2000 积分）、Pro €49/月（2 个 Agent、5000 积分、GPT-5、预约功能、人工接管）、Business €199/月（4 个 Agent、30000 积分、白标、VIP 支持）。积分按消息消耗，超出可充值。
+
+### 技术原理
+
+用户扫码连接 WhatsApp 账号，无需配置 API Key。AI 在 10 秒内回复消息，支持 113 种语言。提供人工接管模式——AI 处理不了的对话自动转给真人。企业级安全和 GDPR 合规。
+
+### 流量方法
+
+法语关键词 "agent IA WhatsApp"、"automatiser WhatsApp"、"chatbot WhatsApp" 竞争远低于英语。40,000+ 用户中有不少是通过 WhatsApp 营销社群和法语区科技媒体扩散的。产品在法国、比利时、瑞士、非洲法语区都有自然增长。
+
+---
+
+> 月收入 $3 千+
+
+---
+
+## 8. LinkFliQ
+
+<Image src={linkfliqImg} alt="LinkFliQ 截图" />
+
+**linkfliq.com** · 上线 2025 年 11 月 · 推荐指数 65
+
+专门为 Shopify 品牌的 Instagram 私信设计的 AI 客服和销售代理。读取实时商品数据，在私信里完成推荐、下单追踪和售后。
+
+### 用户是谁
+
+D2C 电商品牌，主要在印度市场。他们在 Instagram 投放广告获取客户，但私信量太大——"我的订单到哪了"这种问题每天几百条。LinkFliQ 把私信自动处理，只在需要人工时才转接。
+
+### 付费场景
+
+按月订阅，和 Shopify 一键集成。定价未公开，可观察月收入约 1200 美元。50 多个 D2C 品牌在使用，包括一些 100 万粉丝以上的大号。
+
+### 技术原理
+
+读取 Instagram DM 和评论，通过 AI 识别购买意向、售后问题、垃圾信息。销售代理从 Shopify 实时拉商品数据做推荐，支持订单追踪。品牌保护代理自动检测和删除诈骗评论。
+
+### 流量方法
+
+Shopify 应用商店是主要获客渠道，Meta 认证增加了信任度。目标用户通过 "Instagram DM automation"、"Shopify customer support bot" 等关键词搜索。电商圈的口碑传播效果明显——一个品牌用好了，同行会直接问用的什么工具。
+
+---
+
+> 付款行为 2 千+ · 付款行为增长 109%
+
+---
+
+*增长产品观察 · 完*
+
+*@金哲 Dev*
