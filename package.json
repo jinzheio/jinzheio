@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "lint": "astro check",
+    "prepare": "git config core.hooksPath .githooks",
     "indexnow:collect": "tsx scripts/indexnow-collect-urls.ts",
     "indexnow:submit": "tsx scripts/indexnow-submit.ts"
   },

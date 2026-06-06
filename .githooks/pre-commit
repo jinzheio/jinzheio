@@ -1,0 +1,67 @@
+#!/bin/bash
+# Pre-commit hook: auto-convert PNG to WebP in src/assets/images/
+# Prompts before converting. WebP quality: 85.
+
+staged_pngs=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^src/assets/images/.*\.png$')
+
+if [ -z "$staged_pngs" ]; then
+  exit 0
+fi
+
+echo ""
+echo "  PNG files staged in src/assets/images/:"
+echo ""
+echo "$staged_pngs" | while read f; do
+  size=$(ls -lh "$f" 2>/dev/null | awk '{print $5}')
+  echo "    $f  ($size)"
+done
+echo ""
+
+# Ask user via /dev/tty (stdin is captured by git commit)
+if [ -t 0 ] && [ -c /dev/tty ]; then
+  exec < /dev/tty
+  read -p "  Convert to WebP (q85) and proceed? [y/N] " answer
+else
+  answer="n"
+fi
+
+case "$answer" in
+  [yY]|[yY][eE][sS])
+    ;;
+  *)
+    echo ""
+    echo "  Commit blocked. Convert manually:"
+    echo ""
+    echo "$staged_pngs" | while read f; do
+      echo "    cwebp -q 85 $f -o ${f%.png}.webp && rm $f"
+    done
+    echo ""
+    exit 1
+    ;;
+esac
+
+echo ""
+echo "$staged_pngs" | while read f; do
+  webp="${f%.png}.webp"
+  echo -n "  $f -> $webp ... "
+
+  if cwebp -q 85 -quiet "$f" -o "$webp" 2>/dev/null; then
+    before=$(wc -c < "$f" | tr -d ' ')
+    after=$(wc -c < "$webp" | tr -d ' ')
+    pct=$((100 - after * 100 / before))
+    echo "$(echo "scale=1; $before/1024" | bc)K -> $(echo "scale=1; $after/1024" | bc)K (-${pct}%)"
+
+    # Remove PNG from disk and git index, stage WebP
+    git rm --cached --quiet "$f"
+    rm "$f"
+    git add "$webp"
+  else
+    echo "FAILED"
+    exit 1
+  fi
+done
+
+echo ""
+echo "  Done. WebP files staged, PNGs removed. Proceeding with commit."
+echo ""
+exit 0
