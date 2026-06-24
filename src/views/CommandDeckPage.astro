@@ -1,0 +1,136 @@
+---
+import Ambient from "@/components/ambient.astro";
+import SiteFooter from "@/components/site-footer.astro";
+import SiteHeader from "@/components/site-header.astro";
+import Badge from "@/components/ui/badge.astro";
+import ButtonLink from "@/components/button-link.astro";
+import Card from "@/components/ui/card.astro";
+import CardHeader from "@/components/ui/card-header.astro";
+import CardTitle from "@/components/ui/card-title.astro";
+import CardContent from "@/components/ui/card-content.astro";
+import Separator from "@/components/ui/separator.astro";
+import { siteCopy } from "@/content/site-copy";
+
+const t = siteCopy.commanddeck;
+const common = siteCopy.common;
+const pillarKeys = ["hub", "desktop", "main", "protocol"] as const;
+const capabilityKeys = ["monitoring", "timeline", "conversation", "multiproject"] as const;
+---
+
+<div class="min-h-screen">
+  <Ambient />
+  <SiteHeader />
+  <main class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
+    <section class="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <div class="space-y-6">
+        <Badge class="rounded-full bg-mist text-xs uppercase tracking-[0.3em] text-graphite">
+          {t.badge}
+        </Badge>
+        <h1 class="font-display text-4xl text-graphite md:text-5xl">
+          {t.title}
+        </h1>
+        <p class="max-w-2xl text-base text-muted-foreground">
+          {t.description}
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <ButtonLink href="/projects" class="bg-graphite text-xs uppercase tracking-[0.3em] text-white">
+            {t.backToProjects}
+          </ButtonLink>
+          <ButtonLink variant="outline" href="/ludic-systems" class="border-border/60 bg-transparent text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white">
+            {t.ludicSystems}
+          </ButtonLink>
+        </div>
+      </div>
+      <Card class="surface-glass border-border/60">
+        <CardContent class="flex flex-col items-center gap-4 p-8 text-sm text-muted-foreground">
+          <img
+            src="/icons/commanddeck-rsvg.svg"
+            alt="CommandDeck icon"
+            width="160"
+            height="160"
+            class="h-40 w-40 rounded-[28px] border border-border/60 bg-background/40 p-2"
+            loading="eager"
+          />
+          <div class="text-center">
+            <p class="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+              {t.visualIdentity}
+            </p>
+            <p class="mt-2 text-graphite">
+              {t.visualIdentityDesc}
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </section>
+
+    <Separator />
+
+    <section class="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      {pillarKeys.map((key) => {
+        const pillar = t.pillars[key];
+        return (
+          <Card class="border-border/60 bg-card/80">
+            <CardHeader class="flex flex-row items-center gap-3">
+              <span class="flex size-10 items-center justify-center rounded-2xl border border-border/60 bg-mist text-graphite">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5">
+                  {key === "hub" && <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>}
+                  {key === "desktop" && <><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></>}
+                  {key === "main" && <><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></>}
+                  {key === "protocol" && <><path d="M10 5a2 2 0 0 1 4 0v2a2 2 0 0 1-4 0V5Z"/><path d="M5 10a2 2 0 0 1 0 4H3a2 2 0 0 1 0-4Z"/><path d="M19 10a2 2 0 0 1 0 4h-2a2 2 0 0 1 0-4Z"/><path d="M7 8v8"/><path d="M17 8v8"/><path d="M10 19a2 2 0 0 0 4 0v-2a2 2 0 0 0-4 0Z"/></>}
+                </svg>
+              </span>
+              <CardTitle class="font-display text-2xl text-graphite">
+                {pillar.title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent class="text-sm text-muted-foreground">
+              {pillar.description}
+            </CardContent>
+          </Card>
+        );
+      })}
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <Card class="surface-glass border-border/60">
+        <CardHeader>
+          <CardTitle class="font-display text-2xl text-graphite">
+            {common.capabilities}
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="grid gap-4 text-sm text-muted-foreground md:grid-cols-2">
+          {capabilityKeys.map((key) => {
+            const capability = t.capabilities[key];
+            return (
+              <div class="space-y-2">
+                <div class="flex items-center gap-2 text-graphite">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-4">
+                    {key === "monitoring" && <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>}
+                    {key === "timeline" && <><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></>}
+                    {key === "conversation" && <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>}
+                    {key === "multiproject" && <><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14a9 3 0 0 0 18 0V5"/><path d="M3 12a9 3 0 0 0 18 0"/></>}
+                  </svg>
+                  <span class="text-sm font-medium">{capability.title}</span>
+                </div>
+                <p>{capability.description}</p>
+              </div>
+            );
+          })}
+        </CardContent>
+      </Card>
+      <Card class="border-border/60 bg-card/80">
+        <CardHeader>
+          <CardTitle class="font-display text-2xl text-graphite">
+            {common.stack}
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="flex flex-wrap gap-2 text-sm text-muted-foreground">
+          {t.stack.items.map((item) => (
+            <Badge variant="outline" class="rounded-full">{item}</Badge>
+          ))}
+        </CardContent>
+      </Card>
+    </section>
+  </main>
+  <SiteFooter />
+</div>

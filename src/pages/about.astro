@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { siteCopy } from "@/content/site-copy";
-import { Ambient } from "@/components/ambient";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import Ambient from "@/components/ambient.astro";
+import SiteHeader from "@/components/site-header.astro";
+import SiteFooter from "@/components/site-footer.astro";
 ---
 
 <BaseLayout title={`About - ${siteCopy.metadata.title}`} description="Jin Zhe — independent creator and system designer.">

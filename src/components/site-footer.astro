@@ -1,0 +1,21 @@
+---
+import { siteCopy } from "@/content/site-copy";
+
+const t = siteCopy.footer;
+---
+
+<footer class="border-t border-border/60 py-10">
+  <div class="mx-auto flex w-full max-w-6xl flex-col gap-6 px-6 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between">
+    <div>
+      <p class="font-display text-lg text-graphite">{t.tagline}</p>
+      <p class="mt-2 max-w-md">{t.description}</p>
+    </div>
+    <div class="flex flex-wrap gap-6">
+      <a href="/about" class="hover:text-graphite">About</a>
+      <a href="/blog" class="hover:text-graphite">Blog</a>
+      <a href="/writings" class="hover:text-graphite">Writings</a>
+      <a href="/projects" class="hover:text-graphite">{t.projects}</a>
+      <a href="/concepts" class="hover:text-graphite">Concepts</a>
+    </div>
+  </div>
+</footer>

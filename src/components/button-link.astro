@@ -1,0 +1,25 @@
+---
+export interface Props {
+  variant?: "default" | "outline" | "ghost";
+  class?: string;
+  href?: string;
+  target?: string;
+  rel?: string;
+}
+const { variant = "default", class: className, href, target, rel } = Astro.props;
+
+const variantClasses = {
+  default: "bg-graphite text-white hover:bg-graphite/90",
+  outline: "border border-border/60 bg-transparent text-graphite hover:bg-graphite hover:text-white",
+  ghost: "hover:bg-accent hover:text-accent-foreground text-muted-foreground",
+};
+---
+
+<a
+  href={href}
+  {...(target ? { target } : {})}
+  {...(rel ? { rel } : {})}
+  class={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full px-6 py-2 text-xs font-medium uppercase tracking-[0.3em] transition-all ${variantClasses[variant]} ${className ?? ""}`}
+>
+  <slot />
+</a>

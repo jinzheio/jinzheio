@@ -1,0 +1,120 @@
+---
+import Ambient from "@/components/ambient.astro";
+import SiteFooter from "@/components/site-footer.astro";
+import SiteHeader from "@/components/site-header.astro";
+import Badge from "@/components/ui/badge.astro";
+import ButtonLink from "@/components/button-link.astro";
+import Card from "@/components/ui/card.astro";
+import CardHeader from "@/components/ui/card-header.astro";
+import CardTitle from "@/components/ui/card-title.astro";
+import CardContent from "@/components/ui/card-content.astro";
+import Separator from "@/components/ui/separator.astro";
+import type { Project } from "@/content/projects";
+import { siteCopy } from "@/content/site-copy";
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+
+const t = siteCopy.project;
+const common = siteCopy.common;
+---
+
+<div class="min-h-screen">
+  <Ambient />
+  <SiteHeader />
+  <main class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
+    <section class="space-y-6 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <div class="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.3em] text-muted-foreground">
+        <Badge variant="secondary" class="rounded-full">
+          {project.status}
+        </Badge>
+        <span>{project.tagline}</span>
+      </div>
+      <h1 class="font-display text-4xl text-graphite md:text-5xl">
+        {project.name}
+      </h1>
+      <p class="max-w-2xl text-base text-muted-foreground">
+        {project.summary}
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <ButtonLink href="/projects" class="bg-graphite text-xs uppercase tracking-[0.3em] text-white">
+          {t.backToProjects}
+        </ButtonLink>
+        {project.link && (
+          <ButtonLink href={project.link} target="_blank" rel="noopener noreferrer" class="bg-brand-strong text-xs uppercase tracking-[0.3em] text-white">
+            {t.visitSite}
+          </ButtonLink>
+        )}
+        <ButtonLink variant="outline" href="/ludic-systems" class="border-border/60 bg-transparent text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white">
+          {t.ludicSystems}
+        </ButtonLink>
+      </div>
+    </section>
+
+    <Separator />
+
+    <section class="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      {project.pillars.map((pillar) => (
+        <Card class="border-border/60 bg-card/80">
+          <CardHeader>
+            <CardTitle class="font-display text-2xl text-graphite">
+              {pillar.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-muted-foreground">
+            {pillar.description}
+          </CardContent>
+        </Card>
+      ))}
+    </section>
+
+    <section class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <Card class="surface-glass border-border/60">
+        <CardHeader>
+          <CardTitle class="font-display text-2xl text-graphite">
+            {common.capabilities}
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-3 text-sm text-muted-foreground">
+          {project.capabilities.map((item) => (
+            <div class="flex items-center gap-2">
+              <span class="size-1.5 rounded-full bg-brand"></span>
+              <span>{item}</span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+      <Card class="border-border/60 bg-card/80">
+        <CardHeader>
+          <CardTitle class="font-display text-2xl text-graphite">
+            {common.stack}
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="flex flex-wrap gap-2 text-sm text-muted-foreground">
+          {project.stack.map((item) => (
+            <Badge variant="outline" class="rounded-full">{item}</Badge>
+          ))}
+        </CardContent>
+      </Card>
+    </section>
+
+    <Card class="border-border/60 bg-card/80">
+      <CardHeader>
+        <CardTitle class="font-display text-2xl text-graphite">
+          {common.notes}
+        </CardTitle>
+      </CardHeader>
+      <CardContent class="space-y-2 text-sm text-muted-foreground">
+        {project.notes.map((note) => (
+          <p class="flex items-center gap-2">
+            <span class="size-1.5 rounded-full bg-ember"></span>
+            <span>{note}</span>
+          </p>
+        ))}
+      </CardContent>
+    </Card>
+  </main>
+  <SiteFooter />
+</div>

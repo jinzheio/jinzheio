@@ -1,0 +1,170 @@
+---
+import Ambient from "@/components/ambient.astro";
+import SiteFooter from "@/components/site-footer.astro";
+import SiteHeader from "@/components/site-header.astro";
+import Badge from "@/components/ui/badge.astro";
+import ButtonLink from "@/components/button-link.astro";
+import Card from "@/components/ui/card.astro";
+import CardHeader from "@/components/ui/card-header.astro";
+import CardTitle from "@/components/ui/card-title.astro";
+import CardContent from "@/components/ui/card-content.astro";
+import Separator from "@/components/ui/separator.astro";
+import { projects } from "@/content/projects";
+import { siteCopy } from "@/content/site-copy";
+
+const t = siteCopy.home;
+const principleKeys = ["principle1", "principle2", "principle3"] as const;
+---
+
+<div class="min-h-screen">
+  <Ambient />
+  <SiteHeader />
+  <main class="mx-auto flex w-full max-w-6xl flex-col gap-24 px-6 pb-20 pt-16">
+    <section class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <div class="space-y-6">
+        <Badge class="rounded-full bg-mist text-xs uppercase tracking-[0.3em] text-graphite">
+          {t.badge}
+        </Badge>
+        <h1 class="font-display text-4xl leading-tight text-graphite md:text-6xl">
+          {t.hero.title1}
+          {t.hero.title2 && (
+            <span class="text-shadow-soft text-brand-strong">{t.hero.title2}</span>
+          )}
+        </h1>
+        <p class="max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
+          {t.hero.description}
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <ButtonLink href="/projects" class="bg-graphite px-6 text-xs uppercase tracking-[0.3em]">
+            {t.hero.exploreProjects}
+          </ButtonLink>
+          <ButtonLink variant="outline" href="/ludic-systems" class="border-border/70 bg-transparent px-6 text-xs uppercase tracking-[0.3em] text-graphite hover:bg-graphite hover:text-white">
+            {t.hero.ludicSystems}
+          </ButtonLink>
+        </div>
+      </div>
+      <div class="space-y-4">
+        <Card class="border-border/60 bg-card/80">
+          <CardHeader>
+            <CardTitle class="font-display text-xl text-graphite">
+              {t.about.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="text-sm text-muted-foreground">
+            {t.about.content}
+          </CardContent>
+        </Card>
+        <Card class="surface-glass border-border/60">
+          <CardHeader>
+            <CardTitle class="font-display text-xl text-graphite">
+              {t.currentFocus.title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="space-y-4 text-sm text-muted-foreground">
+            <p>{t.currentFocus.description}</p>
+            <div class="flex flex-wrap gap-2">
+              {t.currentFocus.tags.map((tag) => (
+                <Badge variant="secondary" class="rounded-full">{tag}</Badge>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+
+    <Separator />
+
+    <section id="projects" class="space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">
+            {t.projectsSection.label}
+          </p>
+          <h2 class="font-display text-3xl text-graphite md:text-4xl">
+            {t.projectsSection.title}
+          </h2>
+        </div>
+        <ButtonLink variant="ghost" href="/projects" class="text-xs uppercase tracking-[0.3em]">
+          {t.projectsSection.viewAll}
+        </ButtonLink>
+      </div>
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project) => (
+          <Card class="border-border/60 bg-card/70">
+            <CardHeader class="space-y-3">
+              <div class="flex items-center justify-between">
+                <Badge variant="secondary" class="rounded-full">{project.status}</Badge>
+                <span class="text-xs uppercase tracking-[0.25em] text-muted-foreground">{project.tagline}</span>
+              </div>
+              <CardTitle class="font-display text-2xl text-graphite">
+                {project.name}
+              </CardTitle>
+            </CardHeader>
+            <CardContent class="space-y-4 text-sm text-muted-foreground">
+              <p>{project.summary}</p>
+              <ul class="space-y-2">
+                {project.focus.slice(0, 3).map((item) => (
+                  <li class="flex items-center gap-2">
+                    <span class="size-1.5 rounded-full bg-brand"></span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class={project.link ? "flex gap-2" : ""}>
+                {project.link ? (
+                  <>
+                    <ButtonLink variant="outline" href={`/projects/${project.slug}`} class="flex-1 border-border/60">
+                      {t.projectsSection.openLanding}
+                    </ButtonLink>
+                    <ButtonLink href={project.link} target="_blank" rel="noopener noreferrer" class="flex-1 bg-brand-strong text-white">
+                      {t.projectsSection.visit}
+                    </ButtonLink>
+                  </>
+                ) : (
+                  <ButtonLink variant="outline" href={`/projects/${project.slug}`} class="w-full border-border/60">
+                    {t.projectsSection.openLanding}
+                  </ButtonLink>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </section>
+
+    <Separator />
+
+    <section id="ludic-systems" class="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <div class="space-y-4">
+        <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">
+          {t.ludicSection.label}
+        </p>
+        <h2 class="font-display text-3xl text-graphite md:text-4xl">
+          {t.ludicSection.title}
+        </h2>
+        <p class="text-base text-muted-foreground">
+          {t.ludicSection.description}
+        </p>
+        <ButtonLink href="/ludic-systems" class="bg-graphite text-xs uppercase tracking-[0.3em] text-white">
+          {t.ludicSection.viewPlanning}
+        </ButtonLink>
+      </div>
+      <Card class="surface-glass border-border/60">
+        <CardHeader>
+          <CardTitle class="font-display text-xl text-graphite">
+            {t.ludicSection.principlesTitle}
+          </CardTitle>
+        </CardHeader>
+        <CardContent class="space-y-3 text-sm text-muted-foreground">
+          {principleKeys.map((key) => (
+            <div class="flex items-start gap-2">
+              <span class="mt-1 size-1.5 rounded-full bg-ember"></span>
+              <span>{t.ludicSection[key]}</span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+    </section>
+  </main>
+  <SiteFooter />
+</div>

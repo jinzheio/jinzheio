@@ -1,0 +1,73 @@
+---
+import Ambient from "@/components/ambient.astro";
+import SiteFooter from "@/components/site-footer.astro";
+import SiteHeader from "@/components/site-header.astro";
+import Badge from "@/components/ui/badge.astro";
+import ButtonLink from "@/components/button-link.astro";
+import Card from "@/components/ui/card.astro";
+import CardHeader from "@/components/ui/card-header.astro";
+import CardTitle from "@/components/ui/card-title.astro";
+import CardContent from "@/components/ui/card-content.astro";
+import Separator from "@/components/ui/separator.astro";
+import { projects, type ProjectStatus } from "@/content/projects";
+import { siteCopy } from "@/content/site-copy";
+
+const t = siteCopy.projects;
+const statusLabels: Record<ProjectStatus, string> = {
+  Active: t.status.active,
+  Draft: t.status.draft,
+  Exploring: t.status.exploring,
+};
+---
+
+<div class="min-h-screen">
+  <Ambient />
+  <SiteHeader />
+  <main class="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 pb-20 pt-16">
+    <section class="space-y-4 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      <p class="text-xs uppercase tracking-[0.4em] text-muted-foreground">
+        {t.title}
+      </p>
+      <h1 class="font-display text-4xl text-graphite md:text-5xl">
+        {t.subtitle}
+      </h1>
+      <p class="max-w-2xl text-base text-muted-foreground">
+        {t.description}
+      </p>
+    </section>
+
+    <Separator />
+
+    <section class="grid gap-6 md:grid-cols-2 animate-in fade-in slide-in-from-bottom-6 duration-700">
+      {projects.map((project) => (
+        <Card class="border-border/60 bg-card/80">
+          <CardHeader class="space-y-3">
+            <div class="flex items-center justify-between">
+              <Badge variant="secondary" class="rounded-full">
+                {statusLabels[project.status]}
+              </Badge>
+              <span class="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                {project.tagline}
+              </span>
+            </div>
+            <CardTitle class="font-display text-2xl text-graphite">
+              {project.name}
+            </CardTitle>
+          </CardHeader>
+          <CardContent class="space-y-4 text-sm text-muted-foreground">
+            <p>{project.summary}</p>
+            <div class="flex flex-wrap gap-2">
+              {project.focus.map((item) => (
+                <Badge variant="outline" class="rounded-full">{item}</Badge>
+              ))}
+            </div>
+            <ButtonLink href={`/projects/${project.slug}`} class="bg-graphite text-xs uppercase tracking-[0.3em] text-white">
+              {t.status.openLanding}
+            </ButtonLink>
+          </CardContent>
+        </Card>
+      ))}
+    </section>
+  </main>
+  <SiteFooter />
+</div>

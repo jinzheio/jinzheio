@@ -1,0 +1,8 @@
+---
+export interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<hr class={`bg-border shrink-0 h-px w-full ${className ?? ""}`} />

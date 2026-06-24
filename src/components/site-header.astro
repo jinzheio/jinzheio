@@ -1,0 +1,58 @@
+---
+import { siteCopy } from "@/content/site-copy";
+
+const t = siteCopy.nav;
+
+const navItems = [
+  { label: t.about, href: "/about" },
+  { label: t.blog, href: "/blog" },
+  { label: t.projects, href: "/projects" },
+  { label: t.concepts, href: "/concepts" },
+];
+---
+
+<header class="sticky top-0 z-30 border-b border-border/60 bg-background/70 backdrop-blur">
+  <div class="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-4">
+    <a href="/" class="group flex items-center gap-3">
+      <span class="inline-flex size-10 items-center justify-center rounded-full border border-border/60 bg-card text-sm font-semibold tracking-[0.12em] text-graphite">
+        JZ
+      </span>
+      <div class="leading-tight">
+        <p class="text-xs uppercase tracking-[0.25em] text-muted-foreground">
+          jinzhe.io
+        </p>
+        <p class="font-display text-lg text-graphite">
+          Projects & Philosophy
+        </p>
+      </div>
+    </a>
+    <nav class="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="transition-colors hover:text-graphite"
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <div class="flex items-center gap-3">
+      <a
+        href="https://x.com/jinzheio"
+        target="_blank"
+        rel="noreferrer"
+        class="hidden items-center justify-center gap-2 whitespace-nowrap rounded-full border border-border/70 bg-transparent px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-graphite transition-all hover:bg-graphite hover:text-white md:inline-flex"
+      >
+        {t.startConversation}
+      </a>
+      <a
+        href="https://x.com/jinzheio"
+        target="_blank"
+        rel="noreferrer"
+        class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-graphite px-4 py-2 text-xs font-medium uppercase tracking-[0.2em] text-white transition-all hover:bg-graphite/90"
+      >
+        {t.followOnX}
+      </a>
+    </div>
+  </div>
+</header>

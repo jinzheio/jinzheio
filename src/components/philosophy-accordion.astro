@@ -1,0 +1,30 @@
+---
+import { siteCopy } from "@/content/site-copy";
+
+const themes = siteCopy.philosophy.themes;
+const themeEntries = Object.entries(themes);
+---
+
+<div class="w-full space-y-0">
+  {themeEntries.map(([, theme]) => (
+    <details class="group border-b last:border-b-0">
+      <summary class="focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:ring-[3px] cursor-pointer select-none [&::-webkit-details-marker]:hidden">
+        <span class="font-display text-lg text-graphite">{theme.title}</span>
+        <span class="text-muted-foreground shrink-0 size-4 translate-y-0.5 transition-transform duration-200 group-open:rotate-180">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </span>
+      </summary>
+      <div class="overflow-hidden text-sm pb-4 space-y-4 text-muted-foreground">
+        <p>{theme.summary}</p>
+        <ul class="space-y-2">
+          {theme.questions.map((question) => (
+            <li class="flex items-start gap-2">
+              <span class="mt-1 size-1.5 rounded-full bg-brand shrink-0"></span>
+              <span>{question}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </details>
+  ))}
+</div>

@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { siteCopy } from "@/content/site-copy";
-import { PhilosophyPage } from "@/views/PhilosophyPage";
+import PhilosophyPage from "@/views/PhilosophyPage.astro";
 ---
 
 <BaseLayout title={`Philosophy - ${siteCopy.metadata.title}`} description={siteCopy.philosophy.description}>
-  <PhilosophyPage client:load />
+  <PhilosophyPage />
 </BaseLayout>
