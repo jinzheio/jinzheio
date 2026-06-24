@@ -3,6 +3,8 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import { projects } from "@/content/projects";
 import ProjectPage from "@/views/ProjectPage.astro";
 
+export const prerender = true;
+
 export function getStaticPaths() {
   return projects
     .filter((project) => project.slug !== "commanddeck")

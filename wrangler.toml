@@ -1,0 +1,4 @@
+# Wrangler configuration for jinzhe.io (Astro + Cloudflare Workers).
+# @astrojs/cloudflare merges this with its generated config at build time.
+name = "jinzheio"
+compatibility_date = "2026-06-24"
