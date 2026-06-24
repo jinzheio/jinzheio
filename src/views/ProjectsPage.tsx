@@ -39,6 +39,15 @@ export function ProjectsPage() {
           {projects.map((project) => (
             <Card key={project.slug} className="border-border/60 bg-card/80">
               <CardHeader className="space-y-3">
+                {project.logo && (
+                  <div className="flex items-center justify-center mb-2">
+                    <img
+                      src={project.logo}
+                      alt={project.name}
+                      className="h-14 w-14 object-contain"
+                    />
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <Badge variant="secondary" className="rounded-full">
                     {statusLabels[project.status]}

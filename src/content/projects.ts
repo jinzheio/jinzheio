@@ -12,6 +12,7 @@ export type Project = {
   stack: string[];
   notes: string[];
   link?: string;
+  logo?: string;
 };
 
 export const projects: Project[] = [
@@ -97,6 +98,7 @@ export const projects: Project[] = [
       "Rescue Password system ensures true zero-access security.",
     ],
     link: "https://clawsimple.com",
+    logo: "/icons/clawsimple.svg",
   },
   {
     slug: "auditmycareer",
@@ -137,5 +139,6 @@ export const projects: Project[] = [
       "90-day reminder system uses Durable Objects with event-driven arm/reset, no table scans.",
     ],
     link: "https://auditmycareer.com",
+    logo: "/icons/auditmycareer.svg",
   },
 ];

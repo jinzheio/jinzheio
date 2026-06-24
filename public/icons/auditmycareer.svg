@@ -1,0 +1,20 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AuditMyCareer icon">
+  <defs>
+    <linearGradient id="amc-orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF8A2B"/>
+      <stop offset="1" stop-color="#F2620C"/>
+    </linearGradient>
+    <mask id="amc-cut">
+      <rect x="0" y="0" width="200" height="200" fill="#fff"/>
+      <circle cx="80" cy="55" r="13" fill="#000"/>
+      <rect x="72.5" y="70" width="15" height="48" rx="7.5" fill="#000"/>
+      <line x1="80" y1="78" x2="58" y2="60" stroke="#000" stroke-width="12" stroke-linecap="round"/>
+      <line x1="80" y1="78" x2="102" y2="60" stroke="#000" stroke-width="12" stroke-linecap="round"/>
+      <circle cx="75" cy="53" r="2.1" fill="#fff"/>
+      <circle cx="85" cy="53" r="2.1" fill="#fff"/>
+      <path d="M74 59 Q80 65 86 59" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/>
+    </mask>
+  </defs>
+  <line x1="121" y1="121" x2="160" y2="160" stroke="url(#amc-orange)" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="80" cy="80" r="58" fill="url(#amc-orange)" mask="url(#amc-cut)"/>
+</svg>

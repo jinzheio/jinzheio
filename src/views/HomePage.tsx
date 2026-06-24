@@ -93,10 +93,19 @@ export function HomePage() {
               <a href="/projects">{t.projectsSection.viewAll}</a>
             </Button>
           </div>
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+            {projects.filter((p) => p.slug !== "commanddeck").map((project) => (
               <Card key={project.slug} className="border-border/60 bg-card/70">
                 <CardHeader className="space-y-3">
+                  {project.logo && (
+                    <div className="flex items-center justify-center mb-2">
+                      <img
+                        src={project.logo}
+                        alt={project.name}
+                        className="h-14 w-14 object-contain"
+                      />
+                    </div>
+                  )}
                   <div className="flex items-center justify-between">
                     <Badge variant="secondary" className="rounded-full">
                       {project.status}
