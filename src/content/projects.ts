@@ -98,4 +98,44 @@ export const projects: Project[] = [
     ],
     link: "https://clawsimple.com",
   },
+  {
+    slug: "auditmycareer",
+    name: "AuditMyCareer",
+    tagline: "AI Exposure Index",
+    summary: "A 14-question quiz that scores your career's AI replaceability risk and delivers a personalized survival plan.",
+    status: "Active",
+    focus: ["Replaceability Index", "Four-Axis Scoring Model", "Survival Playbook", "Lifetime Access"],
+    pillars: [
+      {
+        title: "Four-Axis Model",
+        description: "Codifiability, value locus, visibility, and tool leverage — each with a risk and safety pole.",
+      },
+      {
+        title: "SOC-2018 Anchoring",
+        description: "22 occupation priors mapped to the US Standard Occupational Classification for defensible baselines.",
+      },
+      {
+        title: "Paid Survival Plan",
+        description: "Stripe one-time payment unlocks lever math and a 90-day staged intervention plan with email reminders.",
+      },
+    ],
+    capabilities: [
+      "14-question career exposure quiz",
+      "16 classification types with tiered risk tiers",
+      "Personalized survival tips by career stage",
+      "Re-audit reminder system every 90 days",
+      "Duo comparison for coworker side-by-side",
+    ],
+    stack: [
+      "Astro 6 + React 19",
+      "Cloudflare Pages + D1",
+      "Tailwind CSS v4",
+      "Stripe (one-time)",
+    ],
+    notes: [
+      "Paid content is server-gated behind Stripe verification — never imported from client bundles.",
+      "90-day reminder system uses Durable Objects with event-driven arm/reset, no table scans.",
+    ],
+    link: "https://auditmycareer.com",
+  },
 ];
