@@ -1,0 +1,41 @@
+<svg width="256" height="256" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" role="img" aria-label="Sailboat logo">
+  <defs>
+    <linearGradient id="sail-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="hull-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1E293B"/>
+      <stop offset="1" stop-color="#0F172A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- badge background -->
+  <rect x="4" y="4" width="192" height="192" rx="36" fill="#F0F4FE"/>
+  <rect x="4" y="4" width="192" height="192" rx="36" stroke="#DBE4F8" stroke-width="2"/>
+
+  <!-- water waves -->
+  <path d="M30 145 Q50 138 70 145 Q90 152 110 145 Q130 138 150 145 Q170 152 190 145 L190 180 Q170 187 150 180 Q130 173 110 180 Q90 187 70 180 Q50 173 30 180 Z" fill="url(#sail-grad)" opacity="0.15"/>
+  <path d="M20 155 Q45 148 70 155 Q95 162 120 155 Q145 148 170 155 Q195 162 200 155 L200 200 L20 200 Z" fill="url(#sail-grad)" opacity="0.08"/>
+
+  <!-- hull -->
+  <path d="M40 140 L50 150 Q55 158 100 160 Q145 158 150 150 L160 140 L150 128 Q100 122 50 128 Z" fill="url(#hull-grad)"/>
+
+  <!-- hull stripe -->
+  <rect x="45" y="136" width="110" height="4" rx="2" fill="url(#sail-grad)" opacity="0.6"/>
+
+  <!-- mast -->
+  <rect x="97" y="42" width="6" height="100" rx="3" fill="#334155"/>
+
+  <!-- main sail -->
+  <path d="M103 48 Q145 52 155 95 Q160 128 148 138 Q132 126 103 138 Z" fill="url(#sail-grad)"/>
+
+  <!-- Z letter on sail -->
+  <text x="128" y="110" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-1">Z</text>
+
+  <!-- jib sail -->
+  <path d="M97 55 Q60 52 48 90 Q42 118 50 128 Q68 122 97 128 Z" fill="url(#sail-grad)" opacity="0.75"/>
+
+  <!-- pennant -->
+  <path d="M88 44 L65 50 L88 56 Z" fill="#F59E0B"/>
+</svg>
