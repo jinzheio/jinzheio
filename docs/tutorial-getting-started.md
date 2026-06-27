@@ -35,11 +35,11 @@ Astro 默认会监听 <http://localhost:4321>。打开这个地址后，你应�
 - <http://localhost:4321/blog>
 - <http://localhost:4321/projects>
 - <http://localhost:4321/concepts>
-- <http://localhost:4321/tools/wechat-format>
+- <http://localhost:4321/tools/format>
 
 如果 `/blog` 能看到文章列表，说明 `src/content/blog/` 的内容集合加载正常。
 
-如果 `/tools/wechat-format` 能输入 Markdown 并看到预览，说明页面里的 `markdown-it` 客户端脚本加载正常。
+如果 `/tools/format` 能输入 Markdown 并看到预览，说明页面里的 `markdown-it` 客户端脚本加载正常。
 
 ## Step 4: 运行生产构建
 

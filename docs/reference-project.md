@@ -48,7 +48,7 @@ integrations: [react(), mdx()],
 | `/ludic-systems` | `src/pages/ludic-systems.astro` + `src/views/LudicSystemsPage.astro` | Ludic Systems 规划页 |
 | `/philosophy` | `src/pages/philosophy.astro` + `src/views/PhilosophyPage.astro` | 长期问题页 |
 | `/writings` | `src/pages/writings.astro` | 白皮书占位和文章索引 |
-| `/tools/wechat-format` | `src/pages/tools/wechat-format.astro` | Markdown 转微信公众号 HTML 工具 |
+| `/tools/format` | `src/pages/tools/format.astro` | Markdown 排版工具 |
 | `/rss.xml` | `src/pages/rss.xml.ts` | RSS feed |
 
 ## Blog content model
@@ -120,7 +120,7 @@ export const siteCopy = copy;
 站点有两个微信相关入口：
 
 - `/blog/wechat/[slug]`：每篇文章的复制版，使用 inline style 和 `noindex`。
-- `/tools/wechat-format`：独立 Markdown 转微信 HTML 工具，客户端使用 `markdown-it`，支持样式预设、图片 base64、IndexedDB 草稿保存和复制 HTML。
+- `/tools/format`：独立 Markdown 排版工具，客户端使用 `markdown-it`，支持样式预设、图片 base64、IndexedDB 草稿保存和复制 HTML。
 
 普通文章页的复制按钮会 fetch `/blog/wechat/[slug]/`，读取 `#wechat-content`，再写入 Clipboard API。
 
