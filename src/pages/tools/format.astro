@@ -74,8 +74,11 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         </div>
       </section>
 
-      <section class="grid min-h-[680px] gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
-        <div class="flex min-h-[560px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
+      <section
+        id="workspaceGrid"
+        class="grid h-[calc(100vh-260px)] min-h-[680px] gap-4 lg:grid-cols-[minmax(0,var(--editor-width,50fr))_12px_minmax(0,var(--preview-width,50fr))]"
+      >
+        <div class="flex min-h-0 flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
             <div>
               <h2 class="text-sm font-semibold text-graphite">Markdown</h2>
@@ -86,15 +89,23 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               <input id="markdownFile" type="file" accept=".md,.mdx,text/markdown,text/plain" class="sr-only" />
             </label>
           </div>
+          <div id="imageTray" class="hidden border-b border-border/60 bg-background/45 px-4 py-3"></div>
           <textarea
             id="markdownInput"
-            class="min-h-[520px] flex-1 resize-none bg-transparent p-4 font-mono text-sm leading-6 text-foreground outline-none"
+            class="min-h-0 flex-1 resize-none bg-transparent p-4 font-mono text-sm leading-6 text-foreground outline-none"
             spellcheck="false"
           ></textarea>
         </div>
 
-        <div class="grid min-h-[560px] gap-4 xl:grid-rows-[minmax(0,1fr)_260px]">
-          <div class="flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
+        <button
+          id="splitterHandle"
+          type="button"
+          aria-label="调整预览宽度"
+          class="hidden cursor-col-resize rounded-[8px] border border-border/60 bg-card/70 transition-colors hover:bg-secondary lg:block"
+        ></button>
+
+        <div class="grid min-h-0 gap-4 xl:grid-rows-[minmax(0,1fr)_260px]">
+          <div class="flex min-h-0 flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
             <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
               <div>
                 <h2 class="text-sm font-semibold text-graphite">预览</h2>
@@ -111,7 +122,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
                 </button>
               </div>
             </div>
-            <div id="previewFrame" class="flex-1 overflow-auto bg-white px-3 py-4 transition-colors">
+            <div id="previewFrame" class="min-h-0 flex-1 overflow-auto bg-white px-3 py-4 transition-colors">
               <article id="preview" class="mx-auto transition-[width,max-width] duration-300"></article>
             </div>
           </div>
@@ -185,6 +196,9 @@ console.log(channel);
   const emphasisPicker = mustGet<HTMLElement>("#emphasisPicker");
   const styleDescription = mustGet<HTMLElement>("#styleDescription");
   const previewDevicePicker = mustGet<HTMLElement>("#previewDevicePicker");
+  const imageTray = mustGet<HTMLElement>("#imageTray");
+  const workspaceGrid = mustGet<HTMLElement>("#workspaceGrid");
+  const splitterHandle = mustGet<HTMLButtonElement>("#splitterHandle");
 
   const markdown = new MarkdownIt({
     breaks: true,
@@ -199,6 +213,8 @@ console.log(channel);
 
   let imageIndex = 1;
   let latestFormattedHtml = "";
+  let scrollSyncSource: "editor" | "preview" | null = null;
+  let scrollSyncTimer = 0;
   const imageSources = new Map<string, string>();
 
   const baseFont = "-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Helvetica,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",Arial,sans-serif";
@@ -315,10 +331,12 @@ console.log(channel);
   const draftDbName = "format-tool-drafts";
   const draftStoreName = "drafts";
   const draftRecordKey = "current";
+  const splitStorageKey = "format-tool-editor-ratio";
   const maxDraftBytes = 20 * 1024 * 1024;
   const defaultSelection: StyleSelection = { color: "cobalt", spacing: "airy", heading: "report", quote: "bar", emphasis: "underline" };
   let selectedStyle = loadStyleSelection();
   let selectedPreviewDevice = loadPreviewDevice();
+  let editorRatio = loadEditorRatio();
   let draftLimitNoticeShown = false;
   let draftSaveTimer = 0;
 
@@ -348,6 +366,24 @@ console.log(channel);
 
   function savePreviewDevice() {
     window.localStorage.setItem(previewDeviceStorageKey, selectedPreviewDevice);
+  }
+
+  function clamp(value: number, min: number, max: number) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function loadEditorRatio() {
+    const saved = Number.parseFloat(window.localStorage.getItem(splitStorageKey) ?? "");
+    return Number.isFinite(saved) ? clamp(saved, 32, 68) : 50;
+  }
+
+  function saveEditorRatio() {
+    window.localStorage.setItem(splitStorageKey, String(editorRatio));
+  }
+
+  function applyWorkspaceSplit() {
+    workspaceGrid.style.setProperty("--editor-width", `${editorRatio}fr`);
+    workspaceGrid.style.setProperty("--preview-width", `${100 - editorRatio}fr`);
   }
 
   function openDraftDb() {
@@ -510,6 +546,9 @@ console.log(channel);
       pre: `margin:22px 0;padding:16px;background:${palette.codeBg};border:1px solid ${palette.line};overflow-x:auto;white-space:pre-wrap;word-break:break-word`,
       preCode: `margin:0;padding:0;background:transparent;color:${palette.text};font-family:${monoFont};font-size:13px;line-height:1.65`,
       img: `display:block;max-width:100%;height:auto;margin:${spacing.imageMargin};border-radius:2px`,
+      imageGridTable: `width:100%;margin:${spacing.imageMargin};border-collapse:separate;border-spacing:8px 0;table-layout:fixed`,
+      imageGridCell: `width:50%;padding:0;border:0;vertical-align:top;text-align:center`,
+      imageGridImg: `display:block;width:100%;max-width:100%;height:auto;margin:0;border-radius:2px`,
       table: `width:100%;margin:22px 0;border-collapse:collapse;color:${palette.text};font-size:14px;line-height:1.6`,
       th: `padding:8px 10px;border:1px solid ${palette.line};background:${palette.accent};color:${palette.reverseText};font-weight:700;text-align:left`,
       td: `padding:8px 10px;border:1px solid ${palette.line};color:${palette.text};text-align:left`,
@@ -602,10 +641,106 @@ console.log(channel);
     root.querySelectorAll<HTMLElement>("th").forEach((node) => node.setAttribute("style", styles.th));
     root.querySelectorAll<HTMLElement>("td").forEach((node) => node.setAttribute("style", styles.td));
     root.querySelectorAll<HTMLElement>("hr").forEach((node) => node.setAttribute("style", styles.hr));
+    groupConsecutiveImages(root, styles);
+    markPreviewSections(root);
     root.querySelectorAll<HTMLElement>("blockquote p, blockquote li").forEach((node) => node.setAttribute("style", styles.blockquoteText));
     root.querySelectorAll<HTMLElement>("blockquote strong").forEach((node) => {
       node.setAttribute("style", `${styles.blockquoteText};font-weight:700`);
     });
+  }
+
+  function markPreviewSections(root: HTMLElement) {
+    root.querySelectorAll<HTMLElement>("h1, h2, h3").forEach((heading, index) => {
+      heading.dataset.sectionIndex = String(index);
+    });
+  }
+
+  function singleImageInParagraph(paragraph: HTMLElement) {
+    const meaningfulNodes = Array.from(paragraph.childNodes).filter((node) => {
+      if (node.nodeType === Node.TEXT_NODE) {
+        return Boolean(node.textContent?.trim());
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        return (node as Element).tagName.toLowerCase() !== "br";
+      }
+      return true;
+    });
+
+    if (meaningfulNodes.length !== 1) return null;
+    const onlyNode = meaningfulNodes[0];
+    if (onlyNode.nodeType !== Node.ELEMENT_NODE) return null;
+
+    const element = onlyNode as HTMLElement;
+    if (element.tagName.toLowerCase() === "img") {
+      return element as HTMLImageElement;
+    }
+
+    if (element.tagName.toLowerCase() === "a") {
+      const image = Array.from(element.children).find((child) => child.tagName.toLowerCase() === "img");
+      if (image && element.childElementCount === 1) {
+        return image as HTMLImageElement;
+      }
+    }
+
+    return null;
+  }
+
+  function groupConsecutiveImages(root: HTMLElement, styles: Record<string, string>) {
+    const paragraphs = Array.from(root.querySelectorAll<HTMLElement>("p"));
+    const visited = new Set<HTMLElement>();
+
+    for (const paragraph of paragraphs) {
+      if (visited.has(paragraph) || !singleImageInParagraph(paragraph)) {
+        continue;
+      }
+
+      const run = [paragraph];
+      visited.add(paragraph);
+
+      let next = paragraph.nextElementSibling;
+      while (next?.tagName.toLowerCase() === "p" && singleImageInParagraph(next as HTMLElement)) {
+        const nextParagraph = next as HTMLElement;
+        run.push(nextParagraph);
+        visited.add(nextParagraph);
+        next = nextParagraph.nextElementSibling;
+      }
+
+      if (run.length < 2) continue;
+
+      const first = run[0];
+      let insertAfter: HTMLElement | null = null;
+
+      for (let index = 0; index < run.length; index += 2) {
+        const group = run.slice(index, index + 2);
+        const table = document.createElement("table");
+        table.setAttribute("style", group.length === 1 ? styles.imageGridTable.replace("border-spacing:8px 0;", "border-spacing:0;") : styles.imageGridTable);
+        table.setAttribute("role", "presentation");
+        table.setAttribute("cellpadding", "0");
+        table.setAttribute("cellspacing", "0");
+
+        const row = document.createElement("tr");
+        for (const sourceParagraph of group) {
+          const image = singleImageInParagraph(sourceParagraph);
+          if (!image) continue;
+          image.setAttribute("style", styles.imageGridImg);
+
+          const cell = document.createElement("td");
+          cell.setAttribute("style", group.length === 1 ? styles.imageGridCell.replace("width:50%;", "width:100%;") : styles.imageGridCell);
+          cell.append(image);
+          row.append(cell);
+        }
+
+        table.append(row);
+        if (insertAfter) {
+          insertAfter.after(table);
+        } else {
+          first.before(table);
+        }
+        insertAfter = table;
+      }
+
+      run.forEach((node) => node.remove());
+    }
   }
 
   function selectClassName() {
@@ -716,6 +851,58 @@ console.log(channel);
     applyPreviewDeviceStyles();
     htmlOutput.value = latestFormattedHtml;
     editorStats.textContent = `${source.replace(/\s/g, "").length} 字 / ${source.length} 字符`;
+    renderImageTray();
+  }
+
+  function imageNumber(id: string) {
+    return Number.parseInt(id.replace("image-", ""), 10) || 0;
+  }
+
+  function renderImageTray() {
+    const images = Array.from(imageSources.entries()).sort(([leftId], [rightId]) => imageNumber(leftId) - imageNumber(rightId));
+    imageTray.replaceChildren();
+
+    if (images.length === 0) {
+      imageTray.classList.add("hidden");
+      return;
+    }
+
+    imageTray.classList.remove("hidden");
+    const label = document.createElement("p");
+    label.className = "mb-2 text-xs font-medium text-muted-foreground";
+    label.textContent = `图片 ${images.length} 张`;
+    imageTray.append(label);
+
+    const list = document.createElement("div");
+    list.className = "grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4";
+
+    for (const [id, dataUrl] of images) {
+      const number = imageNumber(id);
+      const item = document.createElement("figure");
+      item.className = "grid grid-cols-[56px_minmax(0,1fr)] items-center gap-2 rounded-[8px] border border-border/60 bg-card/80 p-2";
+
+      const image = document.createElement("img");
+      image.src = dataUrl;
+      image.alt = `图片 ${number}`;
+      image.className = "size-14 rounded-[6px] object-cover";
+
+      const caption = document.createElement("figcaption");
+      caption.className = "min-w-0";
+
+      const title = document.createElement("p");
+      title.className = "truncate text-xs font-medium text-graphite";
+      title.textContent = `图片 ${number}`;
+
+      const marker = document.createElement("p");
+      marker.className = "truncate font-mono text-[11px] leading-4 text-muted-foreground";
+      marker.textContent = `![图片 ${number}](#${id})`;
+
+      caption.append(title, marker);
+      item.append(image, caption);
+      list.append(item);
+    }
+
+    imageTray.append(list);
   }
 
   function setStatus(message: string) {
@@ -725,6 +912,54 @@ console.log(channel);
         copyStatus.textContent = "";
       }
     }, 2600);
+  }
+
+  function markdownSections() {
+    const sections = markdownInput.value.split("\n").reduce<Array<{ index: number; line: number }>>((items, line, lineIndex) => {
+      if (/^#{1,3}\s+\S/.test(line)) {
+        items.push({ index: items.length, line: lineIndex });
+      }
+      return items;
+    }, []);
+    return sections.length > 0 ? sections : [{ index: 0, line: 0 }];
+  }
+
+  function editorLineHeight() {
+    return Number.parseFloat(window.getComputedStyle(markdownInput).lineHeight) || 24;
+  }
+
+  function syncLock(source: "editor" | "preview") {
+    scrollSyncSource = source;
+    window.clearTimeout(scrollSyncTimer);
+    scrollSyncTimer = window.setTimeout(() => {
+      scrollSyncSource = null;
+    }, 140);
+  }
+
+  function syncPreviewToEditorSection() {
+    if (scrollSyncSource === "preview") return;
+    const currentLine = Math.floor(markdownInput.scrollTop / editorLineHeight());
+    const sections = markdownSections();
+    const activeSection = sections.reduce((active, section) => (section.line <= currentLine ? section : active), sections[0]);
+    const target = preview.querySelector<HTMLElement>(`[data-section-index="${activeSection.index}"]`);
+    if (!target) return;
+
+    syncLock("editor");
+    previewFrame.scrollTop = Math.max(0, target.offsetTop - 24);
+  }
+
+  function syncEditorToPreviewSection() {
+    if (scrollSyncSource === "editor") return;
+    const headings = Array.from(preview.querySelectorAll<HTMLElement>("[data-section-index]"));
+    if (headings.length === 0) return;
+
+    const activeHeading = headings.reduce((active, heading) => (heading.offsetTop <= previewFrame.scrollTop + 48 ? heading : active), headings[0]);
+    const sectionIndex = Number.parseInt(activeHeading.dataset.sectionIndex ?? "0", 10);
+    const section = markdownSections().find((item) => item.index === sectionIndex);
+    if (!section) return;
+
+    syncLock("preview");
+    markdownInput.scrollTop = Math.max(0, section.line * editorLineHeight() - 12);
   }
 
   function insertAtCursor(text: string) {
@@ -766,6 +1001,14 @@ console.log(channel);
     render();
   });
 
+  markdownInput.addEventListener("scroll", () => {
+    syncPreviewToEditorSection();
+  });
+
+  previewFrame.addEventListener("scroll", () => {
+    syncEditorToPreviewSection();
+  });
+
   markdownInput.addEventListener("paste", async (event) => {
     const items = Array.from(event.clipboardData?.items ?? []);
     const imageItems = items.filter((item) => item.type.startsWith("image/"));
@@ -802,6 +1045,38 @@ console.log(channel);
     queueSaveDraft();
     render();
     setStatus("文件已读取");
+  });
+
+  splitterHandle.addEventListener("pointerdown", (event) => {
+    event.preventDefault();
+    splitterHandle.setPointerCapture(event.pointerId);
+    document.body.style.cursor = "col-resize";
+    document.body.style.userSelect = "none";
+
+    const updateSplit = (clientX: number) => {
+      const rect = workspaceGrid.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      editorRatio = clamp(((clientX - rect.left) / rect.width) * 100, 32, 68);
+      applyWorkspaceSplit();
+    };
+
+    const onPointerMove = (moveEvent: PointerEvent) => {
+      updateSplit(moveEvent.clientX);
+    };
+
+    const onPointerUp = () => {
+      saveEditorRatio();
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
+      window.removeEventListener("pointermove", onPointerMove);
+      window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
+    };
+
+    updateSplit(event.clientX);
+    window.addEventListener("pointermove", onPointerMove);
+    window.addEventListener("pointerup", onPointerUp);
+    window.addEventListener("pointercancel", onPointerUp);
   });
 
   copyButton.addEventListener("click", async () => {
@@ -853,6 +1128,7 @@ console.log(channel);
 
   async function initialize() {
     markdownInput.value = await restoreDraft();
+    applyWorkspaceSplit();
     renderControls();
     render();
   }
