@@ -41,6 +41,39 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         </div>
       </section>
 
+      <section class="rounded-[8px] border border-border/60 bg-card/70 p-4">
+        <div class="mb-3 flex flex-wrap items-center justify-between gap-3">
+          <h2 class="text-sm font-semibold text-graphite">样式</h2>
+          <p id="styleDescription" class="text-xs text-muted-foreground"></p>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <div class="space-y-1.5">
+            <label for="presetPickerSelect" class="text-xs font-medium text-muted-foreground">预设样式</label>
+            <div id="presetPicker"></div>
+          </div>
+          <div class="space-y-1.5">
+            <label for="colorPickerSelect" class="text-xs font-medium text-muted-foreground">色彩</label>
+            <div id="colorPicker"></div>
+          </div>
+          <div class="space-y-1.5">
+            <label for="spacingPickerSelect" class="text-xs font-medium text-muted-foreground">间距</label>
+            <div id="spacingPicker"></div>
+          </div>
+          <div class="space-y-1.5">
+            <label for="headingPickerSelect" class="text-xs font-medium text-muted-foreground">标题</label>
+            <div id="headingPicker"></div>
+          </div>
+          <div class="space-y-1.5">
+            <label for="quotePickerSelect" class="text-xs font-medium text-muted-foreground">引用样式</label>
+            <div id="quotePicker"></div>
+          </div>
+          <div class="space-y-1.5">
+            <label for="emphasisPickerSelect" class="text-xs font-medium text-muted-foreground">强调样式</label>
+            <div id="emphasisPicker"></div>
+          </div>
+        </div>
+      </section>
+
       <section class="grid min-h-[680px] gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <div class="flex min-h-[560px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
           <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
@@ -62,21 +95,24 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
         <div class="grid min-h-[560px] gap-4 xl:grid-rows-[minmax(0,1fr)_260px]">
           <div class="flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
-            <div class="flex items-center justify-between border-b border-border/60 px-4 py-3">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
               <div>
                 <h2 class="text-sm font-semibold text-graphite">预览</h2>
                 <p id="copyStatus" class="mt-1 text-xs text-muted-foreground"></p>
               </div>
-              <button
-                id="resetButton"
-                type="button"
-                class="inline-flex h-9 items-center rounded-[8px] border border-border/70 px-3 text-xs font-medium text-graphite transition-colors hover:bg-secondary"
-              >
-                重置示例
-              </button>
+              <div class="flex flex-wrap items-center gap-2">
+                <div id="previewDevicePicker"></div>
+                <button
+                  id="resetButton"
+                  type="button"
+                  class="inline-flex h-9 items-center rounded-[8px] border border-border/70 px-3 text-xs font-medium text-graphite transition-colors hover:bg-secondary"
+                >
+                  重置示例
+                </button>
+              </div>
             </div>
-            <div class="flex-1 overflow-auto bg-white px-3 py-4">
-              <article id="preview" class="mx-auto max-w-[677px]"></article>
+            <div id="previewFrame" class="flex-1 overflow-auto bg-white px-3 py-4 transition-colors">
+              <article id="preview" class="mx-auto transition-[width,max-width] duration-300"></article>
             </div>
           </div>
 
@@ -102,7 +138,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 
   const sampleMarkdown = `# 一篇公众号草稿
 
-这是一段普通正文。你可以直接粘贴 Markdown，也可以把 .md 文件读进来。
+这是一段普通正文。你可以直接粘贴 Markdown，也可以把 .md 文件读进来。**重点句子**会按所选样式处理。
 
 ## 小标题
 
@@ -133,6 +169,7 @@ console.log(channel);
 
   const markdownInput = mustGet<HTMLTextAreaElement>("#markdownInput");
   const preview = mustGet<HTMLElement>("#preview");
+  const previewFrame = mustGet<HTMLElement>("#previewFrame");
   const htmlOutput = mustGet<HTMLTextAreaElement>("#htmlOutput");
   const copyButton = mustGet<HTMLButtonElement>("#copyHtmlButton");
   const downloadButton = mustGet<HTMLButtonElement>("#downloadHtmlButton");
@@ -140,6 +177,14 @@ console.log(channel);
   const markdownFile = mustGet<HTMLInputElement>("#markdownFile");
   const copyStatus = mustGet<HTMLElement>("#copyStatus");
   const editorStats = mustGet<HTMLElement>("#editorStats");
+  const presetPicker = mustGet<HTMLElement>("#presetPicker");
+  const colorPicker = mustGet<HTMLElement>("#colorPicker");
+  const spacingPicker = mustGet<HTMLElement>("#spacingPicker");
+  const headingPicker = mustGet<HTMLElement>("#headingPicker");
+  const quotePicker = mustGet<HTMLElement>("#quotePicker");
+  const emphasisPicker = mustGet<HTMLElement>("#emphasisPicker");
+  const styleDescription = mustGet<HTMLElement>("#styleDescription");
+  const previewDevicePicker = mustGet<HTMLElement>("#previewDevicePicker");
 
   const markdown = new MarkdownIt({
     breaks: true,
@@ -154,84 +199,521 @@ console.log(channel);
 
   let imageIndex = 1;
   let latestWechatHtml = "";
+  const imageSources = new Map<string, string>();
 
-  const baseStyles: Record<string, string> = {
-    wrapper: [
-      "box-sizing:border-box",
-      "max-width:677px",
-      "margin:0 auto",
-      "padding:0 8px",
-      "color:#222222",
-      "font-size:16px",
-      "line-height:1.78",
-      "font-family:-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Helvetica,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",Arial,sans-serif",
-      "word-break:break-word",
-    ].join(";"),
-    h1: "margin:0 0 22px;padding:0;color:#111111;font-size:24px;line-height:1.35;font-weight:700;text-align:left",
-    h2: "margin:34px 0 16px;padding:0 0 0 12px;border-left:4px solid #2563eb;color:#111111;font-size:20px;line-height:1.45;font-weight:700",
-    h3: "margin:28px 0 12px;color:#111111;font-size:18px;line-height:1.5;font-weight:700",
-    h4: "margin:24px 0 10px;color:#111111;font-size:16px;line-height:1.5;font-weight:700",
-    p: "margin:0 0 16px;color:#222222;font-size:16px;line-height:1.78",
-    blockquote: "margin:20px 0;padding:12px 16px;border-left:4px solid #d1d5db;background:#f7f7f7;color:#555555",
-    ul: "margin:0 0 16px 0;padding:0 0 0 22px;color:#222222",
-    ol: "margin:0 0 16px 0;padding:0 0 0 22px;color:#222222",
-    li: "margin:0 0 8px;color:#222222;font-size:16px;line-height:1.75",
-    a: "color:#2563eb;text-decoration:underline",
-    strong: "font-weight:700;color:#111111",
-    em: "font-style:italic",
-    code: "margin:0 2px;padding:2px 5px;border-radius:4px;background:#f1f5f9;color:#0f172a;font-family:Menlo,Monaco,Consolas,\"Courier New\",monospace;font-size:14px",
-    pre: "margin:18px 0;padding:14px 16px;border-radius:8px;background:#f8fafc;border:1px solid #e5e7eb;overflow-x:auto;white-space:pre-wrap;word-break:break-word",
-    preCode: "margin:0;padding:0;background:transparent;color:#0f172a;font-family:Menlo,Monaco,Consolas,\"Courier New\",monospace;font-size:14px;line-height:1.65",
-    img: "display:block;max-width:100%;height:auto;margin:18px auto;border-radius:6px",
-    table: "width:100%;margin:18px 0;border-collapse:collapse;color:#222222;font-size:14px;line-height:1.6",
-    th: "padding:8px 10px;border:1px solid #d1d5db;background:#f3f4f6;color:#111111;font-weight:700;text-align:left",
-    td: "padding:8px 10px;border:1px solid #d1d5db;color:#222222;text-align:left",
-    hr: "height:1px;margin:28px 0;border:0;background:#e5e7eb",
+  const baseFont = "-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Helvetica,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",Arial,sans-serif";
+  const serifFont = "Georgia,\"Times New Roman\",\"Songti SC\",\"SimSun\",serif";
+  const monoFont = "Menlo,Monaco,Consolas,\"Courier New\",monospace";
+
+  type Option<T extends string> = {
+    id: T;
+    name: string;
+    description?: string;
   };
 
-  function applyWechatStyles(root: HTMLElement) {
-    root.setAttribute("style", baseStyles.wrapper);
-    root.querySelectorAll<HTMLElement>("h1").forEach((node) => node.setAttribute("style", baseStyles.h1));
-    root.querySelectorAll<HTMLElement>("h2").forEach((node) => node.setAttribute("style", baseStyles.h2));
-    root.querySelectorAll<HTMLElement>("h3").forEach((node) => node.setAttribute("style", baseStyles.h3));
-    root.querySelectorAll<HTMLElement>("h4").forEach((node) => node.setAttribute("style", baseStyles.h4));
-    root.querySelectorAll<HTMLElement>("p").forEach((node) => node.setAttribute("style", baseStyles.p));
-    root.querySelectorAll<HTMLElement>("blockquote").forEach((node) => node.setAttribute("style", baseStyles.blockquote));
-    root.querySelectorAll<HTMLElement>("ul").forEach((node) => node.setAttribute("style", baseStyles.ul));
-    root.querySelectorAll<HTMLElement>("ol").forEach((node) => node.setAttribute("style", baseStyles.ol));
-    root.querySelectorAll<HTMLElement>("li").forEach((node) => node.setAttribute("style", baseStyles.li));
+  type ColorId = "ink" | "mac" | "claude" | "cobalt" | "tesla" | "nyt" | "stripe" | "github" | "sspai" | "coral" | "amber";
+  type SpacingId = "compact" | "article" | "airy";
+  type HeadingId = "editorial" | "swiss" | "report" | "manual";
+  type QuoteId = "bar" | "panel" | "reverse" | "note";
+  type EmphasisId = "plain" | "marker" | "underline" | "pill";
+  type PreviewDeviceId = "mobile" | "tablet" | "desktop";
+
+  type DraftPayload = {
+    markdown: string;
+    images: Array<[string, string]>;
+    imageIndex: number;
+    savedAt: number;
+  };
+
+  type StyleSelection = {
+    color: ColorId;
+    spacing: SpacingId;
+    heading: HeadingId;
+    quote: QuoteId;
+    emphasis: EmphasisId;
+  };
+
+  type Palette = {
+    id: ColorId;
+    name: string;
+    page: string;
+    surface: string;
+    text: string;
+    muted: string;
+    accent: string;
+    accentSoft: string;
+    line: string;
+    reverseText: string;
+    codeBg: string;
+  };
+
+  const palettes: Palette[] = [
+    { id: "ink", name: "墨黑", page: "#ffffff", surface: "#f7f7f7", text: "#151515", muted: "#555555", accent: "#111111", accentSoft: "#eeeeee", line: "#111111", reverseText: "#ffffff", codeBg: "#f1f1f1" },
+    { id: "mac", name: "Mac", page: "#ffffff", surface: "#f5f5f7", text: "#1d1d1f", muted: "#636366", accent: "#0066cc", accentSoft: "#e8f2ff", line: "#d2d2d7", reverseText: "#ffffff", codeBg: "#f5f5f7" },
+    { id: "claude", name: "Claude", page: "#f8f6f0", surface: "#f0ece4", text: "#2b2b2b", muted: "#666666", accent: "#b75c3d", accentSoft: "#f2e7df", line: "#dfd6ca", reverseText: "#ffffff", codeBg: "#f0ece4" },
+    { id: "cobalt", name: "钴蓝", page: "#f8fbff", surface: "#edf4ff", text: "#172033", muted: "#4b5872", accent: "#0057ff", accentSoft: "#dbe8ff", line: "#8cb3ff", reverseText: "#ffffff", codeBg: "#eaf2ff" },
+    { id: "tesla", name: "Tesla 红", page: "#fffafa", surface: "#fff1f1", text: "#171717", muted: "#565656", accent: "#e82127", accentSoft: "#ffe1e2", line: "#ff9da1", reverseText: "#ffffff", codeBg: "#fff1f1" },
+    { id: "nyt", name: "NYT", page: "#fdfaf6", surface: "#f0ede8", text: "#111111", muted: "#555555", accent: "#326891", accentSoft: "#ece7de", line: "#d5cfc5", reverseText: "#ffffff", codeBg: "#f0ede8" },
+    { id: "stripe", name: "Stripe", page: "#f6f9fc", surface: "#eef0ff", text: "#425466", muted: "#697386", accent: "#635bff", accentSoft: "#e8e7ff", line: "#c9d2e3", reverseText: "#ffffff", codeBg: "#f0f2fe" },
+    { id: "github", name: "GitHub", page: "#ffffff", surface: "#f6f8fa", text: "#1f2328", muted: "#656d76", accent: "#0969da", accentSoft: "#ddf4ff", line: "#d1d9e0", reverseText: "#ffffff", codeBg: "#f6f8fa" },
+    { id: "sspai", name: "少数派", page: "#ffffff", surface: "#fef7f7", text: "#333333", muted: "#666666", accent: "#d71a1b", accentSoft: "#fde9e9", line: "#f0d0d0", reverseText: "#ffffff", codeBg: "#fff5f5" },
+    { id: "coral", name: "珊瑚", page: "#fff8f5", surface: "#ffede6", text: "#2c1c16", muted: "#6d4e43", accent: "#f05a28", accentSoft: "#ffd9cc", line: "#ff9b78", reverseText: "#ffffff", codeBg: "#ffede6" },
+    { id: "amber", name: "琥珀", page: "#fffaf0", surface: "#fff0c9", text: "#271b08", muted: "#6b4d1e", accent: "#d88a00", accentSoft: "#ffe1a3", line: "#e8b647", reverseText: "#1b1305", codeBg: "#fff0c9" },
+  ];
+
+  const spacingOptions: Array<Option<SpacingId> & { pagePadding: string; pMargin: string; lineHeight: string; sectionGap: string; imageMargin: string }> = [
+    { id: "compact", name: "紧凑", pagePadding: "22px 16px 40px", pMargin: "0 0 14px", lineHeight: "1.68", sectionGap: "28px", imageMargin: "20px auto" },
+    { id: "article", name: "正文", pagePadding: "28px 18px 48px", pMargin: "0 0 18px", lineHeight: "1.78", sectionGap: "36px", imageMargin: "24px auto" },
+    { id: "airy", name: "留白", pagePadding: "34px 20px 56px", pMargin: "0 0 24px", lineHeight: "1.9", sectionGap: "46px", imageMargin: "32px auto" },
+  ];
+
+  const headingOptions: Array<Option<HeadingId>> = [
+    { id: "editorial", name: "杂志" },
+    { id: "swiss", name: "瑞士" },
+    { id: "report", name: "报道" },
+    { id: "manual", name: "手册" },
+  ];
+
+  const quoteOptions: Array<Option<QuoteId>> = [
+    { id: "bar", name: "细线" },
+    { id: "panel", name: "色块" },
+    { id: "reverse", name: "反白" },
+    { id: "note", name: "批注" },
+  ];
+
+  const emphasisOptions: Array<Option<EmphasisId>> = [
+    { id: "plain", name: "加粗" },
+    { id: "marker", name: "标记" },
+    { id: "underline", name: "下划线" },
+    { id: "pill", name: "胶囊" },
+  ];
+
+  const previewDeviceOptions: Array<Option<PreviewDeviceId> & { width: string; frameMax: string }> = [
+    { id: "mobile", name: "手机 480", width: "480px", frameMax: "calc(100vw - 40px)" },
+    { id: "tablet", name: "平板 768", width: "768px", frameMax: "calc(100vw - 40px)" },
+    { id: "desktop", name: "桌面", width: "100%", frameMax: "920px" },
+  ];
+
+  const presetOptions: Array<Option<string> & { selection: StyleSelection }> = [
+    { id: "mac", name: "Mac", description: "Mac / 留白 / 杂志标题", selection: { color: "mac", spacing: "airy", heading: "editorial", quote: "bar", emphasis: "plain" } },
+    { id: "claude", name: "Claude", description: "Claude / 留白 / 报道标题", selection: { color: "claude", spacing: "airy", heading: "report", quote: "panel", emphasis: "marker" } },
+    { id: "nyt", name: "NYT", description: "NYT / 正文 / 报道标题", selection: { color: "nyt", spacing: "article", heading: "report", quote: "bar", emphasis: "plain" } },
+    { id: "stripe", name: "Stripe", description: "Stripe / 留白 / 瑞士标题", selection: { color: "stripe", spacing: "airy", heading: "swiss", quote: "panel", emphasis: "pill" } },
+    { id: "github", name: "GitHub", description: "GitHub / 紧凑 / 手册标题", selection: { color: "github", spacing: "compact", heading: "manual", quote: "bar", emphasis: "plain" } },
+    { id: "sspai", name: "少数派", description: "少数派 / 正文 / 手册标题", selection: { color: "sspai", spacing: "article", heading: "manual", quote: "bar", emphasis: "underline" } },
+    { id: "editorial", name: "电子杂志", description: "钴蓝 / 留白 / 杂志标题", selection: { color: "cobalt", spacing: "airy", heading: "editorial", quote: "bar", emphasis: "marker" } },
+    { id: "swiss", name: "瑞士海报", description: "钴蓝 / 正文 / 瑞士标题", selection: { color: "cobalt", spacing: "article", heading: "swiss", quote: "reverse", emphasis: "plain" } },
+    { id: "review", name: "深度报道", description: "琥珀 / 正文 / 报道标题", selection: { color: "amber", spacing: "article", heading: "report", quote: "panel", emphasis: "underline" } },
+    { id: "manual", name: "技术手册", description: "墨黑 / 紧凑 / 手册标题", selection: { color: "ink", spacing: "compact", heading: "manual", quote: "note", emphasis: "marker" } },
+    { id: "tesla", name: "Tesla 红", description: "Tesla 红 / 留白 / 报道标题", selection: { color: "tesla", spacing: "airy", heading: "report", quote: "bar", emphasis: "underline" } },
+    { id: "coral", name: "亮色评论", description: "珊瑚 / 留白 / 瑞士标题", selection: { color: "coral", spacing: "airy", heading: "swiss", quote: "panel", emphasis: "pill" } },
+  ];
+
+  const styleStorageKey = "wechat-format-style-v2";
+  const previewDeviceStorageKey = "wechat-format-preview-device";
+  const draftStorageKey = "wechat-format-draft-markdown";
+  const draftDbName = "wechat-format-drafts";
+  const draftStoreName = "drafts";
+  const draftRecordKey = "current";
+  const maxDraftBytes = 20 * 1024 * 1024;
+  const defaultSelection: StyleSelection = { color: "cobalt", spacing: "airy", heading: "report", quote: "bar", emphasis: "underline" };
+  let selectedStyle = loadStyleSelection();
+  let selectedPreviewDevice = loadPreviewDevice();
+  let draftLimitNoticeShown = false;
+  let draftSaveTimer = 0;
+
+  function loadStyleSelection(): StyleSelection {
+    try {
+      const saved = { ...defaultSelection, ...JSON.parse(window.localStorage.getItem(styleStorageKey) ?? "{}") };
+      return {
+        color: palettes.some((option) => option.id === saved.color) ? saved.color : defaultSelection.color,
+        spacing: spacingOptions.some((option) => option.id === saved.spacing) ? saved.spacing : defaultSelection.spacing,
+        heading: headingOptions.some((option) => option.id === saved.heading) ? saved.heading : defaultSelection.heading,
+        quote: quoteOptions.some((option) => option.id === saved.quote) ? saved.quote : defaultSelection.quote,
+        emphasis: emphasisOptions.some((option) => option.id === saved.emphasis) ? saved.emphasis : defaultSelection.emphasis,
+      };
+    } catch {
+      return defaultSelection;
+    }
+  }
+
+  function saveStyleSelection() {
+    window.localStorage.setItem(styleStorageKey, JSON.stringify(selectedStyle));
+  }
+
+  function loadPreviewDevice(): PreviewDeviceId {
+    const saved = window.localStorage.getItem(previewDeviceStorageKey);
+    return previewDeviceOptions.some((option) => option.id === saved) ? saved as PreviewDeviceId : "desktop";
+  }
+
+  function savePreviewDevice() {
+    window.localStorage.setItem(previewDeviceStorageKey, selectedPreviewDevice);
+  }
+
+  function openDraftDb() {
+    return new Promise<IDBDatabase>((resolve, reject) => {
+      const request = window.indexedDB.open(draftDbName, 1);
+      request.onupgradeneeded = () => {
+        request.result.createObjectStore(draftStoreName);
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  async function readDraftFromIndexedDb() {
+    const db = await openDraftDb();
+    return new Promise<DraftPayload | null>((resolve, reject) => {
+      const transaction = db.transaction(draftStoreName, "readonly");
+      const store = transaction.objectStore(draftStoreName);
+      const request = store.get(draftRecordKey);
+      request.onsuccess = () => resolve(request.result ?? null);
+      request.onerror = () => reject(request.error);
+      transaction.oncomplete = () => db.close();
+    });
+  }
+
+  async function writeDraftToIndexedDb(payload: DraftPayload) {
+    const db = await openDraftDb();
+    return new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(draftStoreName, "readwrite");
+      const store = transaction.objectStore(draftStoreName);
+      const request = store.put(payload, draftRecordKey);
+      request.onerror = () => reject(request.error);
+      transaction.oncomplete = () => {
+        db.close();
+        resolve();
+      };
+      transaction.onerror = () => reject(transaction.error);
+    });
+  }
+
+  async function deleteDraftFromIndexedDb() {
+    const db = await openDraftDb();
+    return new Promise<void>((resolve, reject) => {
+      const transaction = db.transaction(draftStoreName, "readwrite");
+      const store = transaction.objectStore(draftStoreName);
+      store.delete(draftRecordKey);
+      transaction.oncomplete = () => {
+        db.close();
+        resolve();
+      };
+      transaction.onerror = () => reject(transaction.error);
+    });
+  }
+
+  function currentDraftPayload(): DraftPayload {
+    return {
+      markdown: markdownInput.value,
+      images: Array.from(imageSources.entries()),
+      imageIndex,
+      savedAt: Date.now(),
+    };
+  }
+
+  function draftByteSize(payload: DraftPayload) {
+    const imageBytes = payload.images.reduce((total, [, dataUrl]) => total + new Blob([dataUrl]).size, 0);
+    return new Blob([payload.markdown]).size + imageBytes;
+  }
+
+  async function restoreDraft() {
+    try {
+      const payload = await readDraftFromIndexedDb();
+      if (payload) {
+        imageSources.clear();
+        payload.images.forEach(([id, dataUrl]) => imageSources.set(id, dataUrl));
+        imageIndex = payload.imageIndex;
+        window.localStorage.removeItem(draftStorageKey);
+        return payload.markdown;
+      }
+    } catch {
+      setStatus("草稿读取失败，已加载示例");
+    }
+
+    const legacyDraft = window.localStorage.getItem(draftStorageKey);
+    return legacyDraft ?? sampleMarkdown;
+  }
+
+  function queueSaveDraft() {
+    window.clearTimeout(draftSaveTimer);
+    draftSaveTimer = window.setTimeout(() => {
+      void saveDraft();
+    }, 400);
+  }
+
+  async function saveDraft() {
+    const payload = currentDraftPayload();
+    if (draftByteSize(payload) > maxDraftBytes) {
+      await deleteDraftFromIndexedDb();
+      window.localStorage.removeItem(draftStorageKey);
+      if (!draftLimitNoticeShown) {
+        draftLimitNoticeShown = true;
+        setStatus("草稿超过 20MB，未自动保存");
+      }
+      return;
+    }
+    draftLimitNoticeShown = false;
+    try {
+      await writeDraftToIndexedDb(payload);
+      window.localStorage.removeItem(draftStorageKey);
+    } catch {
+      setStatus("草稿保存失败");
+    }
+  }
+
+  async function clearDraft() {
+    window.clearTimeout(draftSaveTimer);
+    window.localStorage.removeItem(draftStorageKey);
+    await deleteDraftFromIndexedDb();
+  }
+
+  function currentPalette() {
+    return palettes.find((palette) => palette.id === selectedStyle.color) ?? palettes[0];
+  }
+
+  function currentSpacing() {
+    return spacingOptions.find((spacing) => spacing.id === selectedStyle.spacing) ?? spacingOptions[1];
+  }
+
+  function currentPreviewDevice() {
+    return previewDeviceOptions.find((device) => device.id === selectedPreviewDevice) ?? previewDeviceOptions[2];
+  }
+
+  function hexToRgba(hex: string, alpha: number) {
+    const value = hex.replace("#", "");
+    const red = Number.parseInt(value.slice(0, 2), 16);
+    const green = Number.parseInt(value.slice(2, 4), 16);
+    const blue = Number.parseInt(value.slice(4, 6), 16);
+    return `rgba(${red},${green},${blue},${alpha})`;
+  }
+
+  function composeStyles() {
+    const palette = currentPalette();
+    const spacing = currentSpacing();
+    const textBase = `color:${palette.text};font-size:16px;line-height:${spacing.lineHeight}`;
+    const styles: Record<string, string> = {
+      wrapper: `box-sizing:border-box;max-width:677px;margin:0 auto;padding:${spacing.pagePadding};color:${palette.text};background:${palette.page};font-family:${baseFont};font-size:16px;line-height:${spacing.lineHeight};word-break:break-word`,
+      h1: "",
+      h2: "",
+      h3: "",
+      h4: `margin:24px 0 10px;color:${palette.text};font-size:16px;line-height:1.45;font-weight:700`,
+      p: `margin:${spacing.pMargin};${textBase}`,
+      blockquote: "",
+      blockquoteText: "",
+      ul: `margin:0 0 18px;padding:0 0 0 24px;color:${palette.text}`,
+      ol: `margin:0 0 18px;padding:0 0 0 24px;color:${palette.text}`,
+      li: `margin:0 0 8px;${textBase}`,
+      a: `color:${palette.accent};text-decoration:none;border-bottom:1px solid ${palette.accent}`,
+      strong: "",
+      em: `font-style:italic;color:${palette.muted}`,
+      code: `margin:0 2px;padding:2px 5px;background:${palette.codeBg};color:${palette.accent};font-family:${monoFont};font-size:13px`,
+      pre: `margin:22px 0;padding:16px;background:${palette.codeBg};border:1px solid ${palette.line};overflow-x:auto;white-space:pre-wrap;word-break:break-word`,
+      preCode: `margin:0;padding:0;background:transparent;color:${palette.text};font-family:${monoFont};font-size:13px;line-height:1.65`,
+      img: `display:block;max-width:100%;height:auto;margin:${spacing.imageMargin};border-radius:2px`,
+      table: `width:100%;margin:22px 0;border-collapse:collapse;color:${palette.text};font-size:14px;line-height:1.6`,
+      th: `padding:8px 10px;border:1px solid ${palette.line};background:${palette.accent};color:${palette.reverseText};font-weight:700;text-align:left`,
+      td: `padding:8px 10px;border:1px solid ${palette.line};color:${palette.text};text-align:left`,
+      hr: `height:1px;margin:${spacing.sectionGap} 0;border:0;background:${palette.line}`,
+    };
+
+    if (selectedStyle.heading === "editorial") {
+      styles.h1 = `margin:8px 0 32px;padding:0;color:${palette.text};font-family:${serifFont};font-size:34px;line-height:1.22;font-weight:500;text-align:left`;
+      styles.h2 = `margin:${spacing.sectionGap} 0 18px;padding:14px 0 0;border-top:1px solid ${palette.line};color:${palette.text};font-family:${serifFont};font-size:24px;line-height:1.35;font-weight:500`;
+      styles.h3 = `margin:30px 0 14px;color:${palette.text};font-family:${serifFont};font-size:20px;line-height:1.45;font-weight:600`;
+    } else if (selectedStyle.heading === "swiss") {
+      styles.h1 = `margin:0 0 34px;padding:0 0 18px;border-bottom:1px solid ${palette.line};color:${palette.text};font-size:38px;line-height:1.05;font-weight:300;text-align:left`;
+      styles.h2 = `margin:${spacing.sectionGap} 0 18px;padding:0;color:${palette.accent};font-size:26px;line-height:1.18;font-weight:300;text-align:left`;
+      styles.h3 = `margin:30px 0 12px;padding-top:10px;border-top:1px solid ${palette.line};color:${palette.text};font-size:18px;line-height:1.35;font-weight:600`;
+    } else if (selectedStyle.heading === "report") {
+      styles.h1 = `margin:0 0 24px;padding:0 0 14px;border-bottom:2px solid ${palette.line};color:${palette.text};font-family:${serifFont};font-size:32px;line-height:1.22;font-weight:700;text-align:left`;
+      styles.h2 = `margin:${spacing.sectionGap} 0 16px;color:${palette.text};font-family:${serifFont};font-size:23px;line-height:1.35;font-weight:700`;
+      styles.h3 = `margin:28px 0 12px;color:${palette.text};font-family:${serifFont};font-size:19px;line-height:1.45;font-weight:700`;
+    } else {
+      styles.h1 = `margin:0 0 20px;padding:0 0 12px;border-bottom:1px solid ${palette.line};color:${palette.text};font-size:30px;line-height:1.25;font-weight:650;text-align:left`;
+      styles.h2 = `margin:30px 0 14px;padding:0 0 9px;border-bottom:1px solid ${palette.line};color:${palette.text};font-size:23px;line-height:1.3;font-weight:650`;
+      styles.h3 = `margin:26px 0 10px;color:${palette.text};font-size:19px;line-height:1.35;font-weight:650`;
+    }
+
+    if (selectedStyle.quote === "bar") {
+      styles.blockquote = `margin:26px 0;padding:16px 0 16px 20px;border-left:3px solid ${palette.accent};background:transparent;color:${palette.muted};line-height:${spacing.lineHeight}`;
+      styles.blockquoteText = `margin:0;color:${palette.muted};font-size:16px;line-height:${spacing.lineHeight}`;
+    } else if (selectedStyle.quote === "panel") {
+      styles.blockquote = `margin:24px 0;padding:16px 18px;background:${palette.accentSoft};border-left:4px solid ${palette.accent};color:${palette.text};line-height:${spacing.lineHeight}`;
+      styles.blockquoteText = `margin:0;color:${palette.text};font-size:16px;line-height:${spacing.lineHeight}`;
+    } else if (selectedStyle.quote === "reverse") {
+      styles.blockquote = `margin:26px 0;padding:16px 18px;background:${palette.accent};border-left:0;color:${palette.reverseText};line-height:${spacing.lineHeight}`;
+      styles.blockquoteText = `margin:0;color:${palette.reverseText};font-size:16px;line-height:${spacing.lineHeight}`;
+    } else {
+      styles.blockquote = `margin:22px 0;padding:14px 16px;background:${palette.surface};border-left:0;color:${palette.muted};font-size:15px;line-height:${spacing.lineHeight}`;
+      styles.blockquoteText = `margin:0;color:${palette.muted};font-size:15px;line-height:${spacing.lineHeight}`;
+    }
+
+    if (selectedStyle.emphasis === "plain") {
+      styles.strong = `font-weight:700;color:${palette.accent};background:transparent`;
+    } else if (selectedStyle.emphasis === "marker") {
+      styles.strong = `font-weight:700;color:${palette.text};background:${palette.accentSoft};padding:0 4px`;
+    } else if (selectedStyle.emphasis === "underline") {
+      const underlineColor = hexToRgba(palette.accent, 0.42);
+      styles.strong = `font-weight:700;color:${palette.text};text-decoration-line:underline;text-decoration-thickness:0.28em;text-decoration-color:${underlineColor};text-underline-offset:-0.14em;text-decoration-skip-ink:none;background:linear-gradient(to top,${underlineColor} 0,${underlineColor} .34em,transparent .34em);padding:0 2px;box-decoration-break:clone;-webkit-box-decoration-break:clone`;
+    } else {
+      styles.strong = `font-weight:700;color:${palette.reverseText};background:${palette.accent};padding:1px 6px;border-radius:999px`;
+    }
+
+    return { styles, palette };
+  }
+
+  function applyWechatStyles(root: HTMLElement, styles: Record<string, string>) {
+    root.setAttribute("style", styles.wrapper);
+    root.querySelectorAll<HTMLElement>("h1").forEach((node) => node.setAttribute("style", styles.h1));
+    root.querySelectorAll<HTMLElement>("h2").forEach((node) => node.setAttribute("style", styles.h2));
+    root.querySelectorAll<HTMLElement>("h3").forEach((node) => node.setAttribute("style", styles.h3));
+    root.querySelectorAll<HTMLElement>("h4").forEach((node) => node.setAttribute("style", styles.h4));
+    root.querySelectorAll<HTMLElement>("p").forEach((node) => node.setAttribute("style", styles.p));
+    root.querySelectorAll<HTMLElement>("blockquote").forEach((node) => node.setAttribute("style", styles.blockquote));
+    root.querySelectorAll<HTMLElement>("ul").forEach((node) => node.setAttribute("style", styles.ul));
+    root.querySelectorAll<HTMLElement>("ol").forEach((node) => node.setAttribute("style", styles.ol));
+    root.querySelectorAll<HTMLElement>("li").forEach((node) => node.setAttribute("style", styles.li));
     root.querySelectorAll<HTMLElement>("a").forEach((node) => {
-      node.setAttribute("style", baseStyles.a);
+      node.setAttribute("style", styles.a);
       node.setAttribute("target", "_blank");
       node.setAttribute("rel", "noopener noreferrer");
     });
-    root.querySelectorAll<HTMLElement>("strong").forEach((node) => node.setAttribute("style", baseStyles.strong));
-    root.querySelectorAll<HTMLElement>("em").forEach((node) => node.setAttribute("style", baseStyles.em));
-    root.querySelectorAll<HTMLElement>("pre").forEach((node) => node.setAttribute("style", baseStyles.pre));
-    root.querySelectorAll<HTMLElement>("pre code").forEach((node) => node.setAttribute("style", baseStyles.preCode));
+    root.querySelectorAll<HTMLElement>("strong").forEach((node) => node.setAttribute("style", styles.strong));
+    root.querySelectorAll<HTMLElement>("em").forEach((node) => node.setAttribute("style", styles.em));
+    root.querySelectorAll<HTMLElement>("pre").forEach((node) => node.setAttribute("style", styles.pre));
+    root.querySelectorAll<HTMLElement>("pre code").forEach((node) => node.setAttribute("style", styles.preCode));
     root.querySelectorAll<HTMLElement>("code").forEach((node) => {
       if (node.parentElement?.tagName.toLowerCase() === "pre") return;
-      node.setAttribute("style", baseStyles.code);
+      node.setAttribute("style", styles.code);
     });
     root.querySelectorAll<HTMLElement>("img").forEach((node) => {
-      node.setAttribute("style", baseStyles.img);
+      const src = node.getAttribute("src");
+      if (src?.startsWith("#image-")) {
+        const dataUrl = imageSources.get(src.slice(1));
+        if (dataUrl) {
+          node.setAttribute("src", dataUrl);
+        }
+      }
+      node.setAttribute("style", styles.img);
       node.removeAttribute("width");
       node.removeAttribute("height");
     });
-    root.querySelectorAll<HTMLElement>("table").forEach((node) => node.setAttribute("style", baseStyles.table));
-    root.querySelectorAll<HTMLElement>("th").forEach((node) => node.setAttribute("style", baseStyles.th));
-    root.querySelectorAll<HTMLElement>("td").forEach((node) => node.setAttribute("style", baseStyles.td));
-    root.querySelectorAll<HTMLElement>("hr").forEach((node) => node.setAttribute("style", baseStyles.hr));
+    root.querySelectorAll<HTMLElement>("table").forEach((node) => node.setAttribute("style", styles.table));
+    root.querySelectorAll<HTMLElement>("th").forEach((node) => node.setAttribute("style", styles.th));
+    root.querySelectorAll<HTMLElement>("td").forEach((node) => node.setAttribute("style", styles.td));
+    root.querySelectorAll<HTMLElement>("hr").forEach((node) => node.setAttribute("style", styles.hr));
+    root.querySelectorAll<HTMLElement>("blockquote p, blockquote li").forEach((node) => node.setAttribute("style", styles.blockquoteText));
+    root.querySelectorAll<HTMLElement>("blockquote strong").forEach((node) => {
+      node.setAttribute("style", `${styles.blockquoteText};font-weight:700`);
+    });
+  }
+
+  function selectClassName() {
+    return "h-10 w-full rounded-[8px] border border-border/70 bg-background px-3 text-sm font-medium text-graphite outline-none transition-colors hover:bg-secondary focus:border-graphite";
+  }
+
+  function renderSelect<T extends string>(
+    target: HTMLElement,
+    options: Array<Option<T>>,
+    value: T,
+    onChange: (value: T) => void,
+    extraOption?: Option<T>,
+  ) {
+    target.innerHTML = "";
+    const select = document.createElement("select");
+    select.id = `${target.id}Select`;
+    select.className = selectClassName();
+
+    const renderOption = (option: Option<T>) => {
+      const node = document.createElement("option");
+      node.value = option.id;
+      node.textContent = option.name;
+      if (option.description) {
+        node.title = option.description;
+      }
+      select.append(node);
+    };
+
+    if (extraOption) {
+      renderOption(extraOption);
+    }
+
+    options.forEach(renderOption);
+    select.value = value;
+    select.addEventListener("change", () => {
+      onChange(select.value as T);
+    });
+    target.append(select);
+  }
+
+  function renderOptionGroup<T extends keyof StyleSelection>(
+    target: HTMLElement,
+    options: Array<Option<StyleSelection[T]>>,
+    key: T,
+  ) {
+    renderSelect(target, options, selectedStyle[key], (value) => {
+      selectedStyle = { ...selectedStyle, [key]: value };
+      saveStyleSelection();
+      renderControls();
+      render();
+    });
+  }
+
+  function renderControls() {
+    const activePreset = presetOptions.find((preset) => JSON.stringify(preset.selection) === JSON.stringify(selectedStyle));
+    renderSelect(
+      presetPicker,
+      presetOptions,
+      activePreset?.id ?? "custom",
+      (value) => {
+        const preset = presetOptions.find((item) => item.id === value);
+        if (!preset) return;
+        selectedStyle = { ...preset.selection };
+        saveStyleSelection();
+        renderControls();
+        render();
+      },
+      activePreset ? undefined : { id: "custom", name: "自定义" },
+    );
+    renderOptionGroup(colorPicker, palettes, "color");
+    renderOptionGroup(spacingPicker, spacingOptions, "spacing");
+    renderOptionGroup(headingPicker, headingOptions, "heading");
+    renderOptionGroup(quotePicker, quoteOptions, "quote");
+    renderOptionGroup(emphasisPicker, emphasisOptions, "emphasis");
+    renderSelect(previewDevicePicker, previewDeviceOptions, selectedPreviewDevice, (value) => {
+      selectedPreviewDevice = value;
+      savePreviewDevice();
+      applyPreviewDeviceStyles();
+    });
+    const palette = currentPalette();
+    const spacing = currentSpacing();
+    styleDescription.textContent = `${palette.name} / ${spacing.name} / ${headingOptions.find((item) => item.id === selectedStyle.heading)?.name ?? ""}`;
+  }
+
+  function applyPreviewDeviceStyles() {
+    const device = currentPreviewDevice();
+    preview.style.width = device.width;
+    preview.style.maxWidth = device.frameMax;
+    preview.style.minWidth = "0";
+    preview.style.boxShadow = selectedPreviewDevice === "desktop" ? "none" : "0 18px 45px rgba(15,23,42,0.14)";
+    preview.style.borderRadius = selectedPreviewDevice === "mobile" ? "28px" : selectedPreviewDevice === "tablet" ? "18px" : "0";
+    preview.style.overflow = "hidden";
+    previewFrame.style.justifyContent = "center";
+    previewFrame.style.paddingLeft = selectedPreviewDevice === "desktop" ? "12px" : "24px";
+    previewFrame.style.paddingRight = selectedPreviewDevice === "desktop" ? "12px" : "24px";
   }
 
   function render() {
+    const { styles, palette } = composeStyles();
     const source = markdownInput.value;
     const rendered = markdown.render(source);
     const container = document.createElement("section");
     container.innerHTML = rendered;
-    applyWechatStyles(container);
+    applyWechatStyles(container, styles);
     latestWechatHtml = container.outerHTML;
+    previewFrame.style.background = palette.page;
     preview.innerHTML = latestWechatHtml;
+    applyPreviewDeviceStyles();
     htmlOutput.value = latestWechatHtml;
     editorStats.textContent = `${source.replace(/\s/g, "").length} 字 / ${source.length} 字符`;
   }
@@ -252,6 +734,7 @@ console.log(channel);
     const nextCursor = start + text.length;
     markdownInput.focus();
     markdownInput.setSelectionRange(nextCursor, nextCursor);
+    queueSaveDraft();
     render();
   }
 
@@ -264,7 +747,10 @@ console.log(channel);
     });
   }
 
-  markdownInput.addEventListener("input", render);
+  markdownInput.addEventListener("input", () => {
+    queueSaveDraft();
+    render();
+  });
 
   markdownInput.addEventListener("paste", async (event) => {
     const items = Array.from(event.clipboardData?.items ?? []);
@@ -279,9 +765,12 @@ console.log(channel);
       const file = item.getAsFile();
       if (!file) continue;
       const dataUrl = await fileToDataUrl(file);
-      insertAtCursor(`\n\n![图片 ${imageIndex}](${dataUrl})\n\n`);
+      const imageId = `image-${imageIndex}`;
+      imageSources.set(imageId, dataUrl);
+      insertAtCursor(`\n\n![图片 ${imageIndex}](#${imageId})\n\n`);
       imageIndex += 1;
     }
+    await saveDraft();
     setStatus("图片已转成 base64");
   });
 
@@ -290,6 +779,7 @@ console.log(channel);
     if (!file) return;
     markdownInput.value = await file.text();
     markdownFile.value = "";
+    queueSaveDraft();
     render();
     setStatus("文件已读取");
   });
@@ -327,12 +817,25 @@ console.log(channel);
     URL.revokeObjectURL(url);
   });
 
-  resetButton.addEventListener("click", () => {
+  resetButton.addEventListener("click", async () => {
     markdownInput.value = sampleMarkdown;
+    imageSources.clear();
+    imageIndex = 1;
+    await clearDraft();
     render();
     setStatus("已重置");
   });
 
-  markdownInput.value = sampleMarkdown;
-  render();
+  window.addEventListener("pagehide", () => {
+    window.clearTimeout(draftSaveTimer);
+    void saveDraft();
+  });
+
+  async function initialize() {
+    markdownInput.value = await restoreDraft();
+    renderControls();
+    render();
+  }
+
+  void initialize();
 </script>
