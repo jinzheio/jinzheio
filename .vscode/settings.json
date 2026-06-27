@@ -2,5 +2,10 @@
     "i18n-ally.localesPaths": [
         "messages",
         "src/i18n"
-    ]
+    ],
+    "markdown.copyFiles.destination": {
+        "**/*": "/src/assets/images/${documentBaseName}/${fileName}"
+    },
+    "pasteImage.path": "${projectRoot}/src/assets/images/${currentFileNameWithoutExt}/",
+    "pasteImage.prefix": "../../assets/images/${currentFileNameWithoutExt}/"
 }
