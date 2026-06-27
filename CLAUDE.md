@@ -25,9 +25,9 @@ jinzhe.io 是个人站点，包含 blog、About、Concepts 等页面。Blog 是�
 
 ## 技术栈
 
-- Astro 静态站点
+- Astro 站点，使用 `@astrojs/cloudflare` 输出 Cloudflare Worker
 - MDX blog 内容（`src/content/blog/`）
-- 部署到 Cloudflare Pages
+- 部署到 Cloudflare Workers。生产域名应由同一个 Worker 服务 `jinzhe.io/*`
 
 ## Skill routing
 
