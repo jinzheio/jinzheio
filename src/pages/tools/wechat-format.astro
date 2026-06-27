@@ -1,0 +1,338 @@
+---
+import Ambient from "@/components/ambient.astro";
+import SiteFooter from "@/components/site-footer.astro";
+import SiteHeader from "@/components/site-header.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="公众号排版 - jinzhe.io"
+  description="Markdown 转微信公众号 HTML。"
+>
+  <div class="min-h-screen">
+    <Ambient />
+    <SiteHeader />
+    <main class="mx-auto flex w-full max-w-7xl flex-col gap-8 px-4 pb-16 pt-8 sm:px-6">
+      <section class="grid gap-4 border-b border-border/60 pb-6 md:grid-cols-[1fr_auto] md:items-end">
+        <div class="space-y-3">
+          <p class="text-xs uppercase tracking-[0.24em] text-muted-foreground">Tool</p>
+          <h1 class="font-display text-3xl leading-tight text-graphite md:text-5xl">
+            公众号排版
+          </h1>
+          <p class="max-w-2xl text-sm leading-6 text-muted-foreground md:text-base">
+            输入 Markdown，复制可以粘贴到微信编辑器的 HTML。粘贴图片会转成 base64。
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button
+            id="copyHtmlButton"
+            type="button"
+            class="inline-flex h-10 items-center justify-center rounded-[8px] bg-graphite px-4 text-sm font-medium text-white transition-colors hover:bg-graphite/90"
+          >
+            复制
+          </button>
+          <button
+            id="downloadHtmlButton"
+            type="button"
+            class="inline-flex h-10 items-center justify-center rounded-[8px] border border-border/70 px-4 text-sm font-medium text-graphite transition-colors hover:bg-secondary"
+          >
+            下载 HTML
+          </button>
+        </div>
+      </section>
+
+      <section class="grid min-h-[680px] gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div class="flex min-h-[560px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
+          <div class="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+            <div>
+              <h2 class="text-sm font-semibold text-graphite">Markdown</h2>
+              <p id="editorStats" class="mt-1 text-xs text-muted-foreground">0 字</p>
+            </div>
+            <label class="inline-flex h-9 cursor-pointer items-center rounded-[8px] border border-border/70 px-3 text-xs font-medium text-graphite transition-colors hover:bg-secondary">
+              读取文件
+              <input id="markdownFile" type="file" accept=".md,.mdx,text/markdown,text/plain" class="sr-only" />
+            </label>
+          </div>
+          <textarea
+            id="markdownInput"
+            class="min-h-[520px] flex-1 resize-none bg-transparent p-4 font-mono text-sm leading-6 text-foreground outline-none"
+            spellcheck="false"
+          ></textarea>
+        </div>
+
+        <div class="grid min-h-[560px] gap-4 xl:grid-rows-[minmax(0,1fr)_260px]">
+          <div class="flex min-h-[360px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
+            <div class="flex items-center justify-between border-b border-border/60 px-4 py-3">
+              <div>
+                <h2 class="text-sm font-semibold text-graphite">预览</h2>
+                <p id="copyStatus" class="mt-1 text-xs text-muted-foreground"></p>
+              </div>
+              <button
+                id="resetButton"
+                type="button"
+                class="inline-flex h-9 items-center rounded-[8px] border border-border/70 px-3 text-xs font-medium text-graphite transition-colors hover:bg-secondary"
+              >
+                重置示例
+              </button>
+            </div>
+            <div class="flex-1 overflow-auto bg-white px-3 py-4">
+              <article id="preview" class="mx-auto max-w-[677px]"></article>
+            </div>
+          </div>
+
+          <div class="flex min-h-[220px] flex-col overflow-hidden rounded-[8px] border border-border/60 bg-card/70">
+            <div class="border-b border-border/60 px-4 py-3">
+              <h2 class="text-sm font-semibold text-graphite">HTML</h2>
+            </div>
+            <textarea
+              id="htmlOutput"
+              class="min-h-[170px] flex-1 resize-none bg-transparent p-4 font-mono text-xs leading-5 text-muted-foreground outline-none"
+              readonly
+            ></textarea>
+          </div>
+        </div>
+      </section>
+    </main>
+    <SiteFooter />
+  </div>
+</BaseLayout>
+
+<script>
+  import MarkdownIt from "markdown-it";
+
+  const sampleMarkdown = `# 一篇公众号草稿
+
+这是一段普通正文。你可以直接粘贴 Markdown，也可以把 .md 文件读进来。
+
+## 小标题
+
+- 列表会转成适合微信粘贴的 HTML
+- 图片会保留在正文里
+- 代码块会使用浅色样式
+
+> 引用适合放补充说明。不要写太长。
+
+\`\`\`ts
+const channel = "jinzhe.io";
+console.log(channel);
+\`\`\`
+
+| 项目 | 处理方式 |
+| --- | --- |
+| 图片 | base64 |
+| 复制 | text/html |
+`;
+
+  function mustGet<T extends Element>(selector: string) {
+    const element = document.querySelector<T>(selector);
+    if (!element) {
+      throw new Error(`Wechat formatter page missed ${selector}.`);
+    }
+    return element;
+  }
+
+  const markdownInput = mustGet<HTMLTextAreaElement>("#markdownInput");
+  const preview = mustGet<HTMLElement>("#preview");
+  const htmlOutput = mustGet<HTMLTextAreaElement>("#htmlOutput");
+  const copyButton = mustGet<HTMLButtonElement>("#copyHtmlButton");
+  const downloadButton = mustGet<HTMLButtonElement>("#downloadHtmlButton");
+  const resetButton = mustGet<HTMLButtonElement>("#resetButton");
+  const markdownFile = mustGet<HTMLInputElement>("#markdownFile");
+  const copyStatus = mustGet<HTMLElement>("#copyStatus");
+  const editorStats = mustGet<HTMLElement>("#editorStats");
+
+  const markdown = new MarkdownIt({
+    breaks: true,
+    html: false,
+    linkify: true,
+    typographer: false,
+  });
+
+  markdown.validateLink = (url: string) => {
+    return /^(https?:|mailto:|#|\/|data:image\/)/i.test(url);
+  };
+
+  let imageIndex = 1;
+  let latestWechatHtml = "";
+
+  const baseStyles: Record<string, string> = {
+    wrapper: [
+      "box-sizing:border-box",
+      "max-width:677px",
+      "margin:0 auto",
+      "padding:0 8px",
+      "color:#222222",
+      "font-size:16px",
+      "line-height:1.78",
+      "font-family:-apple-system,BlinkMacSystemFont,\"Helvetica Neue\",Helvetica,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",Arial,sans-serif",
+      "word-break:break-word",
+    ].join(";"),
+    h1: "margin:0 0 22px;padding:0;color:#111111;font-size:24px;line-height:1.35;font-weight:700;text-align:left",
+    h2: "margin:34px 0 16px;padding:0 0 0 12px;border-left:4px solid #2563eb;color:#111111;font-size:20px;line-height:1.45;font-weight:700",
+    h3: "margin:28px 0 12px;color:#111111;font-size:18px;line-height:1.5;font-weight:700",
+    h4: "margin:24px 0 10px;color:#111111;font-size:16px;line-height:1.5;font-weight:700",
+    p: "margin:0 0 16px;color:#222222;font-size:16px;line-height:1.78",
+    blockquote: "margin:20px 0;padding:12px 16px;border-left:4px solid #d1d5db;background:#f7f7f7;color:#555555",
+    ul: "margin:0 0 16px 0;padding:0 0 0 22px;color:#222222",
+    ol: "margin:0 0 16px 0;padding:0 0 0 22px;color:#222222",
+    li: "margin:0 0 8px;color:#222222;font-size:16px;line-height:1.75",
+    a: "color:#2563eb;text-decoration:underline",
+    strong: "font-weight:700;color:#111111",
+    em: "font-style:italic",
+    code: "margin:0 2px;padding:2px 5px;border-radius:4px;background:#f1f5f9;color:#0f172a;font-family:Menlo,Monaco,Consolas,\"Courier New\",monospace;font-size:14px",
+    pre: "margin:18px 0;padding:14px 16px;border-radius:8px;background:#f8fafc;border:1px solid #e5e7eb;overflow-x:auto;white-space:pre-wrap;word-break:break-word",
+    preCode: "margin:0;padding:0;background:transparent;color:#0f172a;font-family:Menlo,Monaco,Consolas,\"Courier New\",monospace;font-size:14px;line-height:1.65",
+    img: "display:block;max-width:100%;height:auto;margin:18px auto;border-radius:6px",
+    table: "width:100%;margin:18px 0;border-collapse:collapse;color:#222222;font-size:14px;line-height:1.6",
+    th: "padding:8px 10px;border:1px solid #d1d5db;background:#f3f4f6;color:#111111;font-weight:700;text-align:left",
+    td: "padding:8px 10px;border:1px solid #d1d5db;color:#222222;text-align:left",
+    hr: "height:1px;margin:28px 0;border:0;background:#e5e7eb",
+  };
+
+  function applyWechatStyles(root: HTMLElement) {
+    root.setAttribute("style", baseStyles.wrapper);
+    root.querySelectorAll<HTMLElement>("h1").forEach((node) => node.setAttribute("style", baseStyles.h1));
+    root.querySelectorAll<HTMLElement>("h2").forEach((node) => node.setAttribute("style", baseStyles.h2));
+    root.querySelectorAll<HTMLElement>("h3").forEach((node) => node.setAttribute("style", baseStyles.h3));
+    root.querySelectorAll<HTMLElement>("h4").forEach((node) => node.setAttribute("style", baseStyles.h4));
+    root.querySelectorAll<HTMLElement>("p").forEach((node) => node.setAttribute("style", baseStyles.p));
+    root.querySelectorAll<HTMLElement>("blockquote").forEach((node) => node.setAttribute("style", baseStyles.blockquote));
+    root.querySelectorAll<HTMLElement>("ul").forEach((node) => node.setAttribute("style", baseStyles.ul));
+    root.querySelectorAll<HTMLElement>("ol").forEach((node) => node.setAttribute("style", baseStyles.ol));
+    root.querySelectorAll<HTMLElement>("li").forEach((node) => node.setAttribute("style", baseStyles.li));
+    root.querySelectorAll<HTMLElement>("a").forEach((node) => {
+      node.setAttribute("style", baseStyles.a);
+      node.setAttribute("target", "_blank");
+      node.setAttribute("rel", "noopener noreferrer");
+    });
+    root.querySelectorAll<HTMLElement>("strong").forEach((node) => node.setAttribute("style", baseStyles.strong));
+    root.querySelectorAll<HTMLElement>("em").forEach((node) => node.setAttribute("style", baseStyles.em));
+    root.querySelectorAll<HTMLElement>("pre").forEach((node) => node.setAttribute("style", baseStyles.pre));
+    root.querySelectorAll<HTMLElement>("pre code").forEach((node) => node.setAttribute("style", baseStyles.preCode));
+    root.querySelectorAll<HTMLElement>("code").forEach((node) => {
+      if (node.parentElement?.tagName.toLowerCase() === "pre") return;
+      node.setAttribute("style", baseStyles.code);
+    });
+    root.querySelectorAll<HTMLElement>("img").forEach((node) => {
+      node.setAttribute("style", baseStyles.img);
+      node.removeAttribute("width");
+      node.removeAttribute("height");
+    });
+    root.querySelectorAll<HTMLElement>("table").forEach((node) => node.setAttribute("style", baseStyles.table));
+    root.querySelectorAll<HTMLElement>("th").forEach((node) => node.setAttribute("style", baseStyles.th));
+    root.querySelectorAll<HTMLElement>("td").forEach((node) => node.setAttribute("style", baseStyles.td));
+    root.querySelectorAll<HTMLElement>("hr").forEach((node) => node.setAttribute("style", baseStyles.hr));
+  }
+
+  function render() {
+    const source = markdownInput.value;
+    const rendered = markdown.render(source);
+    const container = document.createElement("section");
+    container.innerHTML = rendered;
+    applyWechatStyles(container);
+    latestWechatHtml = container.outerHTML;
+    preview.innerHTML = latestWechatHtml;
+    htmlOutput.value = latestWechatHtml;
+    editorStats.textContent = `${source.replace(/\s/g, "").length} 字 / ${source.length} 字符`;
+  }
+
+  function setStatus(message: string) {
+    copyStatus.textContent = message;
+    window.setTimeout(() => {
+      if (copyStatus.textContent === message) {
+        copyStatus.textContent = "";
+      }
+    }, 2600);
+  }
+
+  function insertAtCursor(text: string) {
+    const start = markdownInput.selectionStart;
+    const end = markdownInput.selectionEnd;
+    markdownInput.value = `${markdownInput.value.slice(0, start)}${text}${markdownInput.value.slice(end)}`;
+    const nextCursor = start + text.length;
+    markdownInput.focus();
+    markdownInput.setSelectionRange(nextCursor, nextCursor);
+    render();
+  }
+
+  async function fileToDataUrl(file: File) {
+    return new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(reader.error);
+      reader.readAsDataURL(file);
+    });
+  }
+
+  markdownInput.addEventListener("input", render);
+
+  markdownInput.addEventListener("paste", async (event) => {
+    const items = Array.from(event.clipboardData?.items ?? []);
+    const imageItems = items.filter((item) => item.type.startsWith("image/"));
+
+    if (imageItems.length === 0) {
+      return;
+    }
+
+    event.preventDefault();
+    for (const item of imageItems) {
+      const file = item.getAsFile();
+      if (!file) continue;
+      const dataUrl = await fileToDataUrl(file);
+      insertAtCursor(`\n\n![图片 ${imageIndex}](${dataUrl})\n\n`);
+      imageIndex += 1;
+    }
+    setStatus("图片已转成 base64");
+  });
+
+  markdownFile.addEventListener("change", async () => {
+    const file = markdownFile.files?.[0];
+    if (!file) return;
+    markdownInput.value = await file.text();
+    markdownFile.value = "";
+    render();
+    setStatus("文件已读取");
+  });
+
+  copyButton.addEventListener("click", async () => {
+    try {
+      const plainText = preview.textContent ?? "";
+      if ("ClipboardItem" in window) {
+        const htmlBlob = new Blob([latestWechatHtml], { type: "text/html" });
+        const textBlob = new Blob([plainText], { type: "text/plain" });
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "text/html": htmlBlob,
+            "text/plain": textBlob,
+          }),
+        ]);
+      } else {
+        await navigator.clipboard.writeText(latestWechatHtml);
+      }
+      setStatus("已复制");
+    } catch {
+      htmlOutput.select();
+      document.execCommand("copy");
+      setStatus("已复制 HTML 文本");
+    }
+  });
+
+  downloadButton.addEventListener("click", () => {
+    const blob = new Blob([latestWechatHtml], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "wechat-format.html";
+    link.click();
+    URL.revokeObjectURL(url);
+  });
+
+  resetButton.addEventListener("click", () => {
+    markdownInput.value = sampleMarkdown;
+    render();
+    setStatus("已重置");
+  });
+
+  markdownInput.value = sampleMarkdown;
+  render();
+</script>
