@@ -123,11 +123,15 @@ pnpm exec wrangler deploy --config dist/server/preview.wrangler.json
 
 Preview Worker 名称是 `jinzheio-pr-<number>`。它只挂 `workers.dev`，不会绑定 `jinzhe.io/*` 生产 route，也不会创建 session KV。Workflow 会把 `*.workers.dev` preview URL 写到 PR 评论里。
 
+Workflow 还会把同一份构建产物部署到共用 Worker `jinzheio-preview`。这个 URL 固定，用于 OAuth callback 等需要稳定回调地址的测试；如果多个 PR 同时打开，最后一次运行 preview workflow 的 PR 会覆盖这个共用 Worker。人工确认某个 PR 时，优先看 `jinzheio-pr-<number>` 的独立 URL。
+
 PR 关闭或合并后，workflow 会删除同名 preview Worker：
 
 ```bash
 pnpm exec wrangler delete jinzheio-pr-<number> --force
 ```
+
+共用 Worker `jinzheio-preview` 不会在 PR 关闭时删除。
 
 注意两点：
 
