@@ -38,14 +38,17 @@ jobs:
       - name: Build
         run: pnpm run build
 
-      - name: Upload Worker preview version
+      - name: Deploy isolated preview Worker
         id: preview
         run: |
-          alias="pr-${{ github.event.pull_request.number }}"
-          pnpm exec wrangler versions upload \
-            --config dist/server/wrangler.json \
-            --preview-alias "$alias" \
-            --message "Preview for PR #${{ github.event.pull_request.number }}" \
+          preview_name="jinzheio-pr-${{ github.event.pull_request.number }}"
+          jq \
+            --arg name "$preview_name" \
+            '.name = $name | .topLevelName = $name | del(.routes) | .workers_dev = true | .preview_urls = true' \
+            dist/server/wrangler.json > dist/server/preview.wrangler.json
+
+          pnpm exec wrangler deploy \
+            --config dist/server/preview.wrangler.json \
             2>&1 | tee /tmp/wrangler-preview.log
 
           url="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev[^[:space:]]*' /tmp/wrangler-preview.log | tail -1)"
