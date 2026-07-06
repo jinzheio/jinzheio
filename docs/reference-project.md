@@ -23,6 +23,7 @@ jinzhe.io 是 Astro 站点，输出为 Cloudflare Worker。公开页面由 `src/
 | Wrangler config | `wrangler.toml` |
 | Deploy command | `pnpm exec wrangler deploy --config dist/server/wrangler.json` |
 | PR preview command | `pnpm exec wrangler deploy --config dist/server/preview.wrangler.json` |
+| PR preview cleanup | `pnpm exec wrangler delete jinzheio-pr-<number> --force` |
 
 `astro.config.mjs` 设置：
 
@@ -33,7 +34,7 @@ adapter: cloudflare(),
 integrations: [react(), mdx()],
 ```
 
-`wrangler.toml` 显式设置 `preview_urls = true`。PR preview workflow 会从 `dist/server/wrangler.json` 生成无生产 route、无 session KV 的 `dist/server/preview.wrangler.json`，部署成 `jinzheio-pr-<number>` preview Worker。
+`wrangler.toml` 显式设置 `preview_urls = true`。PR preview workflow 会从 `dist/server/wrangler.json` 生成无生产 route、无 session KV 的 `dist/server/preview.wrangler.json`，部署成 `jinzheio-pr-<number>` preview Worker。PR 关闭或合并后，workflow 会删除这个 preview Worker。
 
 ## Routes
 
