@@ -1,6 +1,6 @@
 # How to maintain the site
 
-这份文档覆盖三个高频任务：发布文章、更新项目页、部署后提交 IndexNow。
+这份文档覆盖四个高频任务：发布文章、更新项目页、预览 PR、部署后提交 IndexNow。
 
 ## Prerequisites
 
@@ -112,6 +112,21 @@
    ```bash
    pnpm build
    ```
+
+## How to preview a pull request
+
+PR 打开或更新后，`.github/workflows/preview.yml` 会构建当前分支，并运行：
+
+```bash
+pnpm exec wrangler versions upload --config dist/server/wrangler.json --preview-alias pr-<number>
+```
+
+这条命令只上传 Cloudflare Worker version，不切生产流量。Workflow 会把 `*.workers.dev` preview URL 写到 PR 评论里。
+
+注意两点：
+
+- `wrangler.toml` 需要保留 `preview_urls = true`，否则 preview URL 可能不会生成。
+- Workflow 只处理同仓库分支的 PR。fork PR 没有 Cloudflare secrets，不会上传 preview。
 
 ## How to deploy and submit IndexNow
 

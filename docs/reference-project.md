@@ -22,6 +22,7 @@ jinzhe.io 是 Astro 站点，输出为 Cloudflare Worker。公开页面由 `src/
 | Production route | `jinzhe.io/*` |
 | Wrangler config | `wrangler.toml` |
 | Deploy command | `pnpm exec wrangler deploy --config dist/server/wrangler.json` |
+| PR preview command | `pnpm exec wrangler versions upload --config dist/server/wrangler.json --preview-alias pr-<number>` |
 
 `astro.config.mjs` 设置：
 
@@ -31,6 +32,8 @@ output: "server",
 adapter: cloudflare(),
 integrations: [react(), mdx()],
 ```
+
+`wrangler.toml` 显式设置 `preview_urls = true`。PR preview workflow 上传新的 Worker version，不部署到生产。
 
 ## Routes
 
