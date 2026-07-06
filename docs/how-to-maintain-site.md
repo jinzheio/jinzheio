@@ -121,7 +121,7 @@ PR 打开或更新后，`.github/workflows/preview.yml` 会构建当前分支，
 pnpm exec wrangler deploy --config dist/server/preview.wrangler.json
 ```
 
-Preview Worker 名称是 `jinzheio-pr-<number>`。它只挂 `workers.dev`，不会绑定 `jinzhe.io/*` 生产 route。Workflow 会把 `*.workers.dev` preview URL 写到 PR 评论里。
+Preview Worker 名称是 `jinzheio-pr-<number>`。它只挂 `workers.dev`，不会绑定 `jinzhe.io/*` 生产 route，也不会创建 session KV。Workflow 会把 `*.workers.dev` preview URL 写到 PR 评论里。
 
 注意两点：
 

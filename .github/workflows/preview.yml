@@ -44,7 +44,7 @@ jobs:
           preview_name="jinzheio-pr-${{ github.event.pull_request.number }}"
           jq \
             --arg name "$preview_name" \
-            '.name = $name | .topLevelName = $name | del(.routes) | .workers_dev = true | .preview_urls = true' \
+            '.name = $name | .topLevelName = $name | del(.routes) | del(.kv_namespaces) | del(.previews.kv_namespaces) | .workers_dev = true | .preview_urls = true' \
             dist/server/wrangler.json > dist/server/preview.wrangler.json
 
           pnpm exec wrangler deploy \

@@ -33,7 +33,7 @@ adapter: cloudflare(),
 integrations: [react(), mdx()],
 ```
 
-`wrangler.toml` 显式设置 `preview_urls = true`。PR preview workflow 会从 `dist/server/wrangler.json` 生成无生产 route 的 `dist/server/preview.wrangler.json`，部署成 `jinzheio-pr-<number>` preview Worker。
+`wrangler.toml` 显式设置 `preview_urls = true`。PR preview workflow 会从 `dist/server/wrangler.json` 生成无生产 route、无 session KV 的 `dist/server/preview.wrangler.json`，部署成 `jinzheio-pr-<number>` preview Worker。
 
 ## Routes
 
