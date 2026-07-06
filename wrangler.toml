@@ -2,6 +2,7 @@
 # @astrojs/cloudflare merges this with its generated config at build time.
 name = "jinzheio"
 compatibility_date = "2026-06-24"
+preview_urls = true
 
 [[routes]]
 pattern = "jinzhe.io/*"

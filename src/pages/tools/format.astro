@@ -25,13 +25,6 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
         </div>
         <div class="flex flex-wrap gap-2">
           <button
-            id="copyHtmlButton"
-            type="button"
-            class="inline-flex h-10 items-center justify-center rounded-[8px] bg-graphite px-4 text-sm font-medium text-white transition-colors hover:bg-graphite/90"
-          >
-            复制
-          </button>
-          <button
             id="downloadHtmlButton"
             type="button"
             class="inline-flex h-10 items-center justify-center rounded-[8px] border border-border/70 px-4 text-sm font-medium text-graphite transition-colors hover:bg-secondary"
@@ -114,11 +107,11 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               <div class="flex flex-wrap items-center gap-2">
                 <div id="previewDevicePicker"></div>
                 <button
-                  id="resetButton"
+                  id="copyHtmlButton"
                   type="button"
-                  class="inline-flex h-9 items-center rounded-[8px] border border-border/70 px-3 text-xs font-medium text-graphite transition-colors hover:bg-secondary"
+                  class="inline-flex h-9 items-center rounded-[8px] bg-graphite px-3 text-xs font-medium text-white transition-colors hover:bg-graphite/90"
                 >
-                  重置示例
+                  复制
                 </button>
               </div>
             </div>
@@ -184,7 +177,6 @@ console.log(channel);
   const htmlOutput = mustGet<HTMLTextAreaElement>("#htmlOutput");
   const copyButton = mustGet<HTMLButtonElement>("#copyHtmlButton");
   const downloadButton = mustGet<HTMLButtonElement>("#downloadHtmlButton");
-  const resetButton = mustGet<HTMLButtonElement>("#resetButton");
   const markdownFile = mustGet<HTMLInputElement>("#markdownFile");
   const copyStatus = mustGet<HTMLElement>("#copyStatus");
   const editorStats = mustGet<HTMLElement>("#editorStats");
@@ -495,12 +487,6 @@ console.log(channel);
     } catch {
       setStatus("草稿保存失败");
     }
-  }
-
-  async function clearDraft() {
-    window.clearTimeout(draftSaveTimer);
-    window.localStorage.removeItem(draftStorageKey);
-    await deleteDraftFromIndexedDb();
   }
 
   function currentPalette() {
@@ -1110,15 +1096,6 @@ console.log(channel);
     link.download = "format-tool.html";
     link.click();
     URL.revokeObjectURL(url);
-  });
-
-  resetButton.addEventListener("click", async () => {
-    markdownInput.value = sampleMarkdown;
-    imageSources.clear();
-    imageIndex = 1;
-    await clearDraft();
-    render();
-    setStatus("已重置");
   });
 
   window.addEventListener("pagehide", () => {

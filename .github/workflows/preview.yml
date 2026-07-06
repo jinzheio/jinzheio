@@ -1,0 +1,140 @@
+name: Preview Cloudflare Workers
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - closed
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+env:
+  CI: true
+
+jobs:
+  preview:
+    if: ${{ github.event.action != 'closed' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm run build
+
+      - name: Deploy isolated preview Worker
+        id: preview
+        run: |
+          preview_name="jinzheio-pr-${{ github.event.pull_request.number }}"
+          jq \
+            --arg name "$preview_name" \
+            '.name = $name | .topLevelName = $name | del(.routes) | del(.kv_namespaces) | del(.previews.kv_namespaces) | .workers_dev = true | .preview_urls = true' \
+            dist/server/wrangler.json > dist/server/preview.wrangler.json
+
+          pnpm exec wrangler deploy \
+            --config dist/server/preview.wrangler.json \
+            2>&1 | tee /tmp/wrangler-preview.log
+
+          url="$(grep -Eo 'https://[^[:space:]]+\.workers\.dev[^[:space:]]*' /tmp/wrangler-preview.log | tail -1)"
+          if [ -z "$url" ]; then
+            echo "No Cloudflare preview URL found in Wrangler output." >&2
+            exit 1
+          fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+
+      - name: Comment preview URL
+        uses: actions/github-script@v8
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+        with:
+          script: |
+            const marker = "<!-- cloudflare-workers-preview -->";
+            const body = [
+              marker,
+              `Cloudflare Workers preview: ${process.env.PREVIEW_URL}`,
+            ].join("\n");
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner,
+              repo,
+              issue_number,
+              per_page: 100,
+            });
+            const existing = comments.find((comment) =>
+              comment.user?.type === "Bot" && comment.body?.includes(marker)
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body,
+              });
+            }
+
+  cleanup:
+    if: ${{ github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Delete isolated preview Worker
+        run: |
+          preview_name="jinzheio-pr-${{ github.event.pull_request.number }}"
+          pnpm exec wrangler delete "$preview_name" --force 2>&1 | tee /tmp/wrangler-delete.log || {
+            if grep -qiE 'not found|does not exist|could not find' /tmp/wrangler-delete.log; then
+              echo "Preview Worker already deleted: $preview_name"
+            else
+              exit 1
+            fi
+          }
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

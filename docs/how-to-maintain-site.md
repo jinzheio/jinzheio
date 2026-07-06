@@ -1,6 +1,6 @@
 # How to maintain the site
 
-这份文档覆盖三个高频任务：发布文章、更新项目页、部署后提交 IndexNow。
+这份文档覆盖四个高频任务：发布文章、更新项目页、预览 PR、部署后提交 IndexNow。
 
 ## Prerequisites
 
@@ -112,6 +112,27 @@
    ```bash
    pnpm build
    ```
+
+## How to preview a pull request
+
+PR 打开或更新后，`.github/workflows/preview.yml` 会构建当前分支，把生成的 Wrangler 配置改成无生产 route 的 preview 配置，然后运行：
+
+```bash
+pnpm exec wrangler deploy --config dist/server/preview.wrangler.json
+```
+
+Preview Worker 名称是 `jinzheio-pr-<number>`。它只挂 `workers.dev`，不会绑定 `jinzhe.io/*` 生产 route，也不会创建 session KV。Workflow 会把 `*.workers.dev` preview URL 写到 PR 评论里。
+
+PR 关闭或合并后，workflow 会删除同名 preview Worker：
+
+```bash
+pnpm exec wrangler delete jinzheio-pr-<number> --force
+```
+
+注意两点：
+
+- `wrangler.toml` 保留 `preview_urls = true`，后续原生 Worker version preview 也可以使用。
+- Workflow 只处理同仓库分支的 PR。fork PR 没有 Cloudflare secrets，不会上传 preview。
 
 ## How to deploy and submit IndexNow
 
