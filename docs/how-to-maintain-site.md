@@ -140,6 +140,8 @@ pnpm exec wrangler delete jinzheio-pr-<number> --force
 
 ## How to deploy and submit IndexNow
 
+本节只部署 Cloudflare Worker。`jinrelay.cn` 的 ECS 镜像仍需人工更新，步骤见 [How to maintain the Aliyun ECS mirror](how-to-maintain-aliyun-ecs.md)。
+
 1. 推送到 `main`。
 
    `.github/workflows/deploy.yml` 会在 `main` push 后部署。流程是：

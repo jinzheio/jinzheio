@@ -1,0 +1,26 @@
+jinrelay.cn {
+	encode zstd gzip
+
+	redir /en / 301
+	redir /zh / 301
+	redir /tools/wechat-format /tools/format 301
+	redir /tools/wechat-format/ /tools/format 301
+
+	handle_path /en/* {
+		redir {uri} 301
+	}
+
+	handle_path /zh/* {
+		redir {uri} 301
+	}
+
+	handle {
+		root * /opt/jinzheio-ecs/current/site
+		file_server
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

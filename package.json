@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro check && astro build",
+    "build:vps": "astro check && astro build --config astro.config.vps.mjs",
     "preview": "astro preview",
     "prepare": "git config core.hooksPath .githooks",
     "indexnow:collect": "tsx scripts/indexnow-collect-urls.ts",

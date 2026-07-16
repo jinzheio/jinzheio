@@ -2,7 +2,7 @@
 
 jinzhe.io 是个人站点，包含 About、Blog、Projects、Concepts、Writings 和工具页。
 
-Blog 是公众号「金哲 Dev」内容的 canonical home。站点使用 Astro，构建后部署到 Cloudflare Workers。
+Blog 是公众号「金哲 Dev」内容的 canonical home。站点使用 Astro；默认构建部署到 Cloudflare Workers，也可构建静态产物发布到 ECS 镜像站。
 
 ## 快速开始
 
@@ -19,6 +19,7 @@ pnpm dev
 | --- | --- |
 | `pnpm dev` | 启动本地开发服务器 |
 | `pnpm build` | 运行 `astro check`，然后构建 Cloudflare Worker 输出 |
+| `pnpm build:vps` | 运行检查，然后把 VPS 静态站生成到 `dist-vps/` |
 | `pnpm preview` | 预览构建结果 |
 | `pnpm indexnow:collect --base-url https://jinzhe.io --from <old-ref> --to <new-ref> --out-file <file>` | 根据 git diff 收集需要提交给 IndexNow 的 URL |
 | `pnpm indexnow:submit --base-url https://jinzhe.io --urls-file <file>` | 提交 URL 到 IndexNow |
@@ -29,6 +30,7 @@ pnpm dev
 | --- | --- |
 | [Getting started](docs/tutorial-getting-started.md) | 从安装到看到本地站点 |
 | [How to maintain the site](docs/how-to-maintain-site.md) | 发布文章、更新项目、部署和提交 IndexNow |
+| [How to maintain the Aliyun ECS mirror](docs/how-to-maintain-aliyun-ecs.md) | `jinrelay.cn` 的容器、HTTPS、发布、回滚和故障排查 |
 | [Project reference](docs/reference-project.md) | 项目结构、路由、内容模型、命令和配置 |
 | [Architecture explanation](docs/explanation-architecture.md) | 为什么站点这样组织内容、复制页和部署 |
 | [IndexNow](docs/indexnow.md) | IndexNow 脚本的独立说明 |

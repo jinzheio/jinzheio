@@ -21,6 +21,7 @@ raw/
 # production
 /build
 /dist
+/dist-vps
 
 # misc
 .DS_Store
